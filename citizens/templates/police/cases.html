@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Police Cases - CARS</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="..\css\cases.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Mobile Icon Sidebar -->
+        <nav class="mobile-sidebar d-md-none">
+            <div class="sidebar-header">
+                <img src="assets/logo.png" alt="CARS Logo" class="logo">
+            </div>
+            <div class="nav-items">
+                <a href="dashboard.html" class="nav-item" data-bs-toggle="tooltip" title="Dashboard">
+                    <i class="fas fa-chart-line"></i>
+                </a>
+                <a href="cases.html" class="nav-item active" data-bs-toggle="tooltip" title="Cases">
+                    <i class="fas fa-folder"></i>
+                    <div class="notification-badge">3</div>
+                </a>
+                <a href="evidence.html" class="nav-item" data-bs-toggle="tooltip" title="Evidence">
+                    <i class="fas fa-camera"></i>
+                </a>
+                <a href="statistics.html" class="nav-item" data-bs-toggle="tooltip" title="Analytics">
+                    <i class="fas fa-chart-bar"></i>
+                </a>
+            </div>
+            <div class="nav-footer">
+                <a href="profile.html" class="nav-link">
+                    <i class="fas fa-user-alt"></i>
+                </a>
+                <a href="#logout" class="nav-link text-danger">
+                    <i class="fas fa-sign-out-alt"></i>
+                </a>
+            </div>
+        </nav>
+
+        <!-- Desktop Sidebar -->
+        <nav class="sidebar d-none d-md-flex">
+            <div class="sidebar-content">
+                <div class="sidebar-header">
+                    <div class="logo-container">
+                        <img src="assets/logo.png" alt="CARS Logo" class="logo">
+                        <h4>CARS</h4>
+                    </div>
+                    <div class="officer-profile">
+                        <div class="avatar">
+                            <i class="fas fa-user-shield"></i>
+                        </div>
+                        <div class="officer-info">
+                            <h6 class="mb-0">Officer John Doe</h6>
+                            <small class="text-light-50">Badge #12345</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="nav-items">
+                    <div class="nav-group">
+                        <span class="nav-label">Main Menu</span>
+                        <a href="dashboard.html" class="nav-link">
+                            <i class="fas fa-chart-line"></i>
+                            <span>Dashboard</span>
+                        </a>
+                        <a href="cases.html" class="nav-link active">
+                            <i class="fas fa-folder"></i>
+                            <span>Cases</span>
+                            <div class="nav-badge">3</div>
+                        </a>
+                        <a href="evidence.html" class="nav-link">
+                            <i class="fas fa-camera"></i>
+                            <span>Evidence</span>
+                        </a>
+                    </div>
+
+                    <div class="nav-group">
+                        <span class="nav-label">Analytics</span>
+                        <a href="statistics.html" class="nav-link">
+                            <i class="fas fa-chart-bar"></i>
+                            <span>Statistics</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="sidebar-footer">
+                    <a href="profile.html" class="nav-link">
+                        <i class="fas fa-user-alt"></i>
+                        <span>My Profile</span>
+                    </a>
+                    <a href="#logout" class="nav-link text-danger">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </a>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="content-header">
+                <div class="welcome-section">
+                    <h1>Case Management</h1>
+                    <p class="text-muted">Manage and track crime cases in your jurisdiction</p>
+                </div>
+                <div class="actions">
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newCaseModal">
+                        <i class="fas fa-plus me-2"></i>New Case
+                    </button>
+                </div>
+            </header>
+
+            <div class="dashboard-grid">
+                <!-- Simple Search and Filter -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="row g-2">
+                            <div class="col-md-8">
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-search"></i></span>
+                                    <input type="text" class="form-control" id="caseSearch" placeholder="Search cases...">
+                                    <button class="btn btn-outline-secondary" type="button">Search</button>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <select class="form-select" id="caseStatusFilter">
+                                    <option value="">All Cases</option>
+                                    <option value="open">Open Cases</option>
+                                    <option value="pending">Pending Cases</option>
+                                    <option value="closed">Closed Cases</option>
+                                    <option value="highPriority">High Priority</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cases Table -->
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Case ID</th>
+                                        <th>Title</th>
+                                        <th>Date</th>
+                                        <th>Status</th>
+                                        <th>Priority</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>CASE-2024-0103</td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="case-icon bg-danger text-white me-2">
+                                                    <i class="fas fa-exclamation-triangle"></i>
+                                                </div>
+                                                <div>
+                                                    <strong>Armed Robbery on Main St</strong>
+                                                    <div class="small text-muted">Violent Crime</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>Mar 12, 2024</td>
+                                        <td><span class="badge bg-warning text-dark">Pending</span></td>
+                                        <td><span class="badge bg-danger">High</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#viewCaseModal">
+                                                <i class="fas fa-eye me-1"></i>View
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>CASE-2024-0102</td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="case-icon bg-warning text-white me-2">
+                                                    <i class="fas fa-home"></i>
+                                                </div>
+                                                <div>
+                                                    <strong>Residential Burglary - Oak Ave</strong>
+                                                    <div class="small text-muted">Property Crime</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>Mar 10, 2024</td>
+                                        <td><span class="badge bg-success">Open</span></td>
+                                        <td><span class="badge bg-warning text-dark">Medium</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#viewCaseModal">
+                                                <i class="fas fa-eye me-1"></i>View
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>CASE-2024-0101</td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="case-icon bg-primary text-white me-2">
+                                                    <i class="fas fa-car"></i>
+                                                </div>
+                                                <div>
+                                                    <strong>Vehicle Theft - Downtown Parking</strong>
+                                                    <div class="small text-muted">Property Crime</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>Mar 8, 2024</td>
+                                        <td><span class="badge bg-info">In Progress</span></td>
+                                        <td><span class="badge bg-warning text-dark">Medium</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#viewCaseModal">
+                                                <i class="fas fa-eye me-1"></i>View
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>CASE-2024-0100</td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="case-icon bg-secondary text-white me-2">
+                                                    <i class="fas fa-comment-slash"></i>
+                                                </div>
+                                                <div>
+                                                    <strong>Public Disturbance - City Park</strong>
+                                                    <div class="small text-muted">Minor Offense</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>Mar 5, 2024</td>
+                                        <td><span class="badge bg-secondary">Closed</span></td>
+                                        <td><span class="badge bg-success">Low</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#viewCaseModal">
+                                                <i class="fas fa-eye me-1"></i>View
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- Simplified Pagination -->
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination justify-content-center">
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="#" tabindex="-1">Previous</a>
+                                </li>
+                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#">Next</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- New Case Modal -->
+    <div class="modal fade" id="newCaseModal" tabindex="-1" aria-labelledby="newCaseModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="newCaseModalLabel">Create New Case</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="newCaseForm">
+                        <!-- Basic case info -->
+                        <div class="mb-3">
+                            <label for="caseTitle" class="form-label">Case Title</label>
+                            <input type="text" class="form-control" id="caseTitle" required>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="caseType" class="form-label">Case Type</label>
+                                <select class="form-select" id="caseType" required>
+                                    <option value="">Select type...</option>
+                                    <option value="violent">Violent Crime</option>
+                                    <option value="property">Property Crime</option>
+                                    <option value="cybercrime">Cybercrime</option>
+                                    <option value="fraud">Fraud</option>
+                                    <option value="minor">Minor Offense</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="casePriority" class="form-label">Priority</label>
+                                <select class="form-select" id="casePriority" required>
+                                    <option value="">Select priority...</option>
+                                    <option value="high">High</option>
+                                    <option value="medium">Medium</option>
+                                    <option value="low">Low</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="caseDescription" class="form-label">Case Description</label>
+                            <textarea class="form-control" id="caseDescription" rows="3" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="evidenceFiles" class="form-label">Upload Evidence (optional)</label>
+                            <input type="file" class="form-control" id="evidenceFiles" multiple>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="createCaseBtn">Create Case</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- View Case Modal -->
+    <div class="modal fade" id="viewCaseModal" tabindex="-1" aria-labelledby="viewCaseModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="viewCaseModalLabel">Case Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="case-header mb-4">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h4>Armed Robbery on Main St</h4>
+                            <span class="badge bg-danger">High Priority</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <span class="badge bg-warning text-dark me-2">Pending</span>
+                                <span class="text-muted">Case ID: CASE-2024-0103</span>
+                            </div>
+                            <div>
+                                <span class="text-muted">Reported: Mar 12, 2024</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="case-info mb-4">
+                        <h5>Case Information</h5>
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row mb-3">
+                                    <div class="col-md-4 text-muted">Case Type:</div>
+                                    <div class="col-md-8">Violent Crime</div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-md-4 text-muted">Location:</div>
+                                    <div class="col-md-8">123 Main Street, Downtown</div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-md-4 text-muted">Assigned Officer:</div>
+                                    <div class="col-md-8">Officer Smith</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4 text-muted">Description:</div>
+                                    <div class="col-md-8">
+                                        Armed robbery at First National Bank branch on Main St. Two masked suspects
+                                        entered at approximately 2:15 PM, brandished weapons, and demanded cash.
+                                        No injuries reported. Suspects fled in a dark sedan heading east.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="case-evidence mb-4">
+                        <h5>Evidence</h5>
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="evidence-item mb-2">
+                                    <i class="fas fa-camera me-2"></i>
+                                    <a href="#">Security Camera Footage.mp4</a>
+                                </div>
+                                <div class="evidence-item mb-2">
+                                    <i class="fas fa-image me-2"></i>
+                                    <a href="#">Crime Scene Photo 1.jpg</a>
+                                </div>
+                                <div class="evidence-item">
+                                    <i class="fas fa-file-alt me-2"></i>
+                                    <a href="#">Witness Statement.pdf</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="case-timeline">
+                        <h5>Case Timeline</h5>
+                        <div class="card">
+                            <div class="card-body">
+                                <ul class="timeline">
+                                    <li class="timeline-item">
+                                        <div class="timeline-marker"></div>
+                                        <div class="timeline-content">
+                                            <h6 class="mb-0">Case Created</h6>
+                                            <small class="text-muted">Mar 12, 2024 - 3:45 PM</small>
+                                            <p>Case opened and assigned to Officer Smith</p>
+                                        </div>
+                                    </li>
+                                    <li class="timeline-item">
+                                        <div class="timeline-marker"></div>
+                                        <div class="timeline-content">
+                                            <h6 class="mb-0">Evidence Added</h6>
+                                            <small class="text-muted">Mar 12, 2024 - 5:30 PM</small>
+                                            <p>Security footage and witness statements collected</p>
+                                        </div>
+                                    </li>
+                                    <li class="timeline-item">
+                                        <div class="timeline-marker"></div>
+                                        <div class="timeline-content">
+                                            <h6 class="mb-0">Status Updated</h6>
+                                            <small class="text-muted">Mar 13, 2024 - 10:15 AM</small>
+                                            <p>Case status changed to "Pending" while awaiting forensic analysis</p>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Edit Case</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="..\js\cases.js"></script>
+</body>
+</html>

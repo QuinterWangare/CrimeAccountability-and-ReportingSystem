@@ -1,0 +1,61 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Director Login | CARS</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/inspectorgeneral/director-login.css' %}">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-header">
+            <i class="fas fa-user-tie director-icon"></i>
+            <h3>Inspector General Portal</h3>
+            <p class="text-muted">NPSC Oversight Access</p>
+        </div>
+        
+        <form id="loginForm" action="dashboard.html" method="GET">
+            <div class="form-floating">
+                <input type="text" class="form-control" id="directorId" placeholder="Director ID" required>
+                <label for="directorId">Inspector General ID</label>
+            </div>
+            
+            <div class="form-floating">
+                <input type="password" class="form-control" id="password" placeholder="Password" required>
+                <label for="password">Password</label>
+            </div>
+            
+            <div class="d-flex justify-content-between mb-3">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="rememberMe">
+                    <label class="form-check-label" for="rememberMe">Remember me</label>
+                </div>
+                <a href="#" class="access">Forgot password?</a>
+            </div>
+            
+            <button type="submit" class="btn btn-login">
+                Sign In <i class="fas fa-sign-in-alt ms-1"></i>
+            </button>
+            
+            <div class="text-center mt-4">
+                <p class="mb-1">Need assistance?</p>
+                <a href="#" class="access">Contact IT Support</a>
+            </div>
+            
+            <hr>
+            
+            <div class="text-center mt-3">
+                <small class="text-muted">
+                    This is a secure login for authorized directors only.<br>
+                    All login attempts are recorded and monitored.
+                </small>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,525 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Profile - CARS Director</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/inspectorgeneral/profile.css' %}">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Mobile Sidebar (Icon-only) -->
+        <nav class="mobile-sidebar d-lg-none">
+            <div class="sidebar-header">
+                <img src="assets/logo.png" alt="CARS Logo" class="sidebar-logo">
+            </div>
+            <div class="nav-items">
+                <a href="dashboard.html" class="nav-item" data-bs-toggle="tooltip" title="Dashboard">
+                    <i class="fas fa-chart-line"></i>
+                </a>
+                <a href="case-management.html" class="nav-item" data-bs-toggle="tooltip" title="Case Management">
+                    <i class="fas fa-folder-open"></i>
+                </a>
+                <a href="officer-oversight.html" class="nav-item" data-bs-toggle="tooltip" title="Officer Oversight">
+                    <i class="fas fa-user-shield"></i>
+                </a>
+                <a href="analytics.html" class="nav-item" data-bs-toggle="tooltip" title="Analytics">
+                    <i class="fas fa-chart-pie"></i>
+                </a>
+            </div>
+            <div class="nav-footer">
+                <a href="profile.html" class="nav-item active" data-bs-toggle="tooltip" title="Profile">
+                    <i class="fas fa-user"></i>
+                </a>
+                <a href="#" class="nav-item text-danger" data-bs-toggle="tooltip" title="Logout" onclick="return confirm('Are you sure you want to logout?');">
+                    <i class="fas fa-sign-out-alt"></i>
+                </a>
+            </div>
+        </nav>
+
+        <!-- Desktop Sidebar -->
+        <nav class="desktop-sidebar d-none d-lg-flex">
+            <div class="sidebar-content">
+                <div class="sidebar-header">
+                    <div class="logo-wrapper">
+                        <img src="assets/logo.png" alt="CARS Logo" class="sidebar-logo">
+                        <h4>CARS Director</h4>
+                    </div>
+                    <div class="director-profile">
+                        <div class="profile-avatar">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                        <div class="profile-info">
+                            <h6>Director Panel</h6>
+                            <small>NPSC Oversight</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-menu">
+                    <div class="menu-section">
+                        <p class="menu-header">Main Menu</p>
+                        <a href="dashboard.html" class="menu-item">
+                            <i class="fas fa-chart-line"></i>
+                            <span>Dashboard</span>
+                        </a>
+                        <a href="case-management.html" class="menu-item">
+                            <i class="fas fa-folder-open"></i>
+                            <span>Case Management</span>
+                            <span class="menu-badge">5</span>
+                        </a>
+                    </div>
+                    <div class="menu-section">
+                        <p class="menu-header">Oversight</p>
+                        <a href="officer-oversight.html" class="menu-item">
+                            <i class="fas fa-user-shield"></i>
+                            <span>Officer Oversight</span>
+                            <span class="menu-badge">12</span>
+                        </a>
+                        <a href="analytics.html" class="menu-item">
+                            <i class="fas fa-chart-pie"></i>
+                            <span>Analytics</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="sidebar-footer">
+                    <a href="profile.html" class="menu-item active">
+                        <i class="fas fa-user"></i>
+                        <span>Profile</span>
+                    </a>
+                    <a href="#" class="menu-item text-danger" onclick="return confirm('Logout?');">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </a>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <header class="content-header">
+                <div class="header-left">
+                    <h1>Profile</h1>
+                    <p>Manage your personal information and preferences</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#editProfileModal">
+                        <i class="fas fa-edit me-2"></i>Edit Profile
+                    </button>
+                    <button class="btn btn-primary" id="changePasswordBtn">
+                        <i class="fas fa-key me-2"></i>Change Password
+                    </button>
+                </div>
+            </header>
+
+            <!-- Profile Information -->
+            <div class="profile-header d-flex">
+                <div class="profile-avatar">
+                    <i class="fas fa-user-tie"></i>
+                </div>
+                <div class="profile-info">
+                    <h2>James Mwangi</h2>
+                    <p class="fs-5">Director of Operations, NPSC</p>
+                    <p><i class="fas fa-envelope me-2"></i>james.mwangi@npsc.go.ke</p>
+                    <p><i class="fas fa-phone me-2"></i>+254 712 345 678</p>
+                    <div class="d-flex gap-2 mt-3">
+                        <span class="profile-badge"><i class="fas fa-shield-alt me-1"></i>Admin</span>
+                        <span class="profile-badge bg-success"><i class="fas fa-check-circle me-1"></i>Verified</span>
+                        <span class="profile-badge bg-secondary"><i class="fas fa-clock me-1"></i>5 Years Service</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profile Tabs -->
+            <ul class="nav nav-tabs profile-tabs" id="profileTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="overview-tab" data-bs-toggle="tab" data-bs-target="#overview" type="button" role="tab">Overview</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="activity-tab" data-bs-toggle="tab" data-bs-target="#activity" type="button" role="tab">Recent Activity</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="security-tab" data-bs-toggle="tab" data-bs-target="#security" type="button" role="tab">Security</button>
+                </li>
+            </ul>
+
+            <!-- Tab Content -->
+            <div class="tab-content">
+                <!-- Overview Tab -->
+                <div class="tab-pane fade show active" id="overview" role="tabpanel">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card profile-card">
+                                <div class="card-body">
+                                    <h5 class="card-title"><i class="fas fa-id-card me-2 text-primary"></i>Personal Information</h5>
+                                    <div class="mb-3">
+                                        <strong>Full Name:</strong>
+                                        <p>James Kariuki Mwangi</p>
+                                    </div>
+                                    <div class="mb-3">
+                                        <strong>ID Number:</strong>
+                                        <p>2345678</p>
+                                    </div>
+                                    <div class="mb-3">
+                                        <strong>Date of Birth:</strong>
+                                        <p>April 15, 1978</p>
+                                    </div>
+                                    <div>
+                                        <strong>Gender:</strong>
+                                        <p>Male</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card profile-card">
+                                <div class="card-body">
+                                    <h5 class="card-title"><i class="fas fa-briefcase me-2 text-success"></i>Work Information</h5>
+                                    <div class="mb-3">
+                                        <strong>Position:</strong>
+                                        <p>Director of Operations</p>
+                                    </div>
+                                    <div class="mb-3">
+                                        <strong>Department:</strong>
+                                        <p>National Police Service Commission</p>
+                                    </div>
+                                    <div class="mb-3">
+                                        <strong>Employee ID:</strong>
+                                        <p>NPSC-DIR-00123</p>
+                                    </div>
+                                    <div>
+                                        <strong>Date Joined:</strong>
+                                        <p>January 10, 2020</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card profile-card">
+                                <div class="card-body">
+                                    <h5 class="card-title"><i class="fas fa-map-marker-alt me-2 text-danger"></i>Contact Information</h5>
+                                    <div class="mb-3">
+                                        <strong>Email:</strong>
+                                        <p>james.mwangi@npsc.go.ke</p>
+                                    </div>
+                                    <div class="mb-3">
+                                        <strong>Phone:</strong>
+                                        <p>+254 712 345 678</p>
+                                    </div>
+                                    <div class="mb-3">
+                                        <strong>Office:</strong>
+                                        <p>Room 305, NPSC Headquarters</p>
+                                    </div>
+                                    <div>
+                                        <strong>Address:</strong>
+                                        <p>123 Harambee Avenue, Nairobi</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card profile-card">
+                                <div class="card-body">
+                                    <h5 class="card-title"><i class="fas fa-certificate me-2 text-warning"></i>Qualifications & Education</h5>
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <h6 class="mb-1">Master's in Criminal Justice</h6>
+                                                <p class="mb-0 text-muted">University of Nairobi</p>
+                                            </div>
+                                            <span>2015</span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <h6 class="mb-1">Bachelor's in Law</h6>
+                                                <p class="mb-0 text-muted">Kenyatta University</p>
+                                            </div>
+                                            <span>2008</span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <h6 class="mb-1">Certificate in Public Administration</h6>
+                                                <p class="mb-0 text-muted">Kenya School of Government</p>
+                                            </div>
+                                            <span>2010</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card profile-card">
+                                <div class="card-body">
+                                    <h5 class="card-title"><i class="fas fa-tasks me-2 text-info"></i>Responsibilities</h5>
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item d-flex align-items-center">
+                                            <i class="fas fa-check-circle text-success me-2"></i>
+                                            <span>Oversight of police conduct and performance</span>
+                                        </li>
+                                        <li class="list-group-item d-flex align-items-center">
+                                            <i class="fas fa-check-circle text-success me-2"></i>
+                                            <span>Case assignment and management</span>
+                                        </li>
+                                        <li class="list-group-item d-flex align-items-center">
+                                            <i class="fas fa-check-circle text-success me-2"></i>
+                                            <span>Performance monitoring and evaluation</span>
+                                        </li>
+                                        <li class="list-group-item d-flex align-items-center">
+                                            <i class="fas fa-check-circle text-success me-2"></i>
+                                            <span>Reporting to the National Police Service Commission</span>
+                                        </li>
+                                        <li class="list-group-item d-flex align-items-center">
+                                            <i class="fas fa-check-circle text-success me-2"></i>
+                                            <span>Coordination with other law enforcement agencies</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Activity Tab -->
+                <div class="tab-pane fade" id="activity" role="tabpanel">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title mb-4">Recent Activity</h5>
+                            <div class="activity-item d-flex">
+                                <div class="activity-icon bg-primary text-white">
+                                    <i class="fas fa-folder-open"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <h6 class="mb-1">Assigned case #CR-2025-003 to Officer Jane Smith</h6>
+                                    <p class="mb-0">Case of fraud in Nakuru West has been assigned for investigation</p>
+                                    <small class="activity-time">Today, 10:25 AM</small>
+                                </div>
+                            </div>
+                            <div class="activity-item d-flex">
+                                <div class="activity-icon bg-success text-white">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <h6 class="mb-1">Approved case resolution #CR-2025-001</h6>
+                                    <p class="mb-0">Theft case from Nakuru Central has been marked as resolved</p>
+                                    <small class="activity-time">Yesterday, 3:45 PM</small>
+                                </div>
+                            </div>
+                            <div class="activity-item d-flex">
+                                <div class="activity-icon bg-info text-white">
+                                    <i class="fas fa-file-alt"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <h6 class="mb-1">Generated monthly report</h6>
+                                    <p class="mb-0">March 2025 performance report has been created and shared</p>
+                                    <small class="activity-time">Yesterday, 9:30 AM</small>
+                                </div>
+                            </div>
+                            <div class="activity-item d-flex">
+                                <div class="activity-icon bg-warning text-dark">
+                                    <i class="fas fa-comment"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <h6 class="mb-1">Added comments to case #CR-2025-002</h6>
+                                    <p class="mb-0">Requested additional evidence from investigating officer</p>
+                                    <small class="activity-time">March 11, 2025, 11:20 AM</small>
+                                </div>
+                            </div>
+                            <div class="activity-item d-flex">
+                                <div class="activity-icon bg-danger text-white">
+                                    <i class="fas fa-user-shield"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <h6 class="mb-1">Reviewed officer performance</h6>
+                                    <p class="mb-0">Conducted quarterly review for 5 officers</p>
+                                    <small class="activity-time">March 10, 2025, 2:15 PM</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Security Tab -->
+                <div class="tab-pane fade" id="security" role="tabpanel">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title">Password Management</h5>
+                            <p class="card-text">Change your password regularly to ensure account security.</p>
+                            <form>
+                                <div class="mb-3">
+                                    <label class="form-label">Current Password</label>
+                                    <input type="password" class="form-control" placeholder="Enter current password">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">New Password</label>
+                                    <input type="password" class="form-control" placeholder="Enter new password">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Confirm New Password</label>
+                                    <input type="password" class="form-control" placeholder="Confirm new password">
+                                </div>
+                                <button type="submit" class="btn btn-primary">Update Password</button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Login History</h5>
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Date & Time</th>
+                                            <th>IP Address</th>
+                                            <th>Device</th>
+                                            <th>Location</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Mar 13, 2025, 8:30 AM</td>
+                                            <td>192.168.1.105</td>
+                                            <td>Windows / Chrome</td>
+                                            <td>Nairobi, Kenya</td>
+                                            <td><span class="badge bg-success">Successful</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Mar 12, 2025, 5:15 PM</td>
+                                            <td>192.168.1.105</td>
+                                            <td>Windows / Chrome</td>
+                                            <td>Nairobi, Kenya</td>
+                                            <td><span class="badge bg-success">Successful</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Mar 11, 2025, 9:20 AM</td>
+                                            <td>192.168.1.105</td>
+                                            <td>Windows / Chrome</td>
+                                            <td>Nairobi, Kenya</td>
+                                            <td><span class="badge bg-success">Successful</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Mar 10, 2025, 4:45 PM</td>
+                                            <td>105.160.23.187</td>
+                                            <td>Android / Chrome</td>
+                                            <td>Nakuru, Kenya</td>
+                                            <td><span class="badge bg-danger">Failed</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Edit Profile Modal -->
+    <div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editProfileModalLabel">Edit Profile</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="profileEditForm">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <h6 class="mb-3">Personal Information</h6>
+                                <div class="mb-3">
+                                    <label for="fullName" class="form-label">Full Name</label>
+                                    <input type="text" class="form-control" id="fullName" value="James Kariuki Mwangi">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="idNumber" class="form-label">ID Number</label>
+                                    <input type="text" class="form-control" id="idNumber" value="2345678">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="dob" class="form-label">Date of Birth</label>
+                                    <input type="date" class="form-control" id="dob" value="1978-04-15">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="gender" class="form-label">Gender</label>
+                                    <select class="form-select" id="gender">
+                                        <option value="male" selected>Male</option>
+                                        <option value="female">Female</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <h6 class="mb-3">Contact Information</h6>
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email Address</label>
+                                    <input type="email" class="form-control" id="email" value="james.mwangi@npsc.go.ke">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="phone" class="form-label">Phone Number</label>
+                                    <input type="tel" class="form-control" id="phone" value="+254 712 345 678">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="office" class="form-label">Office</label>
+                                    <input type="text" class="form-control" id="office" value="Room 305, NPSC Headquarters">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="address" class="form-label">Address</label>
+                                    <textarea class="form-control" id="address" rows="3">123 Harambee Avenue, Nairobi</textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6 class="mb-3">Work Information</h6>
+                                <div class="mb-3">
+                                    <label for="position" class="form-label">Position</label>
+                                    <input type="text" class="form-control" id="position" value="Director of Operations">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="department" class="form-label">Department</label>
+                                    <input type="text" class="form-control" id="department" value="National Police Service Commission">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="employeeId" class="form-label">Employee ID</label>
+                                    <input type="text" class="form-control" id="employeeId" value="NPSC-DIR-00123" readonly>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="dateJoined" class="form-label">Date Joined</label>
+                                    <input type="date" class="form-control" id="dateJoined" value="2020-01-10" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <h6 class="mb-3">Profile Image</h6>
+                                <div class="text-center mb-3">
+                                    <div class="profile-avatar mx-auto mb-3" style="width: 100px; height: 100px;">
+                                        <i class="fas fa-user-tie fa-3x"></i>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="profileImage" class="form-label">Upload New Image</label>
+                                        <input class="form-control" type="file" id="profileImage">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="saveProfileChanges">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Profile JS -->
+    <script src="{% static 'js/inspectorgeneral/profile.js' %}"></script>
+</body>
+</html>

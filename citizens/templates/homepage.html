@@ -1,0 +1,193 @@
+{% load static %}
+{% load custom_filters %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CARS - Crime Accountability and Reporting System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/homepage.css' %}">
+    <link rel="icon" href="data:,">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Icon-only Mobile Sidebar -->
+        <nav class="mobile-sidebar d-md-none">
+            <div class="nav-items">
+                <a href="#dashboard" class="nav-item active" data-bs-toggle="tooltip" title="Dashboard">
+                    <i class="fas fa-home"></i>
+                </a>
+                <a href="#" class="nav-item" data-bs-toggle="dropdown" title="Report Crime">
+                    <i class="fas fa-file-alt"></i>
+                    <i class="fas fa-chevron-down ms-2 d-none d-md-inline"></i>
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a class="dropdown-item" href="{% url 'reportcrime' %}">
+                            <i class="fas fa-user me-2"></i>Report as Citizen
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="{% url 'anonymousreport' %}">
+                            <i class="fas fa-user-secret me-2"></i>Report Anonymously
+                        </a>
+                    </li>
+                </ul>
+                <a href="#reports" class="nav-item" data-bs-toggle="tooltip" title="My Reports">
+                    <i class="fas fa-list"></i>
+                </a>
+                <a href="{% url 'citizen-profile' %}" class="nav-item" data-bs-toggle="tooltip" title="Profile">
+                    <i class="fas fa-user"></i>
+                </a>
+            </div>
+        </nav>
+
+        <!-- Desktop Sidebar -->
+        <nav class="sidebar d-none d-md-flex">
+            <div class="sidebar-header">
+                <h4>CARS</h4>
+            </div>
+            <div class="nav-items">
+                <a href="{% url 'citizens' %}" class="nav-item active">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#" class="nav-item" data-bs-toggle="dropdown">
+                    <i class="fas fa-file-alt"></i>
+                    <span>Report Crime</span>
+                    <i class="fas fa-chevron-down ms-2 d-none d-md-inline"></i>
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a class="dropdown-item" href="{% url 'reportcrime' %}">
+                            <i class="fas fa-user me-2"></i>Report as Citizen
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="{% url 'anonymousreport' %}">
+                            <i class="fas fa-user-secret me-2"></i>Report Anonymously
+                        </a>
+                    </li>
+                </ul>
+                <a href="{% url 'citizen-profile' %}" class="nav-item">
+                    <i class="fas fa-user"></i>
+                    <span>Profile</span>
+                </a>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="content-header">
+                <h1 class="dashboard">Dashboard</h1>
+                <div class="header-actions">
+                    <div class="notifications" data-bs-toggle="dropdown">
+                        <i class="fas fa-bell"></i>
+                        <div class="notification-badge">3</div>
+                        <div class="dropdown-menu dropdown-menu-end notifications-dropdown">
+                            <!-- Notifications will be inserted by JavaScript -->
+                        </div>
+                    </div>
+                    <div class="user-profile dropdown">
+                        <button class="user-profile-btn" data-bs-toggle="dropdown" aria-expanded="false">
+                            <div class="avatar-container">
+                                <i class="fas fa-user-circle"></i>
+                            </div>
+                            <span class="username d-none d-md-inline">{{ request.user.first_name }}</span>
+                            <i class="fas fa-chevron-down d-none d-md-inline ms-2"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="{% url 'citizen-profile' %}">
+                                <i class="fas fa-user me-2"></i>Profile
+                            </a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" href="{% url 'index' %}">
+                                <i class="fas fa-sign-out-alt me-2"></i>Logout
+                            </a></li>
+                        </ul>
+                    </div>
+                </div>
+            </header>
+
+            <div class="content-body">
+                <div class="stats-grid" id="statsGrid">
+                    <!-- Stats cards will be inserted by JavaScript -->
+                </div>
+
+                <div class="reports-section">
+                    <div class="section-header">
+                        <h2>Recent Reports</h2>
+                        <button class="btn btn-primary btn-sm" id="viewAllReports">View All</button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table" id="reportsTable">
+                            <thead>
+                                <tr>
+                                    <th>Report ID</th>
+                                    <th>Type</th>
+                                    <th>Location</th>
+                                    <th>Status</th>
+                                    <th>Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- The rows will be dynamically generated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+<!-- View Report Modal -->
+<div class="modal fade" id="reportDetailModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Report Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="reportDetailForm">
+                    <div class="mb-3">
+                        <label class="form-label"><strong>Report ID:</strong></label>
+                        <input type="text" class="form-control" id="modalReportID" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label"><strong>Crime Type:</strong></label>
+                        <input type="text" class="form-control" id="modalCrimeType" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label"><strong>Location:</strong></label>
+                        <input type="text" class="form-control" id="modalLocation" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label"><strong>Date:</strong></label>
+                        <input type="text" class="form-control" id="modalDate" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label"><strong>Description:</strong></label>
+                        <textarea class="form-control" id="modalDescription" rows="3" readonly></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label"><strong>Status:</strong></label>
+                        <input type="text" class="form-control" id="modalStatus" readonly>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'js/homepage.js' %}"></script>
+</body>
+</html>

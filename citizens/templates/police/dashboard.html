@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Police Dashboard - CARS</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/apexcharts/dist/apexcharts.css">
+    <link rel="stylesheet" href="..\css\dashboard.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Mobile Icon Sidebar -->
+        <nav class="mobile-sidebar d-md-none">
+            <div class="sidebar-header">
+                <img src="assets/logo.png" alt="CARS Logo" class="logo">
+            </div>
+            <div class="nav-items">
+                <a href="dashboard.html" class="nav-item active" data-bs-toggle="tooltip" title="Dashboard">
+                    <i class="fas fa-chart-line"></i>
+                </a>
+                <a href="cases.html" class="nav-item" data-bs-toggle="tooltip" title="Cases">
+                    <i class="fas fa-folder"></i>
+                    <div class="notification-badge">3</div>
+                </a>
+                <a href="evidence.html" class="nav-item" data-bs-toggle="tooltip" title="Evidence">
+                    <i class="fas fa-camera"></i>
+                </a>
+                <a href="statistics.html" class="nav-item" data-bs-toggle="tooltip" title="Analytics">
+                    <i class="fas fa-chart-bar"></i>
+                </a>
+            </div>
+            <div class="nav-footer">
+                <a href="profile.html" class="nav-link">
+                    <i class="fas fa-user-alt"></i>
+                </a>
+                <a href="#logout" class="nav-link text-danger">
+                    <i class="fas fa-sign-out-alt"></i>
+                </a>
+            </div>
+        </nav>
+
+        <!-- Desktop Sidebar -->
+        <nav class="sidebar d-none d-md-flex">
+            <div class="sidebar-content">
+                <div class="sidebar-header">
+                    <div class="logo-container">
+                        <img src="assets/logo.png" alt="CARS Logo" class="logo">
+                        <h4>CARS</h4>
+                    </div>
+                    <div class="officer-profile">
+                        <div class="avatar">
+                            <i class="fas fa-user-shield"></i>
+                        </div>
+                        <div class="officer-info">
+                            <h6 class="mb-0">Officer John Doe</h6>
+                            <small class="text-light-50">Badge #12345</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="nav-items">
+                    <div class="nav-group">
+                        <span class="nav-label">Main Menu</span>
+                        <a href="dashboard.html" class="nav-link active">
+                            <i class="fas fa-chart-line"></i>
+                            <span>Dashboard</span>
+                        </a>
+                        <a href="cases.html" class="nav-link">
+                            <i class="fas fa-folder"></i>
+                            <span>Cases</span>
+                            <div class="nav-badge">3</div>
+                        </a>
+                        <a href="evidence.html" class="nav-link">
+                            <i class="fas fa-camera"></i>
+                            <span>Evidence</span>
+                        </a>
+                    </div>
+
+                    <div class="nav-group">
+                        <span class="nav-label">Analytics</span>
+                        <a href="statistics.html" class="nav-link">
+                            <i class="fas fa-chart-bar"></i>
+                            <span>Statistics</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="sidebar-footer">
+                    <a href="profile.html" class="nav-link">
+                        <i class="fas fa-user-alt"></i>
+                        <span>My Profile</span>
+                    </a>
+                    <a href="#logout" class="nav-link text-danger">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </a>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="content-header">
+                <div class="welcome-section">
+                    <h1>Welcome back, Officer Doe</h1>
+                    <p class="text-muted">Here's what's happening in your jurisdiction today</p>
+                </div>
+            </header>
+
+            <div class="dashboard-grid">
+                <!-- Statistics Cards -->
+                <div class="stats-row">
+                    <div class="stat-card primary">
+                        <div class="stat-icon bg-primary mb-0 text-white">
+                            <i class="fas fa-folder-open"></i>
+                        </div>
+                        <div class="stat-details">
+                            <h3>24</h3>
+                            <p>Active Cases</p>
+                            <div class="trend up">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>12% vs last week</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card warning">
+                        <div class="stat-icon bg-warning mb-0 text-white">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-details">
+                            <h3>8</h3>
+                            <p>Pending Reviews</p>
+                            <div class="trend down">
+                                <i class="fas fa-arrow-down"></i>
+                                <span>5% vs last week</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card success">
+                        <div class="stat-icon bg-success mb-0 text-white">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="stat-details">
+                            <h3>156</h3>
+                            <p>Resolved Cases</p>
+                            <div class="trend up">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>8% vs last week</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts and Activity Section -->
+                <div class="row g-4">
+                    <!-- Case Analytics Chart -->
+                    <div class="col-12 col-xl-8">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>Case Analytics</h5>
+                                <div class="chart-actions">
+                                    <select class="form-select form-select-sm">
+                                        <option>Last 7 Days</option>
+                                        <option>Last 30 Days</option>
+                                        <option>Last 3 Months</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div id="caseAnalyticsChart"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Cases -->
+                    <div class="col-12 col-xl-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>Recent Cases</h5>
+                                <button class="btn btn-sm btn-link">View All</button>
+                            </div>
+                            <div class="card-body p-0">
+                                <div class="recent-cases-list" id="recentCases">
+                                    <!-- Will be populated by JS -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Activities Timeline -->
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>Recent Activities</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="activity-timeline" id="activityTimeline">
+                                    <!-- Will be populated by JS -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="..\js\dashboard.js"></script>
+</body>
+</html>

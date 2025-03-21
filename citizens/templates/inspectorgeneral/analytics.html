@@ -1,0 +1,313 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Analytics - CARS Director</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/inspectorgeneral/profile.css' %}">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Mobile Sidebar (Icon-only) -->
+        <nav class="mobile-sidebar d-lg-none">
+            <div class="sidebar-header">
+                <img src="assets/logo.png" alt="CARS Logo" class="sidebar-logo">
+            </div>
+            <div class="nav-items">
+                <a href="dashboard.html" class="nav-item" data-bs-toggle="tooltip" title="Dashboard">
+                    <i class="fas fa-chart-line"></i>
+                </a>
+                <a href="case-management.html" class="nav-item" data-bs-toggle="tooltip" title="Case Management">
+                    <i class="fas fa-folder-open"></i>
+                </a>
+                <a href="officer-oversight.html" class="nav-item" data-bs-toggle="tooltip" title="Officer Oversight">
+                    <i class="fas fa-user-shield"></i>
+                </a>
+                <a href="analytics.html" class="nav-item active" data-bs-toggle="tooltip" title="Analytics">
+                    <i class="fas fa-chart-pie"></i>
+                </a>
+            </div>
+            <div class="nav-footer">
+                <a href="profile.html" class="nav-item" data-bs-toggle="tooltip" title="Profile">
+                    <i class="fas fa-user"></i>
+                </a>
+                <a href="settings.html" class="nav-item" data-bs-toggle="tooltip" title="Settings">
+                    <i class="fas fa-cog"></i>
+                </a>
+                <a href="#" class="nav-item text-danger" data-bs-toggle="tooltip" title="Logout" onclick="return confirm('Are you sure you want to logout?');">
+                    <i class="fas fa-sign-out-alt"></i>
+                </a>
+            </div>
+        </nav>
+
+        <!-- Desktop Sidebar -->
+        <nav class="desktop-sidebar d-none d-lg-flex">
+            <div class="sidebar-content">
+                <div class="sidebar-header">
+                    <div class="logo-wrapper">
+                        <img src="assets/logo.png" alt="CARS Logo" class="sidebar-logo">
+                        <h4>CARS Director</h4>
+                    </div>
+                    <div class="director-profile">
+                        <div class="profile-avatar">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                        <div class="profile-info">
+                            <h6>Director Panel</h6>
+                            <small>NPSC Oversight</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-menu">
+                    <div class="menu-section">
+                        <p class="menu-header">Main Menu</p>
+                        <a href="dashboard.html" class="menu-item">
+                            <i class="fas fa-chart-line"></i>
+                            <span>Dashboard</span>
+                        </a>
+                        <a href="case-management.html" class="menu-item">
+                            <i class="fas fa-folder-open"></i>
+                            <span>Case Management</span>
+                            <span class="menu-badge">5</span>
+                        </a>
+                    </div>
+                    <div class="menu-section">
+                        <p class="menu-header">Oversight</p>
+                        <a href="officer-oversight.html" class="menu-item">
+                            <i class="fas fa-user-shield"></i>
+                            <span>Officer Oversight</span>
+                            <span class="menu-badge">12</span>
+                        </a>
+                        <a href="analytics.html" class="menu-item active">
+                            <i class="fas fa-chart-pie"></i>
+                            <span>Analytics</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="sidebar-footer">
+                    <a href="profile.html" class="menu-item">
+                        <i class="fas fa-user"></i>
+                        <span>Profile</span>
+                    </a>
+                    <a href="settings.html" class="menu-item">
+                        <i class="fas fa-cog"></i>
+                        <span>Settings</span>
+                    </a>
+                    <a href="#" class="menu-item text-danger" onclick="return confirm('Logout?');">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </a>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <header class="content-header">
+                <div class="header-left">
+                    <h1>Analytics Dashboard</h1>
+                    <p>Review case metrics and performance analytics</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-outline-primary me-2">
+                        <i class="fas fa-file-export me-2"></i>Export Report
+                    </button>
+                    <button class="btn btn-primary">
+                        <i class="fas fa-sync-alt me-2"></i>Refresh Data
+                    </button>
+                </div>
+            </header>
+
+            <!-- Filter Bar -->
+            <div class="filter-bar">
+                <div class="row align-items-center">
+                    <div class="col-md-2">
+                        <label class="form-label">Date Range</label>
+                        <select class="form-select" id="dateRangeFilter">
+                            <option value="30">Last 30 Days</option>
+                            <option value="90">Last 90 Days</option>
+                            <option value="180">Last 6 Months</option>
+                            <option value="365">Last Year</option>
+                            <option value="custom">Custom Range</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">Region</label>
+                        <select class="form-select" id="regionFilter">
+                            <option value="all">All Regions</option>
+                            <option value="nairobi">Nairobi</option>
+                            <option value="mombasa">Mombasa</option>
+                            <option value="kisumu">Kisumu</option>
+                            <option value="nakuru">Nakuru</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">Case Type</label>
+                        <select class="form-select" id="caseTypeFilter">
+                            <option value="all">All Types</option>
+                            <option value="theft">Theft</option>
+                            <option value="assault">Assault</option>
+                            <option value="fraud">Fraud</option>
+                            <option value="robbery">Robbery</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">Case Status</label>
+                        <select class="form-select" id="statusFilter">
+                            <option value="all">All Statuses</option>
+                            <option value="open">Open</option>
+                            <option value="inProgress">In Progress</option>
+                            <option value="closed">Resolved</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 d-flex align-items-end mt-md-0 mt-3">
+                        <button class="btn btn-primary w-100" id="applyFilters">
+                            <i class="fas fa-filter me-2"></i>Apply Filters
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Key Metrics -->
+            <div class="row">
+                <div class="col-xl-3 col-md-6">
+                    <div class="metric-card">
+                        <div class="metric-icon bg-primary text-white">
+                            <i class="fas fa-folder-open"></i>
+                        </div>
+                        <div class="metric-details">
+                            <h3>245</h3>
+                            <p>Total Active Cases</p>
+                        </div>
+                        <div class="metric-trend trend-up">
+                            <i class="fas fa-arrow-up me-1"></i>12%
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-6">
+                    <div class="metric-card">
+                        <div class="metric-icon bg-success text-white">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="metric-details">
+                            <h3>178</h3>
+                            <p>Cases Resolved</p>
+                        </div>
+                        <div class="metric-trend trend-up">
+                            <i class="fas fa-arrow-up me-1"></i>8%
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-6">
+                    <div class="metric-card">
+                        <div class="metric-icon bg-warning text-dark">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="metric-details">
+                            <h3>87</h3>
+                            <p>Pending Investigation</p>
+                        </div>
+                        <div class="metric-trend trend-down">
+                            <i class="fas fa-arrow-down me-1"></i>5%
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-6">
+                    <div class="metric-card">
+                        <div class="metric-icon bg-danger text-white">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div class="metric-details">
+                            <h3>32</h3>
+                            <p>Critical Cases</p>
+                        </div>
+                        <div class="metric-trend trend-up">
+                            <i class="fas fa-arrow-up me-1"></i>15%
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Charts Row 1 -->
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="chart-card">
+                        <div class="card-body">
+                            <h5 class="card-title">Case Trends (Last 12 Months)</h5>
+                            <div class="chart-container" id="caseTrendsChart"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="chart-card">
+                        <div class="card-body">
+                            <h5 class="card-title">Cases by Type</h5>
+                            <div class="chart-container" id="caseTypesChart"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Charts Row 2 -->
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="chart-card">
+                        <div class="card-body">
+                            <h5 class="card-title">Case Resolution Time (Days)</h5>
+                            <div class="chart-container" id="resolutionTimeChart"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="chart-card">
+                        <div class="card-body">
+                            <h5 class="card-title">Officer Performance</h5>
+                            <div class="chart-container" id="officerPerformanceChart"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Charts Row 3 -->
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="chart-card">
+                        <div class="card-body">
+                            <h5 class="card-title">Cases by Region</h5>
+                            <div class="chart-container" id="regionChart"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="chart-card">
+                        <div class="card-body">
+                            <h5 class="card-title">Case Priority Distribution</h5>
+                            <div class="chart-container" id="priorityChart"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="chart-card">
+                        <div class="card-body">
+                            <h5 class="card-title">Case Resolution Rate</h5>
+                            <div class="chart-container" id="resolutionRateChart"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- ApexCharts JS -->
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    
+    <!-- Charts Initialization -->
+    <script src="{% static 'js/inspectorgeneral/analytics.js' %}"></script>
+</body>
+</html>

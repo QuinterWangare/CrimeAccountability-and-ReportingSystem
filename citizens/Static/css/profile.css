@@ -1,0 +1,80 @@
+.profile-card {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid #eaeaea;
+    padding-bottom: 1.5rem;
+}
+
+.profile-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: #e9ecef;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    margin-right: 1.5rem;
+    color: #6c757d;
+}
+
+.profile-info h2 {
+    margin-bottom: 0.25rem;
+}
+
+.profile-field {
+    margin-bottom: 1rem;
+}
+
+.profile-field-label {
+    font-weight: 600;
+    color: #495057;
+    margin-bottom: 0.25rem;
+}
+
+.profile-field-value {
+    padding: 0.5rem;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+}
+
+.profile-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+
+.stat-card {
+    text-align: center;
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    transition: all 0.2s ease;
+}
+
+.stat-card:hover {
+    background-color: #e9ecef;
+    transform: translateY(-5px);
+}
+
+.stat-number {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 0.25rem;
+}
+
+.edit-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+}
