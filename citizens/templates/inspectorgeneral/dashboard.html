@@ -33,7 +33,6 @@
 			<div class="sidebar-footer">
 				<a href="{% url 'inspectorgeneral_profile' %}" class="menu-item">
 					<i class="fas fa-user"></i>
-					<span>Profile</span>
 				</a>
 				<a href="#" class="menu-item text-danger" data-bs-toggle="tooltip" title="Logout" onclick="return confirm('Are you sure you want to logout?') ? (window.location.href='login.html') : false;">
 					<i class="fas fa-sign-out-alt"></i>
@@ -161,14 +160,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr>
-									<td>#CR-2025-001</td>
-									<td>Theft</td>
-									<td>Nakuru Central</td>
-									<td>John Doe</td>
-									<td><span class="badge bg-warning">Pending</span></td>
-									<td><button class="btn btn-sm btn-link">View</button></td>
-								</tr>
+								{% comment %} Contents inserted by JS {% endcomment %}
 							</tbody>
 						</table>
 					</div>

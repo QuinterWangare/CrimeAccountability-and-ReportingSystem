@@ -17,21 +17,21 @@
                 <img src="assets/logo.png" alt="CARS Logo" class="sidebar-logo">
             </div>
             <div class="nav-items">
-                <a href="dashboard.html" class="nav-item" data-bs-toggle="tooltip" title="Dashboard">
+                <a href="{% url 'inspectorgeneral_dashboard' %}" class="nav-item" data-bs-toggle="tooltip" title="Dashboard">
                     <i class="fas fa-chart-line"></i>
                 </a>
-                <a href="case-management.html" class="nav-item" data-bs-toggle="tooltip" title="Case Management">
+                <a href="{% url 'inspectorgeneral_case_management' %}" class="nav-item" data-bs-toggle="tooltip" title="Case Management">
                     <i class="fas fa-folder-open"></i>
                 </a>
-                <a href="officer-oversight.html" class="nav-item" data-bs-toggle="tooltip" title="Officer Oversight">
+                <a href="{% url 'inspectorgeneral_officer_oversight' %}" class="nav-item" data-bs-toggle="tooltip" title="Officer Oversight">
                     <i class="fas fa-user-shield"></i>
                 </a>
-                <a href="analytics.html" class="nav-item" data-bs-toggle="tooltip" title="Analytics">
+                <a href="{% url 'inspectorgeneral_analytics' %}" class="nav-item" data-bs-toggle="tooltip" title="Analytics">
                     <i class="fas fa-chart-pie"></i>
                 </a>
             </div>
             <div class="nav-footer">
-                <a href="profile.html" class="nav-item active" data-bs-toggle="tooltip" title="Profile">
+                <a href="{% url 'inspectorgeneral_profile' %}" class="nav-item active" data-bs-toggle="tooltip" title="Profile">
                     <i class="fas fa-user"></i>
                 </a>
                 <a href="#" class="nav-item text-danger" data-bs-toggle="tooltip" title="Logout" onclick="return confirm('Are you sure you want to logout?');">
@@ -61,11 +61,11 @@
                 <div class="nav-menu">
                     <div class="menu-section">
                         <p class="menu-header">Main Menu</p>
-                        <a href="dashboard.html" class="menu-item">
+                        <a href="{% url 'inspectorgeneral_dashboard' %}" class="menu-item">
                             <i class="fas fa-chart-line"></i>
                             <span>Dashboard</span>
                         </a>
-                        <a href="case-management.html" class="menu-item">
+                        <a href="{% url 'inspectorgeneral_case_management' %}" class="menu-item">
                             <i class="fas fa-folder-open"></i>
                             <span>Case Management</span>
                             <span class="menu-badge">5</span>
@@ -73,19 +73,19 @@
                     </div>
                     <div class="menu-section">
                         <p class="menu-header">Oversight</p>
-                        <a href="officer-oversight.html" class="menu-item">
+                        <a href="{% url 'inspectorgeneral_officer_oversight' %}l" class="menu-item">
                             <i class="fas fa-user-shield"></i>
                             <span>Officer Oversight</span>
                             <span class="menu-badge">12</span>
                         </a>
-                        <a href="analytics.html" class="menu-item">
+                        <a href="{% url 'inspectorgeneral_analytics' %}" class="menu-item">
                             <i class="fas fa-chart-pie"></i>
                             <span>Analytics</span>
                         </a>
                     </div>
                 </div>
                 <div class="sidebar-footer">
-                    <a href="profile.html" class="menu-item active">
+                    <a href="{% url 'inspectorgeneral_profile' %}" class="menu-item active">
                         <i class="fas fa-user"></i>
                         <span>Profile</span>
                     </a>
@@ -433,15 +433,15 @@
                                 <h6 class="mb-3">Personal Information</h6>
                                 <div class="mb-3">
                                     <label for="fullName" class="form-label">Full Name</label>
-                                    <input type="text" class="form-control" id="fullName" value="James Kariuki Mwangi">
+                                    <input type="text" class="form-control" id="fullName" placeholder="James Kariuki Mwangi">
                                 </div>
                                 <div class="mb-3">
                                     <label for="idNumber" class="form-label">ID Number</label>
-                                    <input type="text" class="form-control" id="idNumber" value="2345678">
+                                    <input type="text" class="form-control" id="idNumber" placeholder="2345678" readonly>
                                 </div>
                                 <div class="mb-3">
                                     <label for="dob" class="form-label">Date of Birth</label>
-                                    <input type="date" class="form-control" id="dob" value="1978-04-15">
+                                    <input type="date" class="form-control" id="dob" placeholder="1978-04-15">
                                 </div>
                                 <div class="mb-3">
                                     <label for="gender" class="form-label">Gender</label>
@@ -456,19 +456,19 @@
                                 <h6 class="mb-3">Contact Information</h6>
                                 <div class="mb-3">
                                     <label for="email" class="form-label">Email Address</label>
-                                    <input type="email" class="form-control" id="email" value="james.mwangi@npsc.go.ke">
+                                    <input type="email" class="form-control" id="email" placeholder="james.mwangi@npsc.go.ke">
                                 </div>
                                 <div class="mb-3">
                                     <label for="phone" class="form-label">Phone Number</label>
-                                    <input type="tel" class="form-control" id="phone" value="+254 712 345 678">
+                                    <input type="tel" class="form-control" id="phone" placeholder="+254 712 345 678">
                                 </div>
                                 <div class="mb-3">
                                     <label for="office" class="form-label">Office</label>
-                                    <input type="text" class="form-control" id="office" value="Room 305, NPSC Headquarters">
+                                    <input type="text" class="form-control" id="office" placeholder="Room 305, NPSC Headquarters">
                                 </div>
                                 <div class="mb-3">
                                     <label for="address" class="form-label">Address</label>
-                                    <textarea class="form-control" id="address" rows="3">123 Harambee Avenue, Nairobi</textarea>
+                                    <textarea class="form-control" id="address" rows="3" placeholder="123 Harambee Avenue, Nairobi"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -478,19 +478,19 @@
                                 <h6 class="mb-3">Work Information</h6>
                                 <div class="mb-3">
                                     <label for="position" class="form-label">Position</label>
-                                    <input type="text" class="form-control" id="position" value="Director of Operations">
+                                    <input type="text" class="form-control" id="position" placeholder="Director of Operations">
                                 </div>
                                 <div class="mb-3">
                                     <label for="department" class="form-label">Department</label>
-                                    <input type="text" class="form-control" id="department" value="National Police Service Commission">
+                                    <input type="text" class="form-control" id="department" placeholder="National Police Service Commission">
                                 </div>
                                 <div class="mb-3">
                                     <label for="employeeId" class="form-label">Employee ID</label>
-                                    <input type="text" class="form-control" id="employeeId" value="NPSC-DIR-00123" readonly>
+                                    <input type="text" class="form-control" id="employeeId" placeholder="NPSC-DIR-00123">
                                 </div>
                                 <div class="mb-3">
                                     <label for="dateJoined" class="form-label">Date Joined</label>
-                                    <input type="date" class="form-control" id="dateJoined" value="2020-01-10" readonly>
+                                    <input type="date" class="form-control" id="dateJoined" placeholder="2020-01-10" readonly>
                                 </div>
                             </div>
                             <div class="col-md-6">

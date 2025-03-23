@@ -23,6 +23,7 @@ class CustomUser(AbstractUser):
     username = None
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
+    citizen_id = models.CharField(max_length=50, unique=True, null=True, blank=True)
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["first_name", "last_name"]

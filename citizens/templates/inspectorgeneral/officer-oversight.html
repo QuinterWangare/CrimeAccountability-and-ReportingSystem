@@ -17,23 +17,22 @@
                 <img src="assets/logo.png" alt="CARS Logo" class="sidebar-logo">
             </div>
             <div class="nav-items">
-                <a href="dashboard.html" class="nav-item" data-bs-toggle="tooltip" title="Dashboard">
+                <a href="{% url 'inspectorgeneral_dashboard' %}" class="nav-item" data-bs-toggle="tooltip" title="Dashboard">
                     <i class="fas fa-chart-line"></i>
                 </a>
-                <a href="case-management.html" class="nav-item" data-bs-toggle="tooltip" title="Case Management">
+                <a href="{% url 'inspectorgeneral_case_management' %}" class="nav-item" data-bs-toggle="tooltip" title="Case Management">
                     <i class="fas fa-folder-open"></i>
                 </a>
-                <a href="officer-oversight.html" class="nav-item active" data-bs-toggle="tooltip" title="Officer Oversight">
+                <a href="{% url 'inspectorgeneral_officer_oversight' %}" class="nav-item active" data-bs-toggle="tooltip" title="Officer Oversight">
                     <i class="fas fa-user-shield"></i>
                 </a>
-                <a href="analytics.html" class="nav-item" data-bs-toggle="tooltip" title="Analytics">
+                <a href="{% url 'inspectorgeneral_analytics' %}" class="nav-item" data-bs-toggle="tooltip" title="Analytics">
                     <i class="fas fa-chart-pie"></i>
                 </a>
             </div>
             <div class="nav-footer">
-                <a href="profile.html" class="menu-item">
+                <a href="{% url 'inspectorgeneral_profile' %}" class="nav-item">
                     <i class="fas fa-user"></i>
-                    <span>Profile</span>
                 </a>
                 <a href="#" class="nav-item text-danger" data-bs-toggle="tooltip" title="Logout" onclick="return confirm('Are you sure you want to logout?');">
                     <i class="fas fa-sign-out-alt"></i>
@@ -62,11 +61,11 @@
                 <div class="nav-menu">
                     <div class="menu-section">
                         <p class="menu-header">Main Menu</p>
-                        <a href="dashboard.html" class="menu-item">
+                        <a href="{% url 'inspectorgeneral_dashboard' %}" class="menu-item">
                             <i class="fas fa-chart-line"></i>
                             <span>Dashboard</span>
                         </a>
-                        <a href="case-management.html" class="menu-item">
+                        <a href="{% url 'inspectorgeneral_case_management' %}" class="menu-item">
                             <i class="fas fa-folder-open"></i>
                             <span>Case Management</span>
                             <span class="menu-badge">5</span>
@@ -74,19 +73,19 @@
                     </div>
                     <div class="menu-section">
                         <p class="menu-header">Oversight</p>
-                        <a href="officer-oversight.html" class="menu-item active">
+                        <a href="{% url 'inspectorgeneral_officer_oversight' %}" class="menu-item active">
                             <i class="fas fa-user-shield"></i>
                             <span>Officer Oversight</span>
                             <span class="menu-badge">12</span>
                         </a>
-                        <a href="analytics.html" class="menu-item">
+                        <a href="{% url 'inspectorgeneral_analytics' %}" class="menu-item">
                             <i class="fas fa-chart-pie"></i>
                             <span>Analytics</span>
                         </a>
                     </div>
                 </div>
                 <div class="sidebar-footer">
-                    <a href="profile.html" class="menu-item">
+                    <a href="{% url 'inspectorgeneral_profile' %}" class="menu-item">
                         <i class="fas fa-user"></i>
                         <span>Profile</span>
                     </a>

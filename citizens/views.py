@@ -175,7 +175,7 @@ def report_crime(request):
 
             # Use the email provided in the report form
             recipient_email = request.POST.get("contact_email",
-                                               request.user.email)  # Use form email or fallback to user's email
+                                            request.user.email)  # Use form email or fallback to user's email
 
             # Ensure recipient email is valid before sending
             if recipient_email:
