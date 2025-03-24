@@ -1,214 +1,523 @@
 document.addEventListener('DOMContentLoaded', function() {
-    initializeTooltips();
-    initializeCharts();
-    loadRecentCases();
-    loadActivities();
-    loadTasks();
-
+    // Initialize the dashboard
+    initializeDashboard();
+    
+    // Set up event listeners
+    setupEventHandlers();
 });
 
-function initializeTooltips() {
-    const tooltips = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-    tooltips.forEach(tooltip => new bootstrap.Tooltip(tooltip, {
-        placement: 'right',
-        trigger: 'hover'
-    }));
+/**
+ * Initialize all dashboard components and load data
+ */
+function initializeDashboard() {
+    // Fetch and display statistics
+    fetchStatistics();
+    
+    // Fetch and display recent cases
+    fetchRecentCases();
+    
+    // Load officer data for assignment modal
+    fetchAvailableOfficers();
 }
 
-function initializeCharts() {
-    const caseAnalyticsOptions = {
-        series: [{
-            name: 'New Cases',
-            data: [31, 40, 28, 51, 42, 109, 100]
-        }, {
-            name: 'Resolved Cases',
-            data: [11, 32, 45, 32, 34, 52, 41]
-        }],
-        chart: {
-            height: 350,
-            type: 'area',
-            toolbar: {
-                show: false
-            }
-        },
-        colors: ['#2962ff', '#00c853'],
-        fill: {
-            type: 'gradient',
-            gradient: {
-                shadeIntensity: 1,
-                opacityFrom: 0.7,
-                opacityTo: 0.9,
-                stops: [0, 90, 100]
-            }
-        },
-        dataLabels: {
-            enabled: false
-        },
-        stroke: {
-            curve: 'smooth',
-            width: 2
-        },
-        xaxis: {
-            type: 'datetime',
-            categories: ["2024-03-01", "2024-03-02", "2024-03-03", "2024-03-04", 
-                        "2024-03-05", "2024-03-06", "2024-03-07"]
-        },
-        tooltip: {
-            x: {
-                format: 'dd/MM/yy'
-            }
+/**
+ * Set up all event handlers for interactive elements
+ */
+function setupEventHandlers() {
+    // Assign case button in modal
+    const assignButton = document.querySelector('#assignCaseModal .btn-primary');
+    if (assignButton) {
+        assignButton.addEventListener('click', handleCaseAssignment);
+    }
+    
+    // Generate new case ID when modal is opened
+    const modal = document.getElementById('assignCaseModal');
+    if (modal) {
+        modal.addEventListener('show.bs.modal', function() {
+            generateCaseId();
+        });
+    }
+    
+    // Add global handler for view case buttons
+    document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('view-case-btn') || 
+            e.target.parentElement.classList.contains('view-case-btn')) {
+            const button = e.target.classList.contains('view-case-btn') ? 
+                e.target : e.target.parentElement;
+            const caseId = button.getAttribute('data-case-id');
+            viewCaseDetails(caseId);
         }
-    };
-
-    const chart = new ApexCharts(document.querySelector("#caseAnalyticsChart"), caseAnalyticsOptions);
-    chart.render();
+    });
 }
 
-function loadRecentCases() {
-    const cases = [
-        {
-            id: 'CAS-2024-001',
-            title: 'Theft at Downtown Mall',
-            status: 'active',
-            priority: 'high',
-            timestamp: '2 hours ago'
-        },
-        {
-            id: 'CAS-2024-002',
-            title: 'Vandalism Report',
-            status: 'pending',
-            priority: 'medium',
-            timestamp: '5 hours ago'
-        },
-        {
-            id: 'CAS-2024-003',
-            title: 'Traffic Incident',
-            status: 'resolved',
-            priority: 'low',
-            timestamp: '1 day ago'
-        }
-    ];
+/**
+ * Fetch key statistics for the overview cards
+ */
+async function fetchStatistics() {
+    try {
+        // const response = await fetch('/api/director/statistics');
+        // const data = await response.json();
+        
+        // Real-world data would come from your database aggregations
+        const data = {
+            officerStats: {
+                total: 2345,
+                active: 2128,
+                onLeave: 217,
+                newRecruits: 34
+            },
+            caseStats: {
+                resolutionRate: 85.2,
+                totalOpen: 127,
+                totalResolved: 734,
+                totalAssigned: 861
+            },
+            responseStats: {
+                averageResponseHours: 25,
+                fastestResponseMinutes: 8,
+                criticalResponseRate: 96.4,
+                responsesWithin24h: 82.1
+            }
+        };
+        
+        // Update dashboard UI with fetched statistics
+        updateStatisticsUI(data);
+        
+    } catch (error) {
+        console.error('Error fetching statistics:', error);
+        showErrorState('statistics');
+    }
+}
 
-    const casesList = document.getElementById('recentCases');
-    if (casesList) {
-        casesList.innerHTML = cases.map(case_ => `
-            <div class="case-item">
-                <div class="case-info">
-                    <div class="case-header">
-                        <h6>${case_.title}</h6>
-                        <span class="badge bg-${getStatusColor(case_.status)}">${case_.status}</span>
+/**
+ * Update the UI with statistics data
+ */
+function updateStatisticsUI(data) {
+    // Update officers card
+    const officersElement = document.querySelector('.overview-card.primary .card-content h3');
+    if (officersElement) {
+        officersElement.textContent = data.officerStats.active.toLocaleString();
+    }
+    
+    // Update resolution rate card
+    const resolutionElement = document.querySelector('.overview-card.success .card-content h3');
+    if (resolutionElement) {
+        resolutionElement.textContent = `${data.caseStats.resolutionRate.toFixed(1)}%`;
+    }
+    
+    // Update response time card
+    const responseTimeElement = document.querySelector('.overview-card.warning .card-content h3');
+    if (responseTimeElement) {
+        responseTimeElement.textContent = `${data.responseStats.averageResponseHours}h`;
+    }
+    
+    // Update sidebar badge counts
+    const caseBadge = document.querySelector('.menu-item:nth-child(2) .menu-badge');
+    if (caseBadge) {
+        caseBadge.textContent = data.caseStats.totalOpen;
+    }
+    
+    const officerBadge = document.querySelector('.menu-section:nth-child(2) .menu-item:first-child .menu-badge');
+    if (officerBadge) {
+        officerBadge.textContent = data.officerStats.onLeave;
+    }
+}
+
+/**
+ * Fetch recent cases for the dashboard table
+ */
+async function fetchRecentCases() {
+    try {
+        // Show loading state
+        const tableBody = document.querySelector('.recent-assignments table tbody');
+        if (tableBody) {
+            tableBody.innerHTML = `
+                <tr>
+                    <td colspan="6" class="text-center py-3">
+                        <div class="spinner-border spinner-border-sm text-primary me-2" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        Loading recent cases...
+                    </td>
+                </tr>
+            `;
+        }
+        
+        // In a real app, fetch from API 
+        // const response = await fetch('/api/director/recent-cases?limit=5');
+        // const data = await response.json();
+        
+        
+        // This would be real case data from your database
+        const cases = [
+            {
+                id: 'CR-2025-8342',
+                type: 'Armed Robbery',
+                location: 'Karen, Nairobi',
+                officer: 'Capt. James Maina',
+                status: 'active',
+                priority: 'high',
+                dateAssigned: '2025-03-18T09:23:45Z',
+                victimCount: 2
+            },
+            {
+                id: 'CR-2025-7291',
+                type: 'Domestic Violence',
+                location: 'Westlands, Nairobi',
+                officer: 'Lt. Sarah Kamau',
+                status: 'pending',
+                priority: 'high',
+                dateAssigned: '2025-03-17T14:08:22Z',
+                victimCount: 1
+            },
+            {
+                id: 'CR-2025-6104',
+                type: 'Fraud',
+                location: 'CBD, Nairobi',
+                officer: 'Sgt. Michael Odhiambo',
+                status: 'active',
+                priority: 'medium',
+                dateAssigned: '2025-03-15T11:45:10Z',
+                victimCount: 12
+            },
+            {
+                id: 'CR-2025-5922',
+                type: 'Car Theft',
+                location: 'Kilimani, Nairobi',
+                officer: 'Col. Diana Wanjiku',
+                status: 'resolved',
+                priority: 'medium',
+                dateAssigned: '2025-03-12T08:30:00Z',
+                victimCount: 1
+            },
+            {
+                id: 'CR-2025-5201',
+                type: 'Cybercrime',
+                location: 'Kenyatta University',
+                officer: 'Lt. Paul Njoroge',
+                status: 'resolved',
+                priority: 'low',
+                dateAssigned: '2025-03-10T16:22:33Z',
+                victimCount: 45
+            }
+        ];
+        
+        // Render cases in the table
+        renderCasesTable(cases);
+        
+    } catch (error) {
+        console.error('Error fetching recent cases:', error);
+        showErrorState('cases');
+    }
+}
+
+/**
+ * Render the cases table with fetched data
+ */
+function renderCasesTable(cases) {
+    const tableBody = document.querySelector('.recent-assignments table tbody');
+    if (!tableBody) return;
+    
+    // Clear the table
+    tableBody.innerHTML = '';
+    
+    // Check if there are cases to display
+    if (!cases || cases.length === 0) {
+        tableBody.innerHTML = `
+            <tr>
+                <td colspan="6" class="text-center py-4">
+                    <div class="text-muted">
+                        <i class="fas fa-folder-open mb-2 d-block" style="font-size: 2rem; opacity: 0.3;"></i>
+                        <p>No cases found</p>
                     </div>
-                    <p class="case-id">${case_.id}</p>
-                    <small class="text-muted">${case_.timestamp}</small>
-                </div>
-                <button class="btn btn-sm btn-light" onclick="viewCase('${case_.id}')">
-                    <i class="fas fa-chevron-right"></i>
+                </td>
+            </tr>
+        `;
+        return;
+    }
+    
+    // Render each case as a table row
+    cases.forEach(caseItem => {
+        // Create a new row
+        const row = document.createElement('tr');
+        
+        // Determine status badge class based on case status
+        let badgeClass = 'bg-secondary';
+        if (caseItem.status === 'pending') badgeClass = 'bg-warning';
+        if (caseItem.status === 'active') badgeClass = 'bg-primary';
+        if (caseItem.status === 'resolved') badgeClass = 'bg-success';
+        
+        // Format the status text (capitalize first letter)
+        const statusText = caseItem.status.charAt(0).toUpperCase() + caseItem.status.slice(1);
+        
+        // Format date
+        const date = new Date(caseItem.dateAssigned);
+        const formattedDate = date.toLocaleDateString('en-KE', {
+            day: 'numeric',
+            month: 'short',
+            year: 'numeric'
+        });
+        
+        // Fill the row with case data
+        row.innerHTML = `
+            <td>#${caseItem.id}</td>
+            <td>${caseItem.type}</td>
+            <td>${caseItem.location}</td>
+            <td>${caseItem.officer}</td>
+            <td><span class="badge ${badgeClass}">${statusText}</span></td>
+            <td>
+                <button class="btn btn-sm btn-link view-case-btn" data-case-id="${caseItem.id}">
+                    View
                 </button>
-            </div>
-        `).join('');
-    }
+            </td>
+        `;
+        
+        // Add row to table
+        tableBody.appendChild(row);
+    });
 }
 
-function loadActivities() {
-    const activities = [
-        {
-            type: 'case_update',
-            title: 'Evidence Added',
-            description: 'New surveillance footage added to Case #2024-001',
-            time: '2 hours ago',
-            icon: 'fa-file-upload'
-        },
-        {
-            type: 'case_status',
-            title: 'Case Status Updated',
-            description: 'Case #2024-002 marked as In Progress',
-            time: '4 hours ago',
-            icon: 'fa-sync'
-        },
-        {
-            type: 'assignment',
-            title: 'New Case Assigned',
-            description: 'You have been assigned to Case #2024-003',
-            time: '1 day ago',
-            icon: 'fa-tasks'
+/**
+ * Fetch available officers for case assignment
+ */
+async function fetchAvailableOfficers() {
+    try {
+        // const response = await fetch('/api/director/available-officers');
+        // const officers = await response.json();
+        
+        
+        // This would be real officer data from your database
+        const officers = [
+            { id: 'OFF-1001', name: 'Capt. James Maina', badge: 'KPS-1234', specialization: 'Violent Crime', available: true },
+            { id: 'OFF-1002', name: 'Lt. Sarah Kamau', badge: 'KPS-5678', specialization: 'Domestic Violence', available: true },
+            { id: 'OFF-1003', name: 'Sgt. Michael Odhiambo', badge: 'KPS-9012', specialization: 'Financial Crime', available: true },
+            { id: 'OFF-1004', name: 'Col. Diana Wanjiku', badge: 'KPS-3456', specialization: 'Auto Theft', available: true },
+            { id: 'OFF-1005', name: 'Lt. Paul Njoroge', badge: 'KPS-7890', specialization: 'Cybercrime', available: true },
+            { id: 'OFF-1006', name: 'Sgt. Lucy Nyambura', badge: 'KPS-2345', specialization: 'Narcotics', available: false },
+            { id: 'OFF-1007', name: 'Maj. David Kamau', badge: 'KPS-6789', specialization: 'Homicide', available: true }
+        ];
+        
+        // Populate officer dropdown in assignment modal
+        populateOfficerDropdown(officers);
+        
+    } catch (error) {
+        console.error('Error fetching officers:', error);
+        // Show default placeholder in officer dropdown
+        const select = document.querySelector('#assignCaseForm select:first-of-type');
+        if (select) {
+            select.innerHTML = `
+                <option selected disabled>Error loading officers</option>
+                <option>Refresh to try again</option>
+            `;
         }
-    ];
-
-    const timeline = document.getElementById('activityTimeline');
-    if (timeline) {
-        timeline.innerHTML = activities.map(activity => `
-            <div class="timeline-item">
-                <div class="timeline-icon">
-                    <i class="fas ${activity.icon}"></i>
-                </div>
-                <div class="timeline-content">
-                    <h6>${activity.title}</h6>
-                    <p>${activity.description}</p>
-                    <small class="text-muted">${activity.time}</small>
-                </div>
-            </div>
-        `).join('');
     }
 }
 
-function loadTasks() {
-    const tasks = [
-        {
-            id: 1,
-            title: 'Review Evidence for Case #2024-001',
-            priority: 'high',
-            deadline: 'Today'
-        },
-        {
-            id: 2,
-            title: 'Submit Report for Case #2024-002',
-            priority: 'medium',
-            deadline: 'Tomorrow'
-        },
-        {
-            id: 3,
-            title: 'Interview Witness',
-            priority: 'high',
-            deadline: 'Mar 8'
+/**
+ * Populate the officer selection dropdown
+ */
+function populateOfficerDropdown(officers) {
+    const select = document.querySelector('#assignCaseForm select:first-of-type');
+    if (!select) return;
+    
+    // Clear existing options
+    select.innerHTML = '<option selected disabled>Choose officer...</option>';
+    
+    // Filter to only available officers
+    const availableOfficers = officers.filter(officer => officer.available);
+    
+    // Add each officer as an option
+    availableOfficers.forEach(officer => {
+        const option = document.createElement('option');
+        option.value = officer.id;
+        option.textContent = `${officer.name} (${officer.badge}) - ${officer.specialization}`;
+        select.appendChild(option);
+    });
+}
+
+/**
+ * Generate a realistic case ID for new assignment
+ */
+function generateCaseId() {
+    const caseIdInput = document.querySelector('#assignCaseForm input[readonly]');
+    if (!caseIdInput) return;
+    
+    const year = new Date().getFullYear();
+    const randomNum = Math.floor(1000 + Math.random() * 9000);
+    caseIdInput.value = `#CR-${year}-${randomNum}`;
+}
+
+/**
+ * Handle the assignment of a new case
+ */
+function handleCaseAssignment() {
+    // Get form elements
+    const form = document.getElementById('assignCaseForm');
+    const caseId = form.querySelector('input[readonly]').value;
+    const officerSelect = form.querySelector('select:first-of-type');
+    const prioritySelect = form.querySelector('select:nth-of-type(2)');
+    const notesTextarea = form.querySelector('textarea');
+    
+    // Basic validation
+    if (officerSelect.selectedIndex === 0) {
+        showFormError('Please select an officer for this case');
+        officerSelect.focus();
+        return;
+    }
+    
+    // Get selected values
+    const officerId = officerSelect.value;
+    const officerName = officerSelect.options[officerSelect.selectedIndex].text;
+    const priority = prioritySelect.value;
+    const notes = notesTextarea.value;
+    
+    // For demo, simulate success
+    console.log('Assigning case:', {
+        caseId: caseId.replace('#', ''),
+        officerId,
+        officerName,
+        priority,
+        notes
+    });
+    
+    // Show loading state on button
+    const assignButton = document.querySelector('#assignCaseModal .btn-primary');
+    const originalButtonText = assignButton.innerHTML;
+    assignButton.disabled = true;
+    assignButton.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Assigning...';
+    
+    // Simulate API delay
+    setTimeout(() => {
+        // Reset button
+        assignButton.disabled = false;
+        assignButton.innerHTML = originalButtonText;
+        
+        // Close modal
+        const modal = bootstrap.Modal.getInstance(document.getElementById('assignCaseModal'));
+        if (modal) {
+            modal.hide();
         }
-    ];
+        
+        // Show success notification
+        showNotification(`Case ${caseId} assigned to ${officerName.split('(')[0].trim()}`, 'success');
+        
+        // Refresh case list to show the new assignment
+        fetchRecentCases();
+    }, 1500);
+}
 
-    const tasksList = document.getElementById('tasksList');
-    if (tasksList) {
-        tasksList.innerHTML = tasks.map(task => `
-            <div class="task-item ${task.priority}">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="task-${task.id}">
-                    <label class="form-check-label" for="task-${task.id}">
-                        ${task.title}
-                    </label>
-                </div>
-                <div class="task-meta">
-                    <span class="badge bg-${getPriorityColor(task.priority)}">${task.priority}</span>
-                    <small class="deadline">${task.deadline}</small>
-                </div>
-            </div>
-        `).join('');
+/**
+ * View case details
+ */
+function viewCaseDetails(caseId) {
+    // In a real app, this would navigate to a case details page
+    showNotification(`Opening case #${caseId}`, 'info');
+    
+    // In a real app, you would use:
+    // window.location.href = `case-details.html?id=${caseId}`;
+    
+    // For demo, just log that we're viewing this case
+    console.log('Viewing case details for:', caseId);
+}
+
+/**
+ * Show form validation error
+ */
+function showFormError(message) {
+    // Create error alert if doesn't exist
+    let errorAlert = document.querySelector('.modal-form-error');
+    
+    if (!errorAlert) {
+        errorAlert = document.createElement('div');
+        errorAlert.className = 'alert alert-danger modal-form-error mb-3';
+        
+        // Insert at top of form
+        const form = document.getElementById('assignCaseForm');
+        form.insertBefore(errorAlert, form.firstChild);
     }
+    
+    // Set error message
+    errorAlert.textContent = message;
+    
+    // Auto-hide after 3 seconds
+    setTimeout(() => {
+        if (errorAlert.parentNode) {
+            errorAlert.parentNode.removeChild(errorAlert);
+        }
+    }, 3000);
 }
 
-function getStatusColor(status) {
-    return {
-        'active': 'primary',
-        'pending': 'warning',
-        'resolved': 'success'
-    }[status] || 'secondary';
+/**
+ * Show notification
+ */
+function showNotification(message, type = 'info') {
+    // Create notification element
+    const notification = document.createElement('div');
+    notification.className = `notification notification-${type}`;
+    
+    // Choose icon based on type
+    let icon = 'info-circle';
+    if (type === 'success') icon = 'check-circle';
+    if (type === 'warning') icon = 'exclamation-triangle';
+    if (type === 'error') icon = 'times-circle';
+    
+    // Set notification content
+    notification.innerHTML = `
+        <div class="notification-icon">
+            <i class="fas fa-${icon}"></i>
+        </div>
+        <div class="notification-content">
+            <p>${message}</p>
+        </div>
+        <button class="notification-close">
+            <i class="fas fa-times"></i>
+        </button>
+    `;
+    
+    // Add to document
+    document.body.appendChild(notification);
+    
+    // Add close button event listener
+    notification.querySelector('.notification-close').addEventListener('click', function() {
+        notification.classList.add('notification-hiding');
+        setTimeout(() => notification.remove(), 300);
+    });
+    
+    // Auto-remove after 4 seconds
+    setTimeout(() => {
+        if (document.body.contains(notification)) {
+            notification.classList.add('notification-hiding');
+            setTimeout(() => notification.remove(), 300);
+        }
+    }, 4000);
 }
 
-function getPriorityColor(priority) {
-    return {
-        'high': 'danger',
-        'medium': 'warning',
-        'low': 'info'
-    }[priority] || 'secondary';
-}
-
-function viewCase(caseId) {
-    console.log(`Viewing case: ${caseId}`);
-    // Implement case view navigation
+/**
+ * Show error state when data can't be loaded
+ */
+function showErrorState(section) {
+    if (section === 'statistics') {
+        // Update statistics cards to show error state
+        document.querySelectorAll('.overview-card .card-content h3').forEach(card => {
+            card.innerHTML = '<i class="fas fa-exclamation-triangle text-danger"></i>';
+        });
+    } else if (section === 'cases') {
+        // Show error in cases table
+        const tableBody = document.querySelector('.recent-assignments table tbody');
+        if (tableBody) {
+            tableBody.innerHTML = `
+                <tr>
+                    <td colspan="6" class="text-center py-4">
+                        <div class="text-danger">
+                            <i class="fas fa-exclamation-triangle mb-2 d-block" style="font-size: 2rem;"></i>
+                            <p>Could not load case data</p>
+                            <button class="btn btn-sm btn-outline-primary mt-2" onclick="fetchRecentCases()">
+                                Try Again
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `;
+        }
+    }
 }
