@@ -65,15 +65,15 @@ class CrimeReport(models.Model):
     incident_datetime = models.DateTimeField(default=timezone.now)
     description = models.TextField()
     location = models.TextField()
-    address_details = models.TextField(default="Unknown")
-    evidence = models.FileField(upload_to='evidence/', null=True, blank=True)
+    evidence = models.FileField(upload_to='evidence/', max_length=255, null=True, blank=True)
     contact_name = models.CharField(max_length=100, null=True, blank=True)
     contact_number = models.CharField(max_length=15, null=True, blank=True)
     contact_email = models.EmailField(null=True, blank=True)
     preferred_contact_method = models.CharField(
         max_length=10,
         choices=[('email', 'Email'), ('phone', 'Phone'), ('none', 'No contact needed')],
-        default='none'
+        default='none', 
+        blank=True
     )
 
     def __str__(self):

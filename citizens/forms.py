@@ -20,7 +20,6 @@ class CrimeReportForm(forms.ModelForm):
             'incident_datetime',
             'description',
             'location',
-            'address_details',
             'evidence',
             'contact_name',
             'contact_number',

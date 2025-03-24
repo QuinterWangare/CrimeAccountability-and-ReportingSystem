@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,7 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/apexcharts/dist/apexcharts.css">
-    <link rel="stylesheet" href="..\css\dashboard.css">
+    <link rel="stylesheet" href="{% static 'css/homepage.css' %}">
 </head>
 <body>
     <div class="app-container">
@@ -17,22 +18,22 @@
                 <img src="assets/logo.png" alt="CARS Logo" class="logo">
             </div>
             <div class="nav-items">
-                <a href="dashboard.html" class="nav-item active" data-bs-toggle="tooltip" title="Dashboard">
+                <a href="#dashboard" class="nav-item active" data-bs-toggle="tooltip" title="Dashboard">
                     <i class="fas fa-chart-line"></i>
                 </a>
-                <a href="cases.html" class="nav-item" data-bs-toggle="tooltip" title="Cases">
+                <a href="{% url 'police_cases' %}" class="nav-item" data-bs-toggle="tooltip" title="Cases">
                     <i class="fas fa-folder"></i>
                     <div class="notification-badge">3</div>
                 </a>
-                <a href="evidence.html" class="nav-item" data-bs-toggle="tooltip" title="Evidence">
+                <a href="{% url 'police_evidence' %}"  class="nav-item" data-bs-toggle="tooltip" title="Evidence">
                     <i class="fas fa-camera"></i>
                 </a>
-                <a href="statistics.html" class="nav-item" data-bs-toggle="tooltip" title="Analytics">
+                <a href="{% url 'police_statistics' %}" class="nav-item" data-bs-toggle="tooltip" title="Analytics">
                     <i class="fas fa-chart-bar"></i>
                 </a>
             </div>
             <div class="nav-footer">
-                <a href="profile.html" class="nav-link">
+                <a href="{% url 'police_profile' %}" class="nav-link">
                     <i class="fas fa-user-alt"></i>
                 </a>
                 <a href="#logout" class="nav-link text-danger">
@@ -63,16 +64,16 @@
                 <div class="nav-items">
                     <div class="nav-group">
                         <span class="nav-label">Main Menu</span>
-                        <a href="dashboard.html" class="nav-link active">
+                        <a href="#dashboard" class="nav-link active">
                             <i class="fas fa-chart-line"></i>
                             <span>Dashboard</span>
                         </a>
-                        <a href="cases.html" class="nav-link">
+                        <a href="{% url 'police_cases' %}" class="nav-link">
                             <i class="fas fa-folder"></i>
                             <span>Cases</span>
                             <div class="nav-badge">3</div>
                         </a>
-                        <a href="evidence.html" class="nav-link">
+                        <a href="{% url 'police_evidence' %}" class="nav-link">
                             <i class="fas fa-camera"></i>
                             <span>Evidence</span>
                         </a>
@@ -80,7 +81,7 @@
 
                     <div class="nav-group">
                         <span class="nav-label">Analytics</span>
-                        <a href="statistics.html" class="nav-link">
+                        <a href="{% url 'police_statistics' %}" class="nav-link">
                             <i class="fas fa-chart-bar"></i>
                             <span>Statistics</span>
                         </a>
@@ -88,7 +89,7 @@
                 </div>
 
                 <div class="sidebar-footer">
-                    <a href="profile.html" class="nav-link">
+                    <a href="{% url 'police_profile' %}"class="nav-link">
                         <i class="fas fa-user-alt"></i>
                         <span>My Profile</span>
                     </a>
@@ -212,6 +213,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-    <script src="..\js\dashboard.js"></script>
+    <script src="{% static 'js/police/dashboard.js' %}"></script>
 </body>
 </html>

@@ -308,3 +308,25 @@ def inspector_general_analytics(request):
 
 def inspector_general_officer_oversight(request):
     return render(request, 'inspectorgeneral/officer-oversight.html')
+
+# Render all police pages
+def police_dashboard(request):
+    return render(request, 'police/dashboard.html')
+
+def police_cases(request):
+    return render(request, 'police/cases.html')
+
+def police_evidence(request):
+    return render(request, 'police/evidence.html')
+
+def police_statistics(request):
+    return render(request, 'police/statistics.html')
+
+def police_profile(request):
+    return render(request, 'police/profile.html')
+
+def police_report(request):
+    return render(request, 'police/report.html')
+
+def police_login(request):
+    return render(request, 'police/login.html')
