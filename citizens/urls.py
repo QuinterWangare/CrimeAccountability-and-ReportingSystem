@@ -2,8 +2,8 @@ from django.urls import path
 from .views import index, signup_view, login_view,logout_view, citizen_homepage, citizen_profile, report_crime, \
     anonymous_report, inspector_general_dashboard, inspector_general_login, inspector_general_profile, \
     inspector_general_case_assignment, inspector_general_case_management, inspector_general_analytics, \
-    inspector_general_officer_oversight, get_report_stats, get_recent_reports, get_notifications, report_detail, \
-    all_reports, get_user_report_stats, update_profile, change_password, police_dashboard, police_cases, \
+    inspector_general_officer_oversight, logout_view_ig, get_report_stats, get_recent_reports, get_notifications, report_detail, \
+    all_reports, get_user_report_stats, get_recent_reports_by_user, update_profile, change_password, police_dashboard, police_cases, \
     police_evidence, police_statistics, police_profile, police_report, police_login
 
 urlpatterns = [
@@ -29,8 +29,10 @@ urlpatterns = [
     path('inspectorgeneral/case-management/', inspector_general_case_management, name='inspectorgeneral_case_management'),
     path('inspectorgeneral/analytics/', inspector_general_analytics, name='inspectorgeneral_analytics'),
     path('inspectorgeneral/officer-oversight/', inspector_general_officer_oversight, name='inspectorgeneral_officer_oversight'),
+    path('logout-ig/', logout_view_ig, name='logout_ig'),
     path('api/stats/', get_report_stats, name='api_stats'),
     path("api/user-report-stats/", get_user_report_stats, name="user_report_stats"),
+    path('api/recent-reports-by-user/', get_recent_reports_by_user, name='api_recent_reports_by_user'),
     path('api/recent-reports/', get_recent_reports, name='api_recent_reports'),
     path('report-detail/<str:tracking_number>/', report_detail, name='report_detail'),
     path('all-reports/', all_reports, name='all_reports'),

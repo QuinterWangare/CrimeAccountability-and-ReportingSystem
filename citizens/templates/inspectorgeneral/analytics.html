@@ -26,7 +26,7 @@
                 <a href="{% url 'inspectorgeneral_officer_oversight' %}" class="nav-item" data-bs-toggle="tooltip" title="Officer Oversight">
                     <i class="fas fa-user-shield"></i>
                 </a>
-                <a href="{% url 'inspectorgeneral_analytics' %}" class="nav-item active" data-bs-toggle="tooltip" title="Analytics">
+                <a href="#inspectorgeneral_analytics" class="nav-item active" data-bs-toggle="tooltip" title="Analytics">
                     <i class="fas fa-chart-pie"></i>
                 </a>
             </div>
@@ -34,7 +34,7 @@
                 <a href="{% url 'inspectorgeneral_profile' %}" class="nav-item" data-bs-toggle="tooltip" title="Profile">
                     <i class="fas fa-user"></i>
                 </a>
-                <a href="#" class="nav-item text-danger" data-bs-toggle="tooltip" title="Logout" onclick="return confirm('Are you sure you want to logout?');">
+                <a href="{% url 'logout_ig' %}" class="nav-item text-danger" data-bs-toggle="tooltip" title="Logout" onclick="return confirm('Are you sure you want to logout?');">
                     <i class="fas fa-sign-out-alt"></i>
                 </a>
             </div>
@@ -78,7 +78,7 @@
                             <span>Officer Oversight</span>
                             <span class="menu-badge">12</span>
                         </a>
-                        <a href="{% url 'inspectorgeneral_analytics' %}" class="menu-item active">
+                        <a href="#inspectorgeneral_analytics" class="menu-item active">
                             <i class="fas fa-chart-pie"></i>
                             <span>Analytics</span>
                         </a>
@@ -89,7 +89,7 @@
                         <i class="fas fa-user"></i>
                         <span>Profile</span>
                     </a>
-                    <a href="#" class="menu-item text-danger" onclick="return confirm('Logout?');">
+                    <a href="{% url 'logout_ig' %}" class="menu-item text-danger" onclick="return confirm('Logout?');">
                         <i class="fas fa-sign-out-alt"></i>
                         <span>Logout</span>
                     </a>

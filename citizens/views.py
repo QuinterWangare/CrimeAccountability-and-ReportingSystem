@@ -85,6 +85,22 @@ def all_reports(request):
     reports = CrimeReport.objects.filter(user=request.user).order_by('-incident_datetime')  # ✅ Only user's reports
     return render(request, "all_reports.html", {"reports": reports})
 
+#Recet reports by user
+def get_recent_reports_by_user(request):
+    """API to fetch the most recent reports by the logged-in user."""
+    reports = CrimeReport.objects.filter(user=request.user).order_by('-incident_datetime')[:5]
+    reports_data = [
+        {
+            "tracking_number": report.tracking_number,
+            "type": report.crime_type,
+            "location": report.location,
+            "status": "Pending",  # Modify if there's a status field
+            "date": report.incident_datetime.strftime("%Y-%m-%d %H:%M:%S")
+        }
+        for report in reports
+    ]
+    return JsonResponse({"reports": reports_data})
+
 def get_notifications(request):
     """API to fetch the latest crime report notifications."""
     if not request.user.is_authenticated:
@@ -148,7 +164,7 @@ def login_view(request):
 
         if user is not None:
             login(request, user)
-            return redirect("citizens")  # Redirect to a dashboard or homepage
+            return redirect("citizens" )  # Redirect to a dashboard or homepage
         else:
             messages.error(request, "Invalid email or password!")
             return redirect("login")
@@ -159,6 +175,11 @@ def logout_view(request):
     logout(request)
     messages.success(request, "You have been logged out.")
     return redirect('login')
+
+def logout_view_ig(request):
+    logout(request)
+    messages.success(request, "You have been logged out.")
+    return redirect('inspectorgeneral_login')
 
 def citizen_homepage(request):
     return render(request, 'homepage.html')

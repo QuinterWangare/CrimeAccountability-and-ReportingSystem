@@ -35,9 +35,6 @@
                         </a>
                     </li>
                 </ul>
-                <a href="#reports" class="nav-item" data-bs-toggle="tooltip" title="My Reports">
-                    <i class="fas fa-list"></i>
-                </a>
                 <a href="{% url 'citizen-profile' %}" class="nav-item" data-bs-toggle="tooltip" title="Profile">
                     <i class="fas fa-user"></i>
                 </a>
@@ -103,7 +100,7 @@
                                 <i class="fas fa-user me-2"></i>Profile
                             </a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item text-danger" href="{% url 'index' %}">
+                            <li><a class="dropdown-item text-danger" href="{% url 'logout' %}">
                                 <i class="fas fa-sign-out-alt me-2"></i>Logout
                             </a></li>
                         </ul>

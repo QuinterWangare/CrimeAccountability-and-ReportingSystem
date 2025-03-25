@@ -16,6 +16,12 @@
             <h3>Police Portal</h3>
             <p class="text-muted">Login to access the CARS system</p>
         </div>
+
+        {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{% if message.tags %}{{ message.tags }}{% else %}info{% endif %} alert-dismissible fade show" role="alert">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
         
         <form id="loginForm" action="dashboard.html" method="GET">
             <div class="form-floating">
