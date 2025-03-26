@@ -34,6 +34,9 @@
                         </a>
                     </li>
                 </ul>
+                <a href="{% url 'all_reports' %}" class="nav-item" data-bs-toggle="tooltip" title="All Reports">
+                    <i class="fas fa-list"></i>
+                </a>
                 <a href="#citizen_profile" class="nav-item active" data-bs-toggle="tooltip" title="Profile">
                     <i class="fas fa-user"></i>
                 </a>
@@ -67,6 +70,10 @@
                         </a>
                     </li>
                 </ul>
+                <a href="{% url 'all_reports' %}" class="nav-item">
+                    <i class="fas fa-list"></i>
+                    <span>All Reports</span>
+                </a>
                 <a href="#citizen-profile" class="nav-item active">
                     <i class="fas fa-user"></i>
                     <span>Profile</span>
@@ -120,7 +127,7 @@
                         </div>
                         <div class="profile-info">
                             <h2 id="user-fullname">{{ request.user.first_name }} {{ request.user.last_name }}</h2>
-                            <p class="text-muted mb-0" id="user-id">Citizen ID: CTZ-12345</p>
+                            <p class="text-muted mb-0" id="user-id">Citizen ID: {{user.citizen_id}}</p>
                             <span class="badge bg-success">Verified</span>
                         </div>
                     </div>

@@ -35,6 +35,9 @@
                         </a>
                     </li>
                 </ul>
+                <a href="{% url 'all_reports' %}" class="nav-item" data-bs-toggle="tooltip" title="All Reports">
+                    <i class="fas fa-list"></i>
+                </a>
                 <a href="{% url 'citizen-profile'%}" class="nav-item" data-bs-toggle="tooltip" title="Profile">
                     <i class="fas fa-user"></i>
                 </a>
@@ -68,6 +71,10 @@
                         </a>
                     </li>
                 </ul>
+                <a href="{% url 'all_reports' %}" class="nav-item">
+                    <i class="fas fa-list"></i>
+                    <span>All Reports</span>
+                </a>
                 <a href="{% url 'citizen-profile'%}"  class="nav-item">
                     <i class="fas fa-user"></i>
                     <span>Profile</span>

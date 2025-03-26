@@ -129,11 +129,11 @@ def signup_view(request):
         password2 = request.POST["confirmPassword"]
 
         if password1 != password2:
-            messages.error(request, "Passwords do not match!")
+            messages.warning(request, "Passwords do not match!")
             return redirect("signup")
 
         if CustomUser.objects.filter(email=email).exists():
-            messages.error(request, "Email is already registered!")
+            messages.warning(request, "Email is already registered!")
             return redirect("signup")
 
         # ✅ Generate a unique Citizen ID
@@ -166,7 +166,7 @@ def login_view(request):
             login(request, user)
             return redirect("citizens" )  # Redirect to a dashboard or homepage
         else:
-            messages.error(request, "Invalid email or password!")
+            messages.warning(request, "Invalid email or password!")
             return redirect("login")
 
     return render(request, "login.html")
