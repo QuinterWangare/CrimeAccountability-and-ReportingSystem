@@ -4,7 +4,7 @@ from .views import index, signup_view, login_view,logout_view, citizen_homepage,
     inspector_general_case_assignment, inspector_general_case_management, inspector_general_analytics, \
     inspector_general_officer_oversight, logout_view_ig, get_report_stats, get_recent_reports, get_notifications, report_detail, \
     all_reports, get_user_report_stats, get_recent_reports_by_user, update_profile, change_password, police_dashboard, police_cases, \
-    police_evidence, police_statistics, police_profile, police_report, police_login
+    police_evidence, police_statistics, police_profile, police_report, police_login, get_police_stats, case_analytics, police_cases_api, police_case_detail_api, crime_stats, county_stats, dashboard_summary_stats
 
 urlpatterns = [
     path('', index, name='index'),
@@ -22,6 +22,13 @@ urlpatterns = [
     path('police/profile/', police_profile, name='police_profile'),
     path('police/report/', police_report, name='police_report'),
     path('police/login/', police_login, name='police_login'),
+    path('api/dashboard-summary-stats/', dashboard_summary_stats, name='dashboard_summary_stats'),
+    path('api/police-stats/', get_police_stats, name='api_police_stats'),
+    path('api/crime-stats/', crime_stats, name='crime_stats'),
+    path('api/county-stats/', county_stats, name='county_stats'),
+    path('api/case-analytics/', case_analytics, name='api_case_analytics'),
+    path('api/police-cases/', police_cases_api, name='api_police_cases'),
+    path('api/police-cases/<str:case_id>/', police_case_detail_api, name='api_police_case_detail'),
     path('inspectorgeneral/dashboard/', inspector_general_dashboard, name='inspectorgeneral_dashboard'),
     path('inspectorgeneral/login/', inspector_general_login, name='inspectorgeneral_login'),
     path('inspectorgeneral/profile/', inspector_general_profile, name='inspectorgeneral_profile'),
@@ -38,5 +45,5 @@ urlpatterns = [
     path('all-reports/', all_reports, name='all_reports'),
     path('api/notifications/', get_notifications, name='api_notifications'),
     path("api/update-profile/", update_profile, name="update_profile"),
-    path("api/change-password/", change_password, name="change_password"),
+    path("api/change-password/", change_password, name="change_password")
 ]

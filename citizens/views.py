@@ -9,18 +9,22 @@ from django.contrib import messages
 from django.shortcuts import get_object_or_404
 import smtplib
 from django.core.mail import send_mail, BadHeaderError
+from django.utils import timezone
+from datetime import timedelta
+from django.conf import settings
+from django.db import models
+import os
 
 from .forms import CrimeReportForm
+from django.db.models import Count, Q, F, FloatField, Avg, Case, When, Value
 from .models import CustomUser, CrimeReport
 from django.views.decorators.csrf import csrf_exempt
 from django.core.mail import send_mail
-from django.conf import settings
 import uuid
 
 def get_report_stats(request):
     """API to get total reports count and status-wise breakdown."""
-
-    # Ensure status field exists (Modify as per actual model field)
+    
     total_reports = CrimeReport.objects.filter(user=request.user).count()
     active_cases = CrimeReport.objects.filter(user=request.user, status="Active").count()
     resolved_cases = CrimeReport.objects.filter(user=request.user, status="Resolved").count()
@@ -43,7 +47,7 @@ def get_recent_reports(request):
             "tracking_number": report.tracking_number,
             "type": report.crime_type,
             "location": report.location,
-            "status": "Pending",  # Modify if there's a status field
+            "status": "Pending",
             "date": report.incident_datetime.strftime("%Y-%m-%d %H:%M:%S")
         }
         for report in reports
@@ -351,3 +355,319 @@ def police_report(request):
 
 def police_login(request):
     return render(request, 'police/login.html')
+
+def get_police_stats(request):
+    """API endpoint to provide statistics for the police dashboard."""
+    # Calculate core statistics
+    active_cases = CrimeReport.objects.filter(status="Active").count()
+    pending_reviews = CrimeReport.objects.filter(status="Pending").count()
+    resolved_cases = CrimeReport.objects.filter(status="Resolved").count()
+    
+    # Calculate trends (comparing with previous period)
+    # For actual implementation, you would compare with data from previous week
+    active_trend = 12  # Percentage change from previous period
+    pending_trend = -5  # Negative indicates a decrease
+    resolved_trend = 8
+    
+    return JsonResponse({
+        'stats': {
+            'active_cases': {
+                'count': active_cases,
+                'trend': active_trend,
+                'trend_direction': 'up' if active_trend >= 0 else 'down'
+            },
+            'pending_reviews': {
+                'count': pending_reviews,
+                'trend': pending_trend,
+                'trend_direction': 'up' if pending_trend >= 0 else 'down'
+            },
+            'resolved_cases': {
+                'count': resolved_cases,
+                'trend': resolved_trend,
+                'trend_direction': 'up' if resolved_trend >= 0 else 'down'
+            }
+        }
+    })
+
+def case_analytics(request):
+    """API endpoint to provide case analytics data for charts."""
+    # Get date range (last 7 days)
+    end_date = timezone.now()
+    start_date = end_date - timedelta(days=6)  # 7 days including today
+    
+    # Generate dates for x-axis
+    dates = []
+    new_cases_data = []
+    resolved_cases_data = []
+    
+    # Process each day
+    for i in range(7):
+        current_date = start_date + timedelta(days=i)
+        date_str = current_date.strftime('%Y-%m-%d')
+        dates.append(date_str)
+        
+        # Count new cases for this day
+        new_cases = CrimeReport.objects.filter(
+            incident_datetime__date=current_date.date()
+        ).count()
+        
+        # Count all resolved cases
+        resolved_cases = CrimeReport.objects.filter(
+            status="Resolved"
+        ).count() // 7  # Distribute evenly across days
+        
+        new_cases_data.append(new_cases)
+        resolved_cases_data.append(resolved_cases)
+        
+        # Prepare and return the data
+    return JsonResponse({
+        'dates': dates,
+        'new_cases': new_cases_data,
+        'resolved_cases': resolved_cases_data
+    })
+
+# Add this to citizens/views.py
+def police_cases_api(request):
+    """API to fetch cases for police dashboard with pagination."""
+    # Get filter parameters
+    status_filter = request.GET.get('status', '')
+    search_term = request.GET.get('search', '')
+    
+    # Get pagination parameters
+    page = int(request.GET.get('page', 1))
+    per_page = int(request.GET.get('per_page', 10))  # Show 10 cases per page
+    
+    # Start with all cases
+    cases = CrimeReport.objects.all().order_by('-incident_datetime')
+    
+    # Apply filters
+    if status_filter:
+        if status_filter == 'open':
+            cases = cases.filter(status='Active')
+        elif status_filter == 'pending':
+            cases = cases.filter(status='Pending')
+        elif status_filter == 'closed':
+            cases = cases.filter(status__in=['Resolved', 'Closed'])
+    
+    if search_term:
+        cases = cases.filter(
+            Q(tracking_number__icontains=search_term) |
+            Q(crime_type__icontains=search_term) |
+            Q(description__icontains=search_term) |
+            Q(location__icontains=search_term)
+        )
+    
+    # Calculate total items and pages
+    total_items = cases.count()
+    total_pages = (total_items + per_page - 1) // per_page  # Ceiling division
+    
+    # Apply pagination
+    start = (page - 1) * per_page
+    end = start + per_page
+    paginated_cases = cases[start:end]
+    
+    # Format cases for response
+    cases_data = []
+    for case in paginated_cases:
+        # Map database status to UI status
+        ui_status = {
+            "Active": "Open",
+            "Pending": "Pending",
+            "Resolved": "Closed",
+        }.get(case.status, "Open")
+        
+        cases_data.append({
+            "case_id": case.tracking_number,
+            "title": case.crime_type,
+            "case_type": case.crime_type,
+            "date": case.incident_datetime.isoformat(),
+            "status": ui_status,
+            "location": case.location,
+            "description": case.description,
+            "assigned_officer": "Unassigned"  # You'll need to add this field to your model
+        })
+    
+    # Return the response with pagination info
+    return JsonResponse({
+        "cases": cases_data,
+        "pagination": {
+            "current_page": page,
+            "per_page": per_page,
+            "total_pages": total_pages,
+            "total_items": total_items
+        }
+    })
+    
+def police_case_detail_api(request, case_id):
+    """API to fetch details for a specific case."""
+    case = get_object_or_404(CrimeReport, tracking_number=case_id)
+    
+    # Same status mapping as above
+    ui_status = {
+        "Active": "Open",
+        "Pending": "Pending",
+        "Resolved": "Closed",
+    }.get(case.status, "Open")
+    
+    # Handle evidence file
+    evidence_data = []
+    if case.evidence and case.evidence.name:
+            file_name = os.path.basename(case.evidence.name)
+            file_url = f"{settings.MEDIA_URL}{case.evidence.name}"
+            
+            # Determine file type based on extension
+            file_ext = os.path.splitext(file_name)[1].lower()
+            if file_ext in ['.jpg', '.jpeg', '.png', '.gif']:
+                file_type = 'image'
+            elif file_ext in ['.mp4', '.avi', '.mov']:
+                file_type = 'video'
+            elif file_ext in ['.pdf', '.doc', '.docx']:
+                file_type = 'document'
+            else:
+                file_type = 'file'
+                
+            evidence_data.append({
+                "url": file_url,
+                "name": file_name,
+                "type": file_type
+            })
+    
+    # Prepare case data
+    case_data = {
+        "case_id": case.tracking_number,
+        "title": case.crime_type,
+        "case_type": case.crime_type,
+        "date": case.incident_datetime.isoformat(),
+        "status": ui_status,
+        "location": case.location,
+        "evidence": evidence_data,
+        "description": case.description,
+        "assigned_officer": "Unassigned",
+        "timeline": [
+            {
+                "title": "Case Created",
+                "date": case.incident_datetime.isoformat(),
+                "description": "Case was created and entered into the system."
+            }
+        ]
+    }
+    
+    return JsonResponse(case_data)
+
+def crime_stats(request):
+    """API endpoint to provide crime type statistics for the police dashboard."""
+    # Get crime type distribution
+    crime_types = CrimeReport.objects.values('crime_type').annotate(count=Count('crime_type'))
+    
+    # Format data as crime_type: count dictionary
+    crime_type_data = {item['crime_type']: item['count'] for item in crime_types}
+    
+    # Ensure we have data even if there are no reports
+    if not crime_type_data:
+        crime_type_data = {
+            "Assault": 0,
+            "Theft": 0, 
+            "Fraud": 0,
+            "Vandalism": 0,
+            "Other": 0
+        }
+    
+    return JsonResponse(crime_type_data)
+
+def county_stats(request):
+    """API endpoint to provide county statistics for the police dashboard."""
+    # Get all crime reports
+    reports = CrimeReport.objects.all()
+    
+    # List of Kenyan counties
+    KENYA_COUNTIES = [
+        "Mombasa", "Kwale", "Kilifi", "Tana River", "Lamu", "Taita/Taveta", 
+        "Garissa", "Wajir", "Mandera", "Marsabit", "Isiolo", "Meru", 
+        "Tharaka-Nithi", "Embu", "Kitui", "Machakos", "Makueni", "Nyandarua", 
+        "Nyeri", "Kirinyaga", "Murang'a", "Kiambu", "Turkana", "West Pokot", 
+        "Samburu", "Trans Nzoia", "Uasin Gishu", "Elgeyo/Marakwet", "Nandi", 
+        "Baringo", "Laikipia", "Nakuru", "Narok", "Kajiado", "Kericho", 
+        "Bomet", "Kakamega", "Vihiga", "Bungoma", "Busia", "Siaya", "Kisumu", 
+        "Homa Bay", "Migori", "Kisii", "Nyamira", "Nairobi"
+    ]
+    
+    # Group by county
+    county_data = {}
+    
+    for report in reports:
+        # Initialize with unknown
+        county = "Unknown"
+        
+        if report.location:
+            # Split location by comma and clean each part
+            location_parts = [part.strip() for part in report.location.split(',')]
+            
+            # First try to find an exact match
+            for part in location_parts:
+                if part in KENYA_COUNTIES:
+                    county = part
+                    break
+            
+            # If no exact match, check if any county name is contained in any part
+            if county == "Unknown":
+                for part in location_parts:
+                    for kenyan_county in KENYA_COUNTIES:
+                        if kenyan_county in part:
+                            county = kenyan_county
+                            break
+                    if county != "Unknown":
+                        break
+        
+        # Initialize county entry if not exists
+        if county not in county_data:
+            county_data[county] = {
+                'county': county,
+                'total_cases': 0,
+                'solved_cases': 0
+            }
+        
+        # Update statistics
+        county_data[county]['total_cases'] += 1
+        if report.status == 'Resolved':
+            county_data[county]['solved_cases'] += 1
+    
+    # Format the data for JSON response
+    results = []
+    for county, data in county_data.items():
+        # Calculate clearance rate
+        total = data['total_cases']
+        solved = data['solved_cases']
+        clearance_rate = (solved / total * 100) if total > 0 else 0
+        
+        results.append({
+            'county': data['county'],
+            'total_cases': total,
+            'solved_cases': solved,
+            'clearance_rate': round(clearance_rate, 1)
+        })
+    
+    # Sort by total cases (descending)
+    results.sort(key=lambda x: x['total_cases'], reverse=True)
+    
+    return JsonResponse(results, safe=False)
+
+def dashboard_summary_stats(request):
+    """API endpoint to provide summary statistics for the dashboard cards."""
+    # Calculate main statistics
+    total_cases = CrimeReport.objects.count()
+    solved_cases = CrimeReport.objects.filter(status="Resolved").count()
+    
+    # Calculate clearance rate
+    clearance_rate = (solved_cases / total_cases * 100) if total_cases > 0 else 0
+    
+    return JsonResponse({
+        'total_cases': {
+            'count': total_cases
+        },
+        'solved_cases': {
+            'count': solved_cases
+        },
+        'clearance_rate': {
+            'value': round(clearance_rate, 1)
+        }
+    })

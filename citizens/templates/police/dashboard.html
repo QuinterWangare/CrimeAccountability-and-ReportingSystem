@@ -118,39 +118,39 @@
                             <i class="fas fa-folder-open"></i>
                         </div>
                         <div class="stat-details">
-                            <h3>24</h3>
+                            <h3 id="activeCount">--</h3>
                             <p>Active Cases</p>
-                            <div class="trend up">
-                                <i class="fas fa-arrow-up"></i>
-                                <span>12% vs last week</span>
+                            <div class="trend" id="activeTrend">
+                                <i class="fas fa-arrow-right"></i>
+                                <span>Loading...</span>
                             </div>
                         </div>
                     </div>
-
+            
                     <div class="stat-card warning">
                         <div class="stat-icon bg-warning mb-0 text-white">
                             <i class="fas fa-clock"></i>
                         </div>
                         <div class="stat-details">
-                            <h3>8</h3>
+                            <h3 id="pendingCount">--</h3>
                             <p>Pending Reviews</p>
-                            <div class="trend down">
-                                <i class="fas fa-arrow-down"></i>
-                                <span>5% vs last week</span>
+                            <div class="trend" id="pendingTrend">
+                                <i class="fas fa-arrow-right"></i>
+                                <span>Loading...</span>
                             </div>
                         </div>
                     </div>
-
+            
                     <div class="stat-card success">
                         <div class="stat-icon bg-success mb-0 text-white">
                             <i class="fas fa-check-circle"></i>
                         </div>
                         <div class="stat-details">
-                            <h3>156</h3>
+                            <h3 id="resolvedCount">--</h3>
                             <p>Resolved Cases</p>
-                            <div class="trend up">
-                                <i class="fas fa-arrow-up"></i>
-                                <span>8% vs last week</span>
+                            <div class="trend" id="resolvedTrend">
+                                <i class="fas fa-arrow-right"></i>
+                                <span>Loading...</span>
                             </div>
                         </div>
                     </div>
@@ -182,7 +182,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <h5>Recent Cases</h5>
-                                <button class="btn btn-sm btn-link">View All</button>
+                                <a href="{% url 'police_cases' %}" class="btn btn-sm btn-link">View All</a>
                             </div>
                             <div class="card-body p-0">
                                 <div class="recent-cases-list" id="recentCases">
