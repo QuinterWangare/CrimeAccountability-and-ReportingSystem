@@ -4,7 +4,11 @@ document.addEventListener('DOMContentLoaded', function() {
     loadRecentCases();
     loadActivities();
     loadDashboardStats();
-    loadTasks();
+
+    const updateStatusBtn = document.getElementById('updateStatusBtn');
+    if (updateStatusBtn) {
+        updateStatusBtn.addEventListener('click', updateCaseStatus);
+    }
 
 });
 
@@ -172,8 +176,8 @@ async function loadRecentCases() {
                     <h6 class="mb-0">
                         <i class="fas fa-folder me-2"></i>${case_.type}
                     </h6>
-                    <span class="badge bg-${getStatusColor(case_.status)} text-dark px-3 py-2 rounded-pill">
-                        ${case_.status}
+                    <span class="badge bg-${getStatusColor(case_.status)} ${['warning', 'info', 'light'].includes(getStatusColor(case_.status)) ? 'text-dark' : 'text-white'} px-3 py-2 rounded-pill">
+                    ${case_.status}
                     </span>
                 </div>
                 <p class="case-id text-secondary mb-1">
@@ -247,61 +251,15 @@ function loadActivities() {
     }
 }
 
-function loadTasks() {
-    const tasks = [
-        {
-            id: 1,
-            title: 'Review Evidence for Case #2024-001',
-            priority: 'high',
-            deadline: 'Today'
-        },
-        {
-            id: 2,
-            title: 'Submit Report for Case #2024-002',
-            priority: 'medium',
-            deadline: 'Tomorrow'
-        },
-        {
-            id: 3,
-            title: 'Interview Witness',
-            priority: 'high',
-            deadline: 'Mar 8'
-        }
-    ];
-
-    const tasksList = document.getElementById('tasksList');
-    if (tasksList) {
-        tasksList.innerHTML = tasks.map(task => `
-            <div class="task-item ${task.priority}">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="task-${task.id}">
-                    <label class="form-check-label" for="task-${task.id}">
-                        ${task.title}
-                    </label>
-                </div>
-                <div class="task-meta">
-                    <span class="badge bg-${getPriorityColor(task.priority)}">${task.priority}</span>
-                    <small class="deadline">${task.deadline}</small>
-                </div>
-            </div>
-        `).join('');
-    }
-}
-
 function getStatusColor(status) {
     return {
-        'Active': 'primary',
+        'Active': 'success',
+        'Under Investigation': 'info',
         'Pending': 'warning',
-        'Resolved': 'success'
+        'Pending Review': 'warning',
+        'Resolved': 'success',
+        'Closed': 'secondary'
     }[status] || 'secondary';
-}
-
-function getPriorityColor(priority) {
-    return {
-        'high': 'danger',
-        'medium': 'warning',
-        'low': 'info'
-    }[priority] || 'secondary';
 }
 
 function viewCase(tracking_number
@@ -320,4 +278,84 @@ function viewCase(tracking_number
             reportDetailModal.show();
         })
         .catch(error => console.error("Error fetching report details:", error));
+}
+
+
+function updateCaseStatus() {
+    const reportId = document.getElementById('modalReportID').value;
+    const newStatus = document.getElementById('modalNewStatus').value;
+    const feedbackElement = document.getElementById('updateStatusFeedback');
+
+    console.log("Update status function called");
+    console.log("Report ID:", reportId);
+    console.log("New Status:", newStatus);
+    
+    // Validate input
+    if (!newStatus) {
+        feedbackElement.innerHTML = '<div class="text-danger">Please select a new status</div>';
+        return;
+    }
+    
+    // Show loading state
+    const button = document.getElementById('updateStatusBtn');
+    const originalText = button.innerHTML;
+    button.disabled = true;
+    button.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Updating...';
+    
+    // Make the API request
+    fetch(`/api/update-report-status/${reportId}/`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCsrfToken()
+        },
+        body: JSON.stringify({ status: newStatus })
+    })
+    .then(response => {
+        if (!response.ok) throw new Error(`Status: ${response.status}`);
+        return response.json();
+    })
+    .then(data => {
+        // Update UI with success message
+        feedbackElement.innerHTML = '<div class="text-success">Status updated successfully!</div>';
+        
+        // Update the displayed status
+        document.getElementById('modalStatus').value = newStatus;
+        
+        // If we're on the dashboard, refresh the recent cases list
+        loadRecentCases();
+
+        setTimeout(() => {
+            const modal = bootstrap.Modal.getInstance(document.getElementById('reportDetailModal'));
+            if (modal) {
+                modal.hide();
+            }
+        }, 1500);
+    })
+    .catch(error => {
+        console.error('Error updating status:', error);
+        feedbackElement.innerHTML = '<div class="text-danger">Failed to update status. Please try again.</div>';
+    })
+    .finally(() => {
+        // Reset button state
+        button.disabled = false;
+        button.innerHTML = originalText;
+    });
+}
+
+// Utility function to get CSRF token from cookies
+function getCsrfToken() {
+    const name = 'csrftoken';
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
 }

@@ -210,6 +210,68 @@
             </div>
         </main>
     </div>
+    
+    <!-- Report Detail Modal -->
+    <div class="modal fade" id="reportDetailModal" tabindex="-1" aria-labelledby="reportDetailModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="reportDetailModalLabel">Case Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="modalReportID" class="form-label">Case ID</label>
+                            <input type="text" class="form-control" id="modalReportID" readonly>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="modalCrimeType" class="form-label">Crime Type</label>
+                            <input type="text" class="form-control" id="modalCrimeType" readonly>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="modalLocation" class="form-label">Location</label>
+                            <input type="text" class="form-control" id="modalLocation" readonly>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="modalDate" class="form-label">Date Reported</label>
+                            <input type="text" class="form-control" id="modalDate" readonly>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="modalStatus" class="form-label">Current Status</label>
+                            <input type="text" class="form-control" id="modalStatus" readonly>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="modalNewStatus" class="form-label">Update Status</label>
+                            <select class="form-select" id="modalNewStatus">
+                                <option value="">Select new status</option>
+                                <option value="Active">Active</option>
+                                <option value="Under Investigation">Under Investigation</option>
+                                <option value="Pending Review">Pending Review</option>
+                                <option value="Resolved">Resolved</option>
+                                <option value="Closed">Closed</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <label for="modalDescription" class="form-label">Description</label>
+                            <textarea class="form-control" id="modalDescription" rows="4" readonly></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div id="updateStatusFeedback" class="me-auto"></div>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="updateStatusBtn">Update Status</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>

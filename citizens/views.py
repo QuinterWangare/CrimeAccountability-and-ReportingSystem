@@ -47,7 +47,7 @@ def get_recent_reports(request):
             "tracking_number": report.tracking_number,
             "type": report.crime_type,
             "location": report.location,
-            "status": "Pending",
+            "status": report.status,
             "date": report.incident_datetime.strftime("%Y-%m-%d %H:%M:%S")
         }
         for report in reports
@@ -471,7 +471,7 @@ def police_cases_api(request):
     for case in paginated_cases:
         # Map database status to UI status
         ui_status = {
-            "Active": "Open",
+            "Active": "Active",
             "Pending": "Pending",
             "Resolved": "Closed",
         }.get(case.status, "Open")
@@ -504,7 +504,7 @@ def police_case_detail_api(request, case_id):
     
     # Same status mapping as above
     ui_status = {
-        "Active": "Open",
+        "Active": "Active",
         "Pending": "Pending",
         "Resolved": "Closed",
     }.get(case.status, "Open")
@@ -671,3 +671,40 @@ def dashboard_summary_stats(request):
             'value': round(clearance_rate, 1)
         }
     })
+
+@csrf_exempt
+def update_report_status(request, tracking_number):
+    """API endpoint to update the status of a crime report."""
+    if request.method != "POST":
+        return JsonResponse({"error": "Only POST method is allowed"}, status=405)
+    
+    # Get the report
+    report = get_object_or_404(CrimeReport, tracking_number=tracking_number)
+    
+    try:
+        # Parse the request body
+        data = json.loads(request.body)
+        new_status = data.get('status')
+        
+        # Validate the status
+        valid_statuses = ["Active", "Under Investigation", "Pending Review", "Resolved", "Closed"]
+        if not new_status or new_status not in valid_statuses:
+            return JsonResponse({"error": "Invalid status provided"}, status=400)
+        
+        # Update the report status
+        report.status = new_status
+        report.save()
+        
+        # Return success response
+        return JsonResponse({
+            "success": True,
+            "message": f"Status updated to {new_status}",
+            "tracking_number": tracking_number,
+            "status": new_status
+        })
+        
+    except json.JSONDecodeError:
+        return JsonResponse({"error": "Invalid JSON in request body"}, status=400)
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=500)
+    

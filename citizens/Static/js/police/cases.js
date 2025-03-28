@@ -518,7 +518,7 @@ function getTimelineHTML(timeline, caseDate) {
 
 function getStatusBadgeClass(status) {
     const classes = {
-        'Open': 'bg-success',
+        'Active': 'bg-success',
         'Pending': 'bg-warning text-dark',
         'In Progress': 'bg-info',
         'Closed': 'bg-secondary',
