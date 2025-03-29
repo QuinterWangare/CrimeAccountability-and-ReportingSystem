@@ -356,3 +356,81 @@ body {
     border-radius: 50%;
     background: var(--primary-color);
 }
+
+/* Enhanced case items styling */
+.case-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    background-color: #fff;
+    border-left: 4px solid var(--primary-color);
+    transition: all 0.2s ease-in-out;
+}
+
+.case-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.case-header h6 {
+    font-weight: 600;
+    color: var(--secondary-color)
+}
+
+.case-id {
+    font-family: monospace;
+    font-size: 0.9rem;
+}
+
+.case-actions .btn {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Status badge styling */
+.badge {
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+.bg-primary {
+    background-color: var(--secondary-color);
+}
+
+.bg-success {
+    background-color: var(--success-color);
+}
+
+.bg-warning {
+    background-color: var(--warning-color);
+}
+
+.bg-secondary {
+    background-color: var(--text-secondary);
+}
+
+/* Empty state styling */
+.text-center p.text-muted {
+    padding: 1.5rem;
+    font-style: italic;
+}
+
+.case-actions button {
+    background-color: var(--primary-color); 
+}
+
+.case-actions button i{
+    color: var(--card-background);
+}
+
+.case-actions button:hover{
+    border: 1px solid var(--primary-color);
+}
+
+.case-actions button:hover i{
+    color: var(--primary-color);
+}

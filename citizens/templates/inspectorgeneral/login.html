@@ -17,7 +17,13 @@
             <p class="text-muted">NPSC Oversight Access</p>
         </div>
         
-        <form id="loginForm" action="dashboard.html" method="GET">
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{% if message.tags %}{{ message.tags }}{% else %}info{% endif %} alert-dismissible fade show" role="alert">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+        <form id="loginForm" action="{% url 'inspectorgeneral_dashboard' %}" method="GET">
             <div class="form-floating">
                 <input type="text" class="form-control" id="directorId" placeholder="Director ID" required>
                 <label for="directorId">Inspector General ID</label>

@@ -3,7 +3,12 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeCharts();
     loadRecentCases();
     loadActivities();
-    loadTasks();
+    loadDashboardStats();
+
+    const updateStatusBtn = document.getElementById('updateStatusBtn');
+    if (updateStatusBtn) {
+        updateStatusBtn.addEventListener('click', updateCaseStatus);
+    }
 
 });
 
@@ -15,97 +20,192 @@ function initializeTooltips() {
     }));
 }
 
-function initializeCharts() {
-    const caseAnalyticsOptions = {
-        series: [{
-            name: 'New Cases',
-            data: [31, 40, 28, 51, 42, 109, 100]
-        }, {
-            name: 'Resolved Cases',
-            data: [11, 32, 45, 32, 34, 52, 41]
-        }],
-        chart: {
-            height: 350,
-            type: 'area',
-            toolbar: {
-                show: false
-            }
-        },
-        colors: ['#2962ff', '#00c853'],
-        fill: {
-            type: 'gradient',
-            gradient: {
-                shadeIntensity: 1,
-                opacityFrom: 0.7,
-                opacityTo: 0.9,
-                stops: [0, 90, 100]
-            }
-        },
-        dataLabels: {
-            enabled: false
-        },
-        stroke: {
-            curve: 'smooth',
-            width: 2
-        },
-        xaxis: {
-            type: 'datetime',
-            categories: ["2024-03-01", "2024-03-02", "2024-03-03", "2024-03-04", 
-                        "2024-03-05", "2024-03-06", "2024-03-07"]
-        },
-        tooltip: {
-            x: {
-                format: 'dd/MM/yy'
-            }
+// Add this new function
+async function loadDashboardStats() {
+    try {
+        const response = await fetch('/api/police-stats/');
+        if (!response.ok) {
+            throw new Error(`Server responded with ${response.status}`);
         }
-    };
-
-    const chart = new ApexCharts(document.querySelector("#caseAnalyticsChart"), caseAnalyticsOptions);
-    chart.render();
+        
+        const data = await response.json();
+        const stats = data.stats;
+        
+        // Update active cases
+        document.getElementById('activeCount').textContent = stats.active_cases.count;
+        updateTrend('activeTrend', stats.active_cases.trend, stats.active_cases.trend_direction);
+        
+        // Update pending reviews
+        document.getElementById('pendingCount').textContent = stats.pending_reviews.count;
+        updateTrend('pendingTrend', stats.pending_reviews.trend, stats.pending_reviews.trend_direction);
+        
+        // Update resolved cases
+        document.getElementById('resolvedCount').textContent = stats.resolved_cases.count;
+        updateTrend('resolvedTrend', stats.resolved_cases.trend, stats.resolved_cases.trend_direction);
+        
+    } catch (error) {
+        console.error('Error loading dashboard statistics:', error);
+        // Show error state in cards
+        ['activeCount', 'pendingCount', 'resolvedCount'].forEach(id => {
+            document.getElementById(id).textContent = 'N/A';
+        });
+        
+        ['activeTrend', 'pendingTrend', 'resolvedTrend'].forEach(id => {
+            document.getElementById(id).innerHTML = '<span class="text-danger">Error loading data</span>';
+        });
+    }
 }
 
-function loadRecentCases() {
-    const cases = [
-        {
-            id: 'CAS-2024-001',
-            title: 'Theft at Downtown Mall',
-            status: 'active',
-            priority: 'high',
-            timestamp: '2 hours ago'
-        },
-        {
-            id: 'CAS-2024-002',
-            title: 'Vandalism Report',
-            status: 'pending',
-            priority: 'medium',
-            timestamp: '5 hours ago'
-        },
-        {
-            id: 'CAS-2024-003',
-            title: 'Traffic Incident',
-            status: 'resolved',
-            priority: 'low',
-            timestamp: '1 day ago'
-        }
-    ];
+function updateTrend(elementId, trendValue, direction) {
+    const trendElement = document.getElementById(elementId);
+    trendElement.className = `trend ${direction}`;
+    
+    const absValue = Math.abs(trendValue);
+    const icon = direction === 'up' ? 'fa-arrow-up' : 'fa-arrow-down';
+    
+    trendElement.innerHTML = `
+        <i class="fas ${icon}"></i>
+        <span>${absValue}% vs last week</span>
+    `;
+}
 
-    const casesList = document.getElementById('recentCases');
-    if (casesList) {
-        casesList.innerHTML = cases.map(case_ => `
-            <div class="case-item">
-                <div class="case-info">
-                    <div class="case-header">
-                        <h6>${case_.title}</h6>
-                        <span class="badge bg-${getStatusColor(case_.status)}">${case_.status}</span>
-                    </div>
-                    <p class="case-id">${case_.id}</p>
-                    <small class="text-muted">${case_.timestamp}</small>
+function initializeCharts() {
+    // Show a loading state
+    const chartElement = document.querySelector("#caseAnalyticsChart");
+    if (!chartElement) return;
+    
+    // Fetch data from the server
+    fetch('/api/case-analytics/')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Server responded with status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Prepare the chart options
+            const caseAnalyticsOptions = {
+                series: [
+                    {
+                        name: 'New Cases',
+                        data: data.new_cases
+                    }, 
+                    {
+                        name: 'Resolved Cases',
+                        data: data.resolved_cases
+                    }
+                ],
+                chart: {
+                    height: 350,
+                    type: 'area',
+                    toolbar: {
+                        show: false
+                    }
+                },
+                colors: ['#2962ff', '#00c853'],
+                fill: {
+                    type: 'gradient',
+                    gradient: {
+                        shadeIntensity: 1,
+                        opacityFrom: 0.7,
+                        opacityTo: 0.9,
+                        stops: [0, 90, 100]
+                    }
+                },
+                dataLabels: {
+                    enabled: false
+                },
+                stroke: {
+                    curve: 'smooth',
+                    width: 2
+                },
+                xaxis: {
+                    type: 'datetime',
+                    categories: data.dates
+                },
+                tooltip: {
+                    x: {
+                        format: 'dd/MM/yy'
+                    }
+                }
+            };
+            
+            // Create and render the chart
+            const chart = new ApexCharts(chartElement, caseAnalyticsOptions);
+            chart.render();
+        })
+        .catch(error => {
+            console.error('Error loading case analytics:', error);
+            chartElement.innerHTML = `
+                <div class="alert alert-danger m-3">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    Failed to load chart data. Please try again later.
                 </div>
-                <button class="btn btn-sm btn-light" onclick="viewCase('${case_.id}')">
+            `;
+        });
+}
+
+async function loadRecentCases() {
+    const casesList = document.getElementById('recentCases');
+    if (!casesList) return;
+    
+    try {
+        // Show loading state
+        casesList.innerHTML = '<div class="text-center"><div class="spinner-border text-primary" role="status"></div><p>Loading cases...</p></div>';
+        
+        // Fetch data
+        const response = await fetch('/api/recent-reports/');
+        
+        if (!response.ok) {
+            throw new Error(`Server responded with status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        
+        // Handle empty reports
+        if (data.reports.length === 0) {
+            casesList.innerHTML = '<div class="text-center p-3"><p class="text-muted">No recent cases found</p></div>';
+            return;
+        }
+        
+       // Render the cases
+        casesList.innerHTML = data.reports.map(case_ => `
+        <div class="case-item shadow-sm mb-3 rounded">
+            <div class="case-info flex-grow-1">
+                <div class="case-header d-flex justify-content-between align-items-center mb-2">
+                    <h6 class="mb-0">
+                        <i class="fas fa-folder me-2"></i>${case_.type}
+                    </h6>
+                    <span class="badge bg-${getStatusColor(case_.status)} ${['warning', 'info', 'light'].includes(getStatusColor(case_.status)) ? 'text-dark' : 'text-white'} px-3 py-2 rounded-pill">
+                    ${case_.status}
+                    </span>
+                </div>
+                <p class="case-id text-secondary mb-1">
+                    <strong>ID:</strong> ${case_.tracking_number}
+                </p>
+                <p class="mb-0 text-muted">
+                    <i class="far fa-clock me-1"></i>${case_.date}
+                </p>
+            </div>
+            <div class="case-actions">
+                <button class="btn btn-sm rounded-circle" 
+                        data-bs-toggle="tooltip" 
+                        title="View case details" 
+                        onclick="viewCase('${case_.tracking_number}')">
                     <i class="fas fa-chevron-right"></i>
                 </button>
             </div>
+        </div>
         `).join('');
+        
+    } catch (error) {
+        console.error('Error loading recent cases:', error);
+        casesList.innerHTML = `
+            <div class="alert alert-danger m-3">
+                <i class="fas fa-exclamation-triangle me-2"></i>
+                Error loading cases. Please try again later.
+            </div>
+        `;
     }
 }
 
@@ -151,64 +251,111 @@ function loadActivities() {
     }
 }
 
-function loadTasks() {
-    const tasks = [
-        {
-            id: 1,
-            title: 'Review Evidence for Case #2024-001',
-            priority: 'high',
-            deadline: 'Today'
-        },
-        {
-            id: 2,
-            title: 'Submit Report for Case #2024-002',
-            priority: 'medium',
-            deadline: 'Tomorrow'
-        },
-        {
-            id: 3,
-            title: 'Interview Witness',
-            priority: 'high',
-            deadline: 'Mar 8'
-        }
-    ];
-
-    const tasksList = document.getElementById('tasksList');
-    if (tasksList) {
-        tasksList.innerHTML = tasks.map(task => `
-            <div class="task-item ${task.priority}">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="task-${task.id}">
-                    <label class="form-check-label" for="task-${task.id}">
-                        ${task.title}
-                    </label>
-                </div>
-                <div class="task-meta">
-                    <span class="badge bg-${getPriorityColor(task.priority)}">${task.priority}</span>
-                    <small class="deadline">${task.deadline}</small>
-                </div>
-            </div>
-        `).join('');
-    }
-}
-
 function getStatusColor(status) {
     return {
-        'active': 'primary',
-        'pending': 'warning',
-        'resolved': 'success'
+        'Active': 'success',
+        'Under Investigation': 'info',
+        'Pending': 'warning',
+        'Pending Review': 'warning',
+        'Resolved': 'success',
+        'Closed': 'secondary'
     }[status] || 'secondary';
 }
 
-function getPriorityColor(priority) {
-    return {
-        'high': 'danger',
-        'medium': 'warning',
-        'low': 'info'
-    }[priority] || 'secondary';
+function viewCase(tracking_number
+    ) {
+    fetch(`/report-detail/${tracking_number}/`)
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById("modalReportID").value = data.tracking_number;
+            document.getElementById("modalCrimeType").value = data.crime_type;
+            document.getElementById("modalLocation").value = data.location;
+            document.getElementById("modalDate").value = data.date;
+            document.getElementById("modalDescription").value = data.description;
+            document.getElementById("modalStatus").value = data.status;
+
+            var reportDetailModal = new bootstrap.Modal(document.getElementById("reportDetailModal"));
+            reportDetailModal.show();
+        })
+        .catch(error => console.error("Error fetching report details:", error));
 }
 
-function viewCase(caseId) {
-    console.log(`Viewing case: ${caseId}`);
-    // Implement case view navigation
+
+function updateCaseStatus() {
+    const reportId = document.getElementById('modalReportID').value;
+    const newStatus = document.getElementById('modalNewStatus').value;
+    const feedbackElement = document.getElementById('updateStatusFeedback');
+
+    console.log("Update status function called");
+    console.log("Report ID:", reportId);
+    console.log("New Status:", newStatus);
+    
+    // Validate input
+    if (!newStatus) {
+        feedbackElement.innerHTML = '<div class="text-danger">Please select a new status</div>';
+        return;
+    }
+    
+    // Show loading state
+    const button = document.getElementById('updateStatusBtn');
+    const originalText = button.innerHTML;
+    button.disabled = true;
+    button.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Updating...';
+    
+    // Make the API request
+    fetch(`/api/update-report-status/${reportId}/`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCsrfToken()
+        },
+        body: JSON.stringify({ status: newStatus })
+    })
+    .then(response => {
+        if (!response.ok) throw new Error(`Status: ${response.status}`);
+        return response.json();
+    })
+    .then(data => {
+        // Update UI with success message
+        feedbackElement.innerHTML = '<div class="text-success">Status updated successfully!</div>';
+        
+        // Update the displayed status
+        document.getElementById('modalStatus').value = newStatus;
+        
+        // If we're on the dashboard, refresh the recent cases list
+        loadRecentCases();
+
+        setTimeout(() => {
+            const modal = bootstrap.Modal.getInstance(document.getElementById('reportDetailModal'));
+            if (modal) {
+                modal.hide();
+            }
+        }, 1500);
+    })
+    .catch(error => {
+        console.error('Error updating status:', error);
+        feedbackElement.innerHTML = '<div class="text-danger">Failed to update status. Please try again.</div>';
+    })
+    .finally(() => {
+        // Reset button state
+        button.disabled = false;
+        button.innerHTML = originalText;
+    });
+}
+
+// Utility function to get CSRF token from cookies
+function getCsrfToken() {
+    const name = 'csrftoken';
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
 }

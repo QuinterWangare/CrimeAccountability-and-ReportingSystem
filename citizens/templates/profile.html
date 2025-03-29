@@ -34,10 +34,10 @@
                         </a>
                     </li>
                 </ul>
-                <a href="#reports" class="nav-item" data-bs-toggle="tooltip" title="My Reports">
+                <a href="{% url 'all_reports' %}" class="nav-item" data-bs-toggle="tooltip" title="All Reports">
                     <i class="fas fa-list"></i>
                 </a>
-                <a href="profile.html" class="nav-item active" data-bs-toggle="tooltip" title="Profile">
+                <a href="#citizen_profile" class="nav-item active" data-bs-toggle="tooltip" title="Profile">
                     <i class="fas fa-user"></i>
                 </a>
             </div>
@@ -70,7 +70,11 @@
                         </a>
                     </li>
                 </ul>
-                <a href="{% url 'citizen-profile' %}" class="nav-item active">
+                <a href="{% url 'all_reports' %}" class="nav-item">
+                    <i class="fas fa-list"></i>
+                    <span>All Reports</span>
+                </a>
+                <a href="#citizen-profile" class="nav-item active">
                     <i class="fas fa-user"></i>
                     <span>Profile</span>
                 </a>
@@ -123,7 +127,7 @@
                         </div>
                         <div class="profile-info">
                             <h2 id="user-fullname">{{ request.user.first_name }} {{ request.user.last_name }}</h2>
-                            <p class="text-muted mb-0" id="user-id">Citizen ID: CTZ-12345</p>
+                            <p class="text-muted mb-0" id="user-id">Citizen ID: {{user.citizen_id}}</p>
                             <span class="badge bg-success">Verified</span>
                         </div>
                     </div>
@@ -200,19 +204,19 @@
                         </div>
                         <div class="mb-3">
                             <label for="edit-fullname" class="form-label">Full Name</label>
-                            <input type="text" class="form-control" id="edit-fullname" value="John Doe">
+                            <input type="text" class="form-control" id="edit-fullname" placeholder="John Doe">
                         </div>
                         <div class="mb-3">
                             <label for="edit-email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="edit-email" value="john.doe@example.com">
+                            <input type="email" class="form-control" id="edit-email" placeholder="john.doe@example.com">
                         </div>
                         <div class="mb-3">
                             <label for="edit-phone" class="form-label">Phone</label>
-                            <input type="tel" class="form-control" id="edit-phone" value="+254 712 345 678">
+                            <input type="tel" class="form-control" id="edit-phone" placeholder="+254 712 345 678">
                         </div>
                         <div class="mb-3">
                             <label for="edit-address" class="form-label">Address</label>
-                            <textarea class="form-control" id="edit-address" rows="2">123 Main Street, Nairobi, Kenya</textarea>
+                            <textarea class="form-control" id="edit-address" rows="2" placeholder="123 Main Street, Nairobi, Kenya"></textarea>
                         </div>
                     </form>
                 </div>
