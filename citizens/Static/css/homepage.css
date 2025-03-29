@@ -7,8 +7,8 @@
   --sidebar-width: 260px;
   --mobile-sidebar-width: 60px;
   --header-height: 64px;
-  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
-  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-sm: 0 2px 4px rgba(0,0,0,0.1);
+  --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
   --border-radius: 0.5rem;
 }
 
@@ -25,14 +25,14 @@ body {
   min-height: 100vh;
 }
 
-.dashboard {
+.dashboard{
   font-size: 28px;
 }
 
 /* Sidebar Styles */
 .sidebar {
   width: var(--sidebar-width);
-  background-color: var(--primary-color);
+  background-color: var(--secondary-color);
   color: white;
   display: flex;
   flex-direction: column;
@@ -43,7 +43,7 @@ body {
 
 .mobile-sidebar {
   width: var(--mobile-sidebar-width);
-  background-color: var(--primary-color);
+  background-color: var(--secondary-color);
   position: fixed;
   height: 100vh;
   z-index: 1000;
@@ -51,22 +51,24 @@ body {
 
 .sidebar-header {
   padding: 1.5rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
 }
 
 .nav-items {
   display: flex;
   flex-direction: column;
-  padding: 1rem 0;
+  padding: 1rem;
 }
 
 .nav-item {
   display: flex;
   align-items: center;
   padding: 0.75rem 1.5rem;
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(255,255,255,0.8);
   text-decoration: none;
   transition: all 0.3s ease;
+  border-radius: 8px;
+  margin-bottom: 0.75rem;
 }
 
 .nav-item i {
@@ -81,7 +83,9 @@ body {
 .nav-item:hover,
 .nav-item.active {
   color: white;
-  background-color: var(--secondary-color);
+  background-color: rgba(255, 255, 255, 0.15);
+  transform: translateX(5px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 /* Mobile Sidebar Specific */
@@ -103,7 +107,7 @@ body {
 
 @media (max-width: 768px) {
   .main-content {
-    margin-left: var(--mobile-sidebar-width);
+      margin-left: var(--mobile-sidebar-width);
   }
 }
 
@@ -197,6 +201,7 @@ body {
   background-color: rgba(255, 0, 0, 0.05);
 }
 
+
 /* Stats Grid */
 .stats-grid {
   display: grid;
@@ -233,9 +238,9 @@ body {
 }
 
 .table th {
-  background-color: rgba(0, 0, 0, 0.02);
+  background-color: rgba(0,0,0,0.02);
   font-weight: 600;
-  border-bottom: 2px solid rgba(0, 0, 0, 0.05);
+  border-bottom: 2px solid rgba(0,0,0,0.05);
 }
 
 /* Utility Classes */

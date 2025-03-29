@@ -22,7 +22,7 @@ function initializeDropdowns() {
 
 // Fetch and render stats cards
 function fetchAndRenderStats() {
-    fetch("/api/stats/")
+    fetch('/api/stats/')
         .then(response => response.json())
         .then(stats => {
             const statsGrid = document.getElementById("statsGrid");
@@ -61,8 +61,8 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 // Fetch and display report details in modal
-function viewReport(reportId) {
-    fetch(`/report-detail/${reportId}/`)
+function viewReport(tracking_number) {
+    fetch(`/report-detail/${tracking_number}/`)
         .then(response => response.json())
         .then(data => {
             document.getElementById("modalReportID").value = data.tracking_number;
@@ -82,15 +82,15 @@ function viewReport(reportId) {
 function attachViewButtons() {
     document.querySelectorAll('.view-report-btn').forEach(button => {
         button.addEventListener('click', function () {
-            const reportId = this.getAttribute('data-id');
-            viewReport(reportId);
+            const tracking_number = this.getAttribute('data-id');
+            viewReport(tracking_number);
         });
     });
 }
 
 // Fetch and render reports
 function fetchAndRenderReports() {
-    fetch('/api/recent-reports/')
+    fetch('/api/recent-reports-by-user/')
         .then(response => response.json())
         .then(data => {
             const tbody = document.querySelector('#reportsTable tbody');
@@ -110,7 +110,7 @@ function fetchAndRenderReports() {
                     <td>${report.status}</td>
                     <td>${report.date}</td>
                     <td>
-                        <button class="btn btn-sm btn-outline-primary view-report-btn" data-id="${report.tracking_number}">
+                        <button class="btn btn-sm btn-outline-primary view-report-btn" data-id="${report.tracking_number}" action="viewReport">
                             <i class="fas fa-eye"></i> View
                         </button>
                     </td>
@@ -186,7 +186,3 @@ function setupEventListeners() {
     }
 }
 
-// Function to view a single report
-function viewReport(reportId) {
-    window.location.href = `/report-detail/${reportId}/`; // Redirect to report details page
-}

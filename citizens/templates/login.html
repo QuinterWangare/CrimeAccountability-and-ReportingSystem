@@ -17,11 +17,11 @@
             <p class="text-muted">Please login to your account</p>
         </div>
         
-        {% if messages %}
-    {% for message in messages %}
-        <div class="alert alert-danger">{{ message }}</div>
-    {% endfor %}
-{% endif %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{% if message.tags %}{{ message.tags }}{% else %}info{% endif %} alert-dismissible fade show" role="alert">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
 
 <form action="" method="POST">
     {% csrf_token %}
