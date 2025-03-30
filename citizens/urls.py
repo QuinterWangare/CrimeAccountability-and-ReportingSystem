@@ -4,7 +4,7 @@ from .views import index, signup_view, login_view,logout_view, citizen_homepage,
     inspector_general_case_assignment, inspector_general_case_management, inspector_general_analytics, \
     inspector_general_officer_oversight, logout_view_ig, get_report_stats, get_recent_reports, get_notifications, report_detail, \
     all_reports, get_user_report_stats, get_recent_reports_by_user, update_profile, change_password, police_dashboard, police_cases, \
-    police_evidence, police_statistics, police_profile, police_report, police_login, get_police_stats, case_analytics, police_cases_api, police_case_detail_api, crime_stats, county_stats, dashboard_summary_stats, update_report_status
+    police_evidence, police_statistics, police_profile, police_report, police_login, get_police_stats, case_analytics, police_cases_api, police_case_detail_api, crime_stats, county_stats, dashboard_summary_stats, update_report_status, LoginView, LogoutView, UpdateProfileView, ChangePasswordView
 
 urlpatterns = [
     path('', index, name='index'),
@@ -30,6 +30,10 @@ urlpatterns = [
     path('api/police-cases/', police_cases_api, name='api_police_cases'),
     path('api/update-report-status/<str:tracking_number>/',update_report_status, name='update_report_status'),
     path('api/police-cases/<str:case_id>/', police_case_detail_api, name='api_police_case_detail'),
+    path('api/login/', LoginView.as_view(), name='login'),
+    path('api/logout/', LogoutView.as_view(), name='logout'),
+    path('api/update-profile/', UpdateProfileView.as_view(), name='update_profile'),
+    path('api/change-password/', ChangePasswordView.as_view(), name='change_password'),
     path('inspectorgeneral/dashboard/', inspector_general_dashboard, name='inspectorgeneral_dashboard'),
     path('inspectorgeneral/login/', inspector_general_login, name='inspectorgeneral_login'),
     path('inspectorgeneral/profile/', inspector_general_profile, name='inspectorgeneral_profile'),

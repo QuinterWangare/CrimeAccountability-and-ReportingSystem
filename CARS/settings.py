@@ -58,8 +58,6 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'quinterwangarem@gmail.com'
-EMAIL_HOST_PASSWORD = 'jgbr xwgk ppwj fbbu'
 DEFAULT_FROM_EMAIL = 'CARS Team <your-email@gmail.com>'
 
 from django.utils.translation import gettext_lazy as _
@@ -93,6 +91,11 @@ TEMPLATES = [
             ],
         },
     },
+]
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',  # Default backend for citizens
+    'citizens.backends.PoliceUserBackend',         # Custom backend for police users
 ]
 
 WSGI_APPLICATION = 'CARS.wsgi.application'
@@ -129,8 +132,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTH_USER_MODEL = 'citizens.CustomUser'  # Ensure correct app name
-
+AUTH_USER_MODEL = 'citizens.CustomUser'
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/

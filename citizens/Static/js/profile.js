@@ -55,15 +55,13 @@ function updateProfile() {
         return;
     }
 
-    const [first_name, last_name] = fullName.split(" ");  // Split full name
-
     fetch("/api/update-profile/", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
             "X-CSRFToken": document.querySelector("[name=csrfmiddlewaretoken]").value
         },
-        body: JSON.stringify({ first_name, last_name, email })
+        body: JSON.stringify({ full_name: fullName, email: email })
     })
     .then(response => response.json())
     .then(data => {
@@ -78,9 +76,8 @@ function updateProfile() {
 function changePassword() {
     const currentPassword = document.getElementById("current-password").value.trim();
     const newPassword = document.getElementById("new-password").value.trim();
-    const confirmPassword = document.getElementById("confirm-password").value.trim();
 
-    if (!currentPassword || !newPassword || !confirmPassword) {
+    if (!currentPassword || !newPassword) {
         alert("All fields are required.");
         return;
     }
@@ -91,15 +88,15 @@ function changePassword() {
             "Content-Type": "application/json",
             "X-CSRFToken": document.querySelector("[name=csrfmiddlewaretoken]").value
         },
-        body: JSON.stringify({ current_password: currentPassword, new_password: newPassword, confirm_password: confirmPassword })
+        body: JSON.stringify({ current_password: currentPassword, new_password: newPassword })
     })
     .then(response => response.json())
     .then(data => {
-        if (data.error) {
-            alert(data.error);
-        } else {
+        if (data.message) {
             alert(data.message);
             bootstrap.Modal.getInstance(document.getElementById("changePasswordModal")).hide();
+        } else {
+            alert(data.error);
         }
     })
     .catch(error => console.error("Error changing password:", error));

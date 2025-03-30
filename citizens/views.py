@@ -15,12 +15,19 @@ from django.conf import settings
 from django.db import models
 import os
 
+from django.utils.decorators import method_decorator
+
 from .forms import CrimeReportForm
 from django.db.models import Count, Q, F, FloatField, Avg, Case, When, Value
-from .models import CustomUser, CrimeReport
+from .models import CustomUser, CrimeReport, PoliceUser
 from django.views.decorators.csrf import csrf_exempt
 from django.core.mail import send_mail
 import uuid
+
+from rest_framework import status, views
+from rest_framework.response import Response
+from .serializers import PoliceUserSerializer
+from django.contrib.auth.hashers import make_password
 
 def get_report_stats(request):
     """API to get total reports count and status-wise breakdown."""
@@ -707,4 +714,79 @@ def update_report_status(request, tracking_number):
         return JsonResponse({"error": "Invalid JSON in request body"}, status=400)
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=500)
-    
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class LoginView(views.APIView):
+    def post(self, request):
+        badge_number = request.data.get('badge_number')
+        password = request.data.get('password')
+
+        # Using the correct keyword argument for badge_number
+        user = authenticate(request, badge_number=badge_number, password=password)
+
+        if user is not None:
+            login(request, user)
+            return Response({"message": "Login successful", "redirect": "/police/dashboard/"}, status=status.HTTP_200_OK)
+
+        return Response({"message": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
+
+@login_required
+def police_dashboard(request):
+    officer = request.user  # Assuming the logged-in user is the police officer
+    context = {
+        "officer_name": officer.get_full_name(),
+        "badge_number": officer.badge_number,
+        "email": officer.email,
+        "rank": officer.rank,
+        "department": officer.department,  # Adjust to your model structure
+    }
+    return render(request, "police/dashboard.html", context)
+
+@login_required
+def police_profile(request):
+    officer = request.user  # Assuming the logged-in user is the officer
+
+    context = {
+        "officer_name": officer.get_full_name(),
+        "badge_number": officer.badge_number,
+        "email": officer.email,
+        "rank": officer.rank,
+        "department": officer.department,
+    }
+
+    return render(request, "police/profile.html", context)
+
+class LogoutView(views.APIView):
+    def post(self, request):
+        logout(request)
+        return Response({"message": "Logged out successfully"}, status=status.HTTP_200_OK)
+
+
+class UpdateProfileView(views.APIView):
+    def post(self, request):
+        user = request.user
+        full_name = request.data.get('full_name')
+        email = request.data.get('email')
+
+        if full_name:
+            user.username = full_name
+        if email:
+            user.email = email
+
+        user.save()
+        return Response({"message": "Profile updated successfully"})
+
+
+class ChangePasswordView(views.APIView):
+    def post(self, request):
+        user = request.user
+        current_password = request.data.get('current_password')
+        new_password = request.data.get('new_password')
+
+        if not user.check_password(current_password):
+            return Response({"message": "Incorrect current password"}, status=status.HTTP_400_BAD_REQUEST)
+
+        user.password = make_password(new_password)
+        user.save()
+        return Response({"message": "Password changed successfully"})

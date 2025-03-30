@@ -55,8 +55,8 @@
                             <i class="fas fa-user-shield"></i>
                         </div>
                         <div class="officer-info">
-                            <h6 class="mb-0">Officer John Doe</h6>
-                            <small class="text-light-50">Badge #12345</small>
+                            <h6 class="mb-0">{{ officer_name }}</h6>
+                            <small class="text-light-50">Badge#{{ badge_number }}</small>
                         </div>
                     </div>
                 </div>
@@ -105,7 +105,7 @@
         <main class="main-content">
             <header class="content-header">
                 <div class="welcome-section">
-                    <h1>Welcome back, Officer Doe</h1>
+                    <h1>Welcome back, Officer {{ officer_name }}</h1>
                     <p class="text-muted">Here's what's happening in your jurisdiction today</p>
                 </div>
             </header>
