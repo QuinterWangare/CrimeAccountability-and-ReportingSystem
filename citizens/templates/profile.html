@@ -15,6 +15,9 @@
     <div class="app-container">
         <!-- Icon-only Mobile Sidebar -->
         <nav class="mobile-sidebar d-md-none">
+            <div class="sidebar-header">
+                <img src="{% static 'images/logo.jpg' %}" alt="CARS Logo" class="logo">
+            </div>
             <div class="nav-items">
                 <a href="{% url 'citizens' %}" class="nav-item" data-bs-toggle="tooltip" title="Dashboard">
                     <i class="fas fa-home"></i>
@@ -45,9 +48,13 @@
 
         <!-- Desktop Sidebar -->
         <nav class="sidebar d-none d-md-flex">
-            <div class="sidebar-header">
-                <h4>CARS</h4>
-            </div>
+            <div class="sidebar-content">
+                <div class="sidebar-header">
+                    <div class="logo-container">
+                    <img src="{% static 'images/logo.jpg' %}" alt="CARS Logo" class="logo">
+                    <h3>Citizen</h3>
+                    </div>
+                </div>
             <div class="nav-items">
                 <a href="{% url 'citizens' %}" class="nav-item">
                     <i class="fas fa-home"></i>

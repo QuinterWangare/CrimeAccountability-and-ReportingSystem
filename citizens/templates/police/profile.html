@@ -15,7 +15,7 @@
         <!-- Mobile Icon Sidebar -->
         <nav class="mobile-sidebar d-md-none">
             <div class="sidebar-header">
-                <img src="assets/logo.png" alt="CARS Logo" class="logo">
+                <img src="{% static 'images/logo.jpg' %}" alt="CARS Logo" class="logo">
             </div>
             <div class="nav-items">
                 <a href="{% url 'police_dashboard' %}" class="nav-item active" data-bs-toggle="tooltip" title="Dashboard">
@@ -23,7 +23,6 @@
                 </a>
                 <a href="{% url 'police_cases' %}" class="nav-item" data-bs-toggle="tooltip" title="Cases">
                     <i class="fas fa-folder"></i>
-                    <div class="notification-badge">3</div>
                 </a>
                 <a href="{% url 'police_statistics' %}" class="nav-item" data-bs-toggle="tooltip" title="Analytics">
                     <i class="fas fa-chart-bar"></i>
@@ -44,8 +43,8 @@
             <div class="sidebar-content">
                 <div class="sidebar-header">
                     <div class="logo-container">
-                        <img src="assets/logo.png" alt="CARS Logo" class="logo">
-                        <h4>CARS</h4>
+                        <img src="{% static 'images/logo.jpg' %}" alt="CARS Logo" class="logo">
+                        <h4>Law Enforcement</h4>
                     </div>
                     <div class="officer-profile">
                         <div class="avatar">
@@ -68,7 +67,6 @@
                         <a href="{% url 'police_cases' %}" class="nav-link">
                             <i class="fas fa-folder"></i>
                             <span>Cases</span>
-                            <div class="nav-badge">3</div>
                         </a>
                     </div>
 
@@ -249,30 +247,26 @@
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <label for="fullName" class="form-label">Full Name</label>
-                                <input type="text" class="form-control" id="fullName" value="John Michael Doe">
+                                <input type="text" class="form-control" id="fullName" placeholder={{officer_name}} readonly>
                             </div>
                             <div class="col-md-6">
                                 <label for="badgeNumber" class="form-label">Badge Number</label>
-                                <input type="text" class="form-control" id="badgeNumber" value="12345" readonly>
+                                <input type="text" class="form-control" id="badgeNumber" placeholder={{badge_number}} readonly>
                             </div>
                         </div>
                         
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <label for="email" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="email" value="john.doe@police.gov">
+                                <input type="email" class="form-control" id="email" value={{email}}>
                             </div>
                             <div class="col-md-6">
                                 <label for="phone" class="form-label">Phone</label>
-                                <input type="tel" class="form-control" id="phone" value="+254 712 345 678">
+                                <input type="tel" class="form-control" id="phone" placeholder={{phone_number}}>
                             </div>
                         </div>
                         
                         <div class="row mb-3">
-                            <div class="col-md-6">
-                                <label for="emergencyContact" class="form-label">Emergency Contact Name</label>
-                                <input type="text" class="form-control" id="emergencyContactName" value="Jane Doe">
-                            </div>
                             <div class="col-md-6">
                                 <label for="emergencyContactPhone" class="form-label">Emergency Contact Phone</label>
                                 <input type="tel" class="form-control" id="emergencyContactPhone" value="+254 723 456 789">

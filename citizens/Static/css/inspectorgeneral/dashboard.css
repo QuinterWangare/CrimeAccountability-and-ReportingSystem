@@ -49,18 +49,9 @@ body {
   margin-bottom: 2rem;
 }
 
-.sidebar-logo {
-  width: 42px;
-  height: 42px;
-  border-radius: 12px;
-  padding: 8px;
-  background: rgba(255, 255, 255, 0.12);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
-}
-
-.sidebar-logo:hover {
-  transform: scale(1.05);
+.mobile-sidebar .logo {
+  width: 40px;
+  height: 40px;
 }
 
 .nav-items {
@@ -155,18 +146,20 @@ body {
   display: flex;
   align-items: center;
   gap: 1rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .logo-wrapper h4 {
   margin: 0;
   font-weight: 600;
-  font-size: 1.25rem;
-  letter-spacing: 0.5px;
+  color: white;
 }
 
-.logo-wrapper .sidebar-logo {
-  width: 38px;
-  height: 38px;
+.logo-wrapper .logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
 }
 
 .director-profile {

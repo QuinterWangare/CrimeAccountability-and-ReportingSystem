@@ -14,8 +14,7 @@
         <!-- Mobile Sidebar (Icon-only) -->
         <nav class="mobile-sidebar d-lg-none">
             <div class="sidebar-header">
-                <!-- Logo image (you may need to adjust the path) -->
-                <img src="{% static 'assets/logo.png' %}" alt="CARS Logo" class="sidebar-logo">
+                <img src="{% static 'images/logo.jpg' %}" alt="CARS Logo" class="logo">
             </div>
             <div class="nav-items">
                 <a href="{% url 'inspectorgeneral_dashboard' %}" class="nav-item" data-bs-toggle="tooltip" title="Dashboard">
@@ -46,6 +45,7 @@
             <div class="sidebar-content">
                 <div class="sidebar-header">
 					<div class="logo-wrapper">
+                        <img src="{% static 'images/logo.jpg' %}" alt="CARS Logo" class="logo">
 						<h4>Director Panel</h4>
 					</div>
 					<div class="director-profile">
@@ -70,7 +70,6 @@
                         <a href="{% url 'inspectorgeneral_case_management' %}" class="menu-item">
                             <i class="fas fa-folder-open"></i>
                             <span>Case Management</span>
-                            <span class="menu-badge">5</span>
                         </a>
                     </div>
                     <div class="menu-section">
@@ -78,7 +77,6 @@
                         <a href="{% url 'inspectorgeneral_officer_oversight' %}" class="menu-item">
                             <i class="fas fa-user-shield"></i>
                             <span>Officer Oversight</span>
-                            <span class="menu-badge">12</span>
                         </a>
                         <a href="#" class="menu-item active">
                             <i class="fas fa-chart-pie"></i>
