@@ -52,8 +52,8 @@
                             <i class="fas fa-user-shield"></i>
                         </div>
                         <div class="officer-info">
-                            <h6 class="mb-0">{{ officer_name }}</h6>
-                            <small class="text-light-50">Badge#{{ badge_number }}</small>
+                            <h6 class="mb-0">Officer {{ officer_name }}</h6>
+                            <small class="text-light-50">Badge - {{ badge_number }}</small>
                         </div>
                     </div>
                 </div>
@@ -113,10 +113,6 @@
                         <div class="stat-details">
                             <h3 id="activeCount">--</h3>
                             <p>Active Cases</p>
-                            <div class="trend" id="activeTrend">
-                                <i class="fas fa-arrow-right"></i>
-                                <span>Loading...</span>
-                            </div>
                         </div>
                     </div>
             
@@ -127,10 +123,6 @@
                         <div class="stat-details">
                             <h3 id="pendingCount">--</h3>
                             <p>Pending Reviews</p>
-                            <div class="trend" id="pendingTrend">
-                                <i class="fas fa-arrow-right"></i>
-                                <span>Loading...</span>
-                            </div>
                         </div>
                     </div>
             
@@ -141,10 +133,6 @@
                         <div class="stat-details">
                             <h3 id="resolvedCount">--</h3>
                             <p>Resolved Cases</p>
-                            <div class="trend" id="resolvedTrend">
-                                <i class="fas fa-arrow-right"></i>
-                                <span>Loading...</span>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -156,13 +144,6 @@
                         <div class="card">
                             <div class="card-header">
                                 <h5>Case Analytics</h5>
-                                <div class="chart-actions">
-                                    <select class="form-select form-select-sm">
-                                        <option>Last 7 Days</option>
-                                        <option>Last 30 Days</option>
-                                        <option>Last 3 Months</option>
-                                    </select>
-                                </div>
                             </div>
                             <div class="card-body">
                                 <div id="caseAnalyticsChart"></div>

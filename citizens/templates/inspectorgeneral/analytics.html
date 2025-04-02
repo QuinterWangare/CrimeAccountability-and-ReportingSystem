@@ -119,9 +119,6 @@
                             <h3>{{ active_cases }}</h3>
                             <p>Total Active Cases</p>
                         </div>
-                        <div class="metric-trend {% if active_trend >= 0 %}trend-up{% else %}trend-down{% endif %}">
-                            <i class="fas fa-arrow-{% if active_trend >= 0 %}up{% else %}down{% endif %} me-1"></i>{{ active_trend_abs }}%
-                        </div>
                     </div>
                 </div>
                 <div class="col-xl-4 col-md-6">
@@ -133,9 +130,6 @@
                             <h3>{{ resolved_cases }}</h3>
                             <p>Cases Resolved</p>
                         </div>
-                        <div class="metric-trend {% if resolved_trend >= 0 %}trend-up{% else %}trend-down{% endif %}">
-                            <i class="fas fa-arrow-{% if resolved_trend >= 0 %}up{% else %}down{% endif %} me-1"></i>{{resolved_trend_abs }}%
-                        </div>
                     </div>
                 </div>
                 <div class="col-xl-4 col-md-6">
@@ -146,9 +140,6 @@
                         <div class="metric-details">
                             <h3>{{ pending_cases }}</h3>
                             <p>Pending Investigation</p>
-                        </div>
-                        <div class="metric-trend {% if pending_trend >= 0 %}trend-up{% else %}trend-down{% endif %}">
-                            <i class="fas fa-arrow-{% if pending_trend >= 0 %}up{% else %}down{% endif %} me-1"></i>{{  pending_trend_abs }}%
                         </div>
                     </div>
                 </div>

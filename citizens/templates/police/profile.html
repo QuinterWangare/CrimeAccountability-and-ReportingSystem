@@ -53,7 +53,7 @@
                         </div>
                         <div class="officer-info">
                             <h6 class="mb-0">Officer {{ officer_name}}</h6>
-                            <small class="text-light-50">Badge #{{ badge_number }}</small>
+                            <small class="text-light-50">Badge - {{ badge_number }}</small>
                         </div>
                     </div>
                 </div>
@@ -114,7 +114,7 @@
                     </div>
                     <div class="profile-info">
                         <h2>Officer {{ officer_name }}</h2>
-                        <div class="badge-number">Badge {{ badge_number }}</div>
+                        <div class="badge-number">Badge {{badge_number}}</div>
                         <span class="badge bg-success">On Duty</span>
                     </div>
                 </div>
@@ -127,11 +127,11 @@
                         <div class="col-md-6">
                             <div class="info-row">
                                 <div class="info-label">Full Name</div>
-                                <div class="info-value">{{ full_name}}</div>
+                                <div class="info-value">{{officer_name}}</div>
                             </div>
                             <div class="info-row">
                                 <div class="info-label">Badge Number</div>
-                                <div class="info-value">{{ badge_number }}</div>
+                                <div class="info-value">{{badge_number}}</div>
                             </div>
                             <div class="info-row">
                                 <div class="info-label">Rank</div>
@@ -149,7 +149,7 @@
                             </div>
                             <div class="info-row">
                                 <div class="info-label">Joined Date</div>
-                                <div class="info-value">October 15, 2018</div>
+                                <div class="info-value">{{date_joined}}</div>
                             </div>
                         </div>
                     </div>
@@ -173,7 +173,7 @@
                         <div class="col-md-6">
                             <div class="info-row">
                                 <div class="info-label">Emergency Contact</div>
-                                <div class="info-value">Jane Doe (+254 723 456 789)</div>
+                                <div class="info-value">+254 723 456 789</div>
                             </div>
                         </div>
                     </div>
@@ -184,16 +184,16 @@
                     <h5>Case Statistics</h5>
                     <div class="stats-container">
                         <div class="stat-item">
-                            <div class="stat-number">42</div>
-                            <div class="stat-label">Active Cases</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-number">187</div>
+                            <div class="stat-number">{{total_cases}}</div>
                             <div class="stat-label">Total Cases</div>
                         </div>
                         <div class="stat-item">
-                            <div class="stat-number">78%</div>
-                            <div class="stat-label">Success Rate</div>
+                            <div class="stat-number">{{active_cases}}</div>
+                            <div class="stat-label">Active Cases</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">{{pending_cases}}</div>
+                            <div class="stat-label">Pending Cases</div>
                         </div>
                     </div>
                 </div>

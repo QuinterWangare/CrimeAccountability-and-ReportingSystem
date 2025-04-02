@@ -338,7 +338,7 @@ async function viewCase(caseId) {
         modalBody.innerHTML = `
             <div class="case-header mb-4">
                 <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h4>${caseData.title || caseData.case_type}</h4>
+                    <h4>${caseData.case_type}</h4>
                 </div>
                 <div class="d-flex justify-content-between">
                     <div>
@@ -365,7 +365,7 @@ async function viewCase(caseId) {
                         </div>
                         <div class="row mb-3">
                             <div class="col-md-4 text-muted">Assigned Officer:</div>
-                            <div class="col-md-8">${caseData.assigned_officer || 'Unassigned'}</div>
+                            <div class="col-md-8">${caseData.assigned_officer}</div>
                         </div>
                         <div class="row">
                             <div class="col-md-4 text-muted">Description:</div>

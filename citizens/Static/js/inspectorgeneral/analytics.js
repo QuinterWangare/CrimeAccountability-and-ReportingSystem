@@ -14,78 +14,171 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // CHART 1: Case Trends Chart
-    function initCaseTrendsChart() {
-        const trendLabels = safeParseJSON('trend-labels');
-        const reportedData = safeParseJSON('reported-data');
-        const resolvedData = safeParseJSON('resolved-data');
-        
-        const caseTrendsOptions = {
-            series: [
-                {
-                    name: 'Cases Reported',
-                    data: reportedData
-                },
-                {
-                    name: 'Cases Resolved',
-                    data: resolvedData
-                }
-            ],
-            chart: {
-                height: 350,
-                type: 'area',
-                toolbar: {
-                    show: false
-                }
-            },
-            dataLabels: {
-                enabled: false
-            },
-            stroke: {
-                curve: 'smooth',
-                width: 2
-            },
-            colors: ['#4361ee', '#2cc692'],
-            fill: {
-                type: 'gradient',
-                gradient: {
-                    shadeIntensity: 1,
-                    opacityFrom: 0.7,
-                    opacityTo: 0.3,
-                    stops: [0, 90, 100]
-                }
-            },
-            xaxis: {
-                categories: trendLabels,
-                labels: {
-                    style: {
-                        fontSize: '12px',
-                    }
-                }
-            },
-            yaxis: {
-                title: {
-                    text: 'Number of Cases'
-                }
-            },
-            tooltip: {
-                shared: true,
-                intersect: false,
-                y: {
-                    formatter: function (value) {
-                        return value + " cases";
-                    }
-                }
-            },
-            legend: {
-                position: 'top'
+    async function initCaseTrendsChart() {
+        try {
+            const response = await fetch('/api/case-analytics/');
+            if (!response.ok) {
+                throw new Error(`HTTP error ${response.status}`);
             }
-        };
+            const data = await response.json();
+            
+            const trendLabels = data.dates;           
+            const reportedData = data.new_cases;        
+            const resolvedData = data.resolved_cases; async function initCaseTrendsChart() {
+                try {
+                    const response = await fetch('/api/case-analytics/');
+                    if (!response.ok) {
+                        throw new Error(`HTTP error ${response.status}`);
+                    }
+                    const data = await response.json();
+
+                    const trendLabels = data.dates;           // Labels for x-axis) - dates
+                    const reportedData = data.new_cases;        // Cases reported per day
+                    const resolvedData = data.resolved_cases;   // Cases resolved per day
+            
+                    const caseTrendsOptions = {
+                        series: [
+                            {
+                                name: 'Cases Reported',
+                                data: reportedData
+                            },
+                            {
+                                name: 'Cases Resolved',
+                                data: resolvedData
+                            }
+                        ],
+                        chart: {
+                            height: 350,
+                            type: 'area',
+                            toolbar: {
+                                show: false
+                            }
+                        },
+                        dataLabels: {
+                            enabled: false
+                        },
+                        stroke: {
+                            curve: 'smooth',
+                            width: 2
+                        },
+                        colors: ['#4361ee', '#2cc692'],
+                        fill: {
+                            type: 'gradient',
+                            gradient: {
+                                shadeIntensity: 1,
+                                opacityFrom: 0.7,
+                                opacityTo: 0.3,
+                                stops: [0, 90, 100]
+                            }
+                        },
+                        xaxis: {
+                            categories: trendLabels,
+                            labels: {
+                                style: {
+                                    fontSize: '12px'
+                                }
+                            }
+                        },
+                        yaxis: {
+                            title: {
+                                text: 'Number of Cases'
+                            }
+                        },
+                        tooltip: {
+                            shared: true,
+                            intersect: false,
+                            y: {
+                                formatter: function (value) {
+                                    return value + " cases";
+                                }
+                            }
+                        },
+                        legend: {
+                            position: 'top'
+                        }
+                    };
+            
+                    // Initialize the chart if the container exists
+                    const caseTrendsEl = document.getElementById('caseTrendsChart');
+                    if (caseTrendsEl) {
+                        const caseTrendsChart = new ApexCharts(caseTrendsEl, caseTrendsOptions);
+                        caseTrendsChart.render();
+                    }
+                } catch (error) {
+                    console.error('Error initializing Case Trends Chart:', error);
+                }
+            }
     
-        // Initialize the chart if the container exists
-        const caseTrendsEl = document.getElementById('caseTrendsChart');
-        if (caseTrendsEl) {
-            const caseTrendsChart = new ApexCharts(caseTrendsEl, caseTrendsOptions);
-            caseTrendsChart.render();
+            const caseTrendsOptions = {
+                series: [
+                    {
+                        name: 'Cases Reported',
+                        data: reportedData
+                    },
+                    {
+                        name: 'Cases Resolved',
+                        data: resolvedData
+                    }
+                ],
+                chart: {
+                    height: 350,
+                    type: 'area',
+                    toolbar: {
+                        show: false
+                    }
+                },
+                dataLabels: {
+                    enabled: false
+                },
+                stroke: {
+                    curve: 'smooth',
+                    width: 2
+                },
+                colors: ['#4361ee', '#2cc692'],
+                fill: {
+                    type: 'gradient',
+                    gradient: {
+                        shadeIntensity: 1,
+                        opacityFrom: 0.7,
+                        opacityTo: 0.3,
+                        stops: [0, 90, 100]
+                    }
+                },
+                xaxis: {
+                    categories: trendLabels,
+                    labels: {
+                        style: {
+                            fontSize: '12px'
+                        }
+                    }
+                },
+                yaxis: {
+                    title: {
+                        text: 'Number of Cases'
+                    }
+                },
+                tooltip: {
+                    shared: true,
+                    intersect: false,
+                    y: {
+                        formatter: function (value) {
+                            return value + " cases";
+                        }
+                    }
+                },
+                legend: {
+                    position: 'top'
+                }
+            };
+    
+            // Initialize the chart if the container exists
+            const caseTrendsEl = document.getElementById('caseTrendsChart');
+            if (caseTrendsEl) {
+                const caseTrendsChart = new ApexCharts(caseTrendsEl, caseTrendsOptions);
+                caseTrendsChart.render();
+            }
+        } catch (error) {
+            console.error('Error initializing Case Trends Chart:', error);
         }
     }
     

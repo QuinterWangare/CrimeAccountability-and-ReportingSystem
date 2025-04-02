@@ -419,19 +419,6 @@ def inspector_general_analytics(request):
     pending_cases = CrimeReport.objects.filter(status="Pending").count()
     critical_cases = CrimeReport.objects.filter(status="Critical").count()
     
-    # Calculate percentage changes (for the trend indicators)
-    # For demonstration purposes - in production you'd compare with previous period
-    active_trend = 12
-    resolved_trend = 8
-    pending_trend = -5
-    critical_trend = 15
-    
-    # Add absolute values for the trends (since Django has no |abs filter)
-    active_trend_abs = abs(active_trend)
-    resolved_trend_abs = abs(resolved_trend)
-    pending_trend_abs = abs(pending_trend)
-    critical_trend_abs = abs(critical_trend)
-    
     # Case Trends (Last 12 Months)
     end_date = timezone.now()
     start_date = end_date - timedelta(days=365)
@@ -497,15 +484,6 @@ def inspector_general_analytics(request):
         'resolved_cases': resolved_cases,
         'pending_cases': pending_cases,
         'critical_cases': critical_cases,
-        'active_trend': active_trend,
-        'resolved_trend': resolved_trend,
-        'pending_trend': pending_trend,
-        'critical_trend': critical_trend,
-        # Absolute values for trends
-        'active_trend_abs': active_trend_abs,
-        'resolved_trend_abs': resolved_trend_abs,
-        'pending_trend_abs': pending_trend_abs,
-        'critical_trend_abs': critical_trend_abs,
         
         # Chart data
         'trend_labels': json.dumps(trend_labels),
@@ -953,13 +931,34 @@ def police_dashboard(request):
     return render(request, 'police/dashboard.html')
 
 def police_cases(request):
-    return render(request, 'police/cases.html')
+    officer = request.user
+    
+    context = {
+        "officer_name": officer.get_full_name(),
+        "badge_number": officer.badge_number,
+        "email": officer.email,
+        "rank": officer.rank,
+        "department": officer.department,
+        "phone_number": officer.phone_number,
+    }
+    return render(request, 'police/cases.html', context)
 
 def police_evidence(request):
     return render(request, 'police/evidence.html')
 
 def police_statistics(request):
-    return render(request, 'police/statistics.html')
+    officer = request.user
+    
+    context = {
+        "officer_name": officer.get_full_name(),
+        "badge_number": officer.badge_number,
+        "email": officer.email,
+        "rank": officer.rank,
+        "department": officer.department,
+        "phone_number": officer.phone_number,
+    }
+    
+    return render(request, 'police/statistics.html', context)
 
 def police_profile(request):
     return render(request, 'police/profile.html')
@@ -1099,7 +1098,7 @@ def police_cases_api(request):
             "description": case.description,
             "contact_number":case.contact_number,
             "contact_email": case.contact_email,
-            "assigned_officer": "Unassigned" if not case.assigned_officer else case.assigned_officer.get_full_name(),
+            "assigned_officer": "Unassigned" if not hasattr(case, 'assigned_officer') or case.assigned_officer is None else case.assigned_officer.get_full_name(),
         })
     
     # Return the response with pagination info
@@ -1150,14 +1149,13 @@ def police_case_detail_api(request, case_id):
     # Prepare case data
     case_data = {
         "case_id": case.tracking_number,
-        "title": case.crime_type,
         "case_type": case.crime_type,
         "date": case.incident_datetime.isoformat(),
         "status": ui_status,
         "location": case.location,
         "evidence": evidence_data,
         "description": case.description,
-        "assigned_officer": case.assigned_officer(),
+        "assigned_officer": "Unassigned" if not case.assigned_officer else case.assigned_officer.get_full_name(),
         "timeline": [
             {
                 "title": "Case Created",
@@ -1377,7 +1375,7 @@ def police_dashboard(request):
 @login_required
 def police_profile(request):
     officer = request.user  # Assuming the logged-in user is the officer
-
+    
     context = {
         "officer_name": officer.get_full_name(),
         "badge_number": officer.badge_number,
@@ -1385,7 +1383,18 @@ def police_profile(request):
         "rank": officer.rank,
         "department": officer.department,
         "phone_number": officer.phone_number,
+        "date_joined": officer.date_joined.strftime("%Y-%m-%d"),
     }
+    
+    total_cases = CrimeReport.objects.count()
+    active_cases = CrimeReport.objects.filter(status="Active").count()
+    pending_cases = CrimeReport.objects.filter(status="Pending").count()
+    
+    context.update({
+        "total_cases": total_cases,
+        "active_cases": active_cases,
+        "pending_cases": pending_cases,
+    })
 
     return render(request, "police/profile.html", context)
 
