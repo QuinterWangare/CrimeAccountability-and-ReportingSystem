@@ -38,23 +38,38 @@ body {
 /* Sidebar Styles */
 .sidebar {
     width: var(--sidebar-width);
-    background: var(--gradient-primary);
-    color: white;
+    background: var(--secondary-color);
     position: fixed;
     height: 100vh;
-    display: flex;
-    flex-direction: column;
+    color: white;
     z-index: 1000;
-    box-shadow: var(--shadow-md);
 }
 
-.mobile-sidebar {
-    width: var(--mobile-sidebar-width);
-    background: var(--gradient-primary);
-    position: fixed;
-    height: 100vh;
-    z-index: 1000;
-    box-shadow: var(--shadow-md);
+.sidebar-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 1.5rem;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.logo-container .logo {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+}
+
+.logo-container h4 {
+    margin: 0;
+    font-weight: 600;
+    color: white;
 }
 
 .sidebar-header {

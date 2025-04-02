@@ -33,15 +33,12 @@ async function loadDashboardStats() {
         
         // Update active cases
         document.getElementById('activeCount').textContent = stats.active_cases.count;
-        updateTrend('activeTrend', stats.active_cases.trend, stats.active_cases.trend_direction);
         
         // Update pending reviews
         document.getElementById('pendingCount').textContent = stats.pending_reviews.count;
-        updateTrend('pendingTrend', stats.pending_reviews.trend, stats.pending_reviews.trend_direction);
         
         // Update resolved cases
         document.getElementById('resolvedCount').textContent = stats.resolved_cases.count;
-        updateTrend('resolvedTrend', stats.resolved_cases.trend, stats.resolved_cases.trend_direction);
         
     } catch (error) {
         console.error('Error loading dashboard statistics:', error);
@@ -56,18 +53,6 @@ async function loadDashboardStats() {
     }
 }
 
-function updateTrend(elementId, trendValue, direction) {
-    const trendElement = document.getElementById(elementId);
-    trendElement.className = `trend ${direction}`;
-    
-    const absValue = Math.abs(trendValue);
-    const icon = direction === 'up' ? 'fa-arrow-up' : 'fa-arrow-down';
-    
-    trendElement.innerHTML = `
-        <i class="fas ${icon}"></i>
-        <span>${absValue}% vs last week</span>
-    `;
-}
 
 function initializeCharts() {
     // Show a loading state
@@ -262,8 +247,7 @@ function getStatusColor(status) {
     }[status] || 'secondary';
 }
 
-function viewCase(tracking_number
-    ) {
+function viewCase(tracking_number) {
     fetch(`/report-detail/${tracking_number}/`)
         .then(response => response.json())
         .then(data => {

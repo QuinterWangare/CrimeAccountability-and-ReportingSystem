@@ -23,15 +23,15 @@
         {% endfor %}
     {% endif %}
         
-        <form id="loginForm" action="dashboard.html" method="POST">
+        <form id="loginForm" action="{% url 'api_login' %}"  method="POST">
             {% csrf_token %}
             <div class="form-floating">
-                <input type="text" class="form-control" id="badgeNumber" placeholder="Badge Number" required>
+                <input type="text" class="form-control" id="badgeNumber" name="badge_number" placeholder="Badge Number" required>
                 <label for="badgeNumber">Badge Number</label>
             </div>
         
             <div class="form-floating">
-                <input type="password" class="form-control" id="password" placeholder="Password" required>
+                <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
                 <label for="password">Password</label>
             </div>
             
@@ -44,7 +44,7 @@
             </div>
             
             <button type="submit" class="btn btn-login">
-                Login In <i class="fas fa-sign-in-alt ms-1"></i>
+                Login <i class="fas fa-sign-in-alt ms-1"></i>
             </button>
             
             <div class="text-center mt-4">
@@ -61,37 +61,49 @@
                 </small>
             </div>
         </form>
-    <div id="login-message" class="text-danger mt-2"></div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-    document.getElementById("loginForm").addEventListener("submit", function(event) {
-        event.preventDefault();
-        const badgeNumber = document.getElementById("badgeNumber").value;
-        const password = document.getElementById("password").value;
-
-        fetch("/api/login/", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "X-CSRFToken": document.querySelector("[name=csrfmiddlewaretoken]").value
-            },
-            body: JSON.stringify({ badge_number: badgeNumber, password: password })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.message === "Login successful") {
-                window.location.href = "/police/dashboard/";
-            } else {
-                document.getElementById("login-message").textContent = data.message;
-            }
-        })
-        .catch(error => {
-            document.getElementById("login-message").textContent = "Login failed. Please try again.";
-            console.error("Error during login:", error);
+        document.getElementById("loginForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            const badgeNumber = document.getElementById("badgeNumber").value;
+            const password = document.getElementById("password").value;
+    
+            fetch("/api/login/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": document.querySelector("[name=csrfmiddlewaretoken]").value
+                },
+                body: JSON.stringify({ badge_number: badgeNumber, password: password })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Invalid credentials');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.message === "Login successful") {
+                    window.location.href = data.redirect || "/police/dashboard/";
+                }
+            })
+            .catch(error => {
+                console.error("Error during login:", error);
+                
+                // Create alert if it doesn't exist
+                let alert = document.querySelector(".alert");
+                if (!alert) {
+                    alert = document.createElement("div");
+                    const container = document.querySelector(".login-container");
+                    container.insertBefore(alert, document.getElementById("loginForm"));
+                }
+                
+                alert.className = "alert alert-danger alert-dismissible fade show";
+                alert.textContent = "Invalid credentials";
+            });
         });
-    });
     </script>
 </body>
 </html>

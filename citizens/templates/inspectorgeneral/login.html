@@ -23,14 +23,15 @@
         {% endfor %}
     {% endif %}
 
-        <form id="loginForm" action="{% url 'inspectorgeneral_dashboard' %}" method="GET">
+        <form id="loginForm" action="{% url 'inspectorgeneral_login' %}" method="POST">
+            {% csrf_token %}
             <div class="form-floating">
-                <input type="text" class="form-control" id="directorId" placeholder="Director ID" required>
+                <input type="text" class="form-control" id="directorId" name="badge_number" placeholder="Director ID" required>
                 <label for="directorId">Inspector General ID</label>
             </div>
             
             <div class="form-floating">
-                <input type="password" class="form-control" id="password" placeholder="Password" required>
+                <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
                 <label for="password">Password</label>
             </div>
             

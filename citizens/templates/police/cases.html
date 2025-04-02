@@ -14,7 +14,7 @@
         <!-- Mobile Icon Sidebar -->
         <nav class="mobile-sidebar d-md-none">
             <div class="sidebar-header">
-                <img src="assets/logo.png" alt="CARS Logo" class="logo">
+                <img src="{% static 'images/logo.jpg' %}" alt="CARS Logo" class="logo">
             </div>
             <div class="nav-items">
                 <a href="{% url 'police_dashboard' %}"  class="nav-item" data-bs-toggle="tooltip" title="Dashboard">
@@ -22,10 +22,6 @@
                 </a>
                 <a href="#cases" class="nav-item active" data-bs-toggle="tooltip" title="Cases">
                     <i class="fas fa-folder"></i>
-                    <div class="notification-badge">3</div>
-                </a>
-                <a href="{% url 'police_evidence' %}" class="nav-item" data-bs-toggle="tooltip" title="Evidence">
-                    <i class="fas fa-camera"></i>
                 </a>
                 <a href="{% url 'police_statistics' %}" class="nav-item" data-bs-toggle="tooltip" title="Analytics">
                     <i class="fas fa-chart-bar"></i>
@@ -35,7 +31,7 @@
                 <a href="{% url 'police_profile' %}" class="nav-link">
                     <i class="fas fa-user-alt"></i>
                 </a>
-                <a href="#logout" class="nav-link text-danger">
+                <a href="{% url 'api_logout' %}" class="nav-link text-danger">
                     <i class="fas fa-sign-out-alt"></i>
                 </a>
             </div>
@@ -46,16 +42,16 @@
             <div class="sidebar-content">
                 <div class="sidebar-header">
                     <div class="logo-container">
-                        <img src="assets/logo.png" alt="CARS Logo" class="logo">
-                        <h4>CARS</h4>
+                        <img src="{% static 'images/logo.jpg' %}" alt="CARS Logo" class="logo">
+                        <h4>Law Enforcement</h4>
                     </div>
                     <div class="officer-profile">
                         <div class="avatar">
                             <i class="fas fa-user-shield"></i>
                         </div>
                         <div class="officer-info">
-                            <h6 class="mb-0">Officer John Doe</h6>
-                            <small class="text-light-50">Badge #12345</small>
+                            <h6 class="mb-0">Officer {{officer_name}}</h6>
+                            <small class="text-light-50">Badge - {{badge_number}}</small>
                         </div>
                     </div>
                 </div>
@@ -70,11 +66,6 @@
                         <a href="#cases" class="nav-link active">
                             <i class="fas fa-folder"></i>
                             <span>Cases</span>
-                            <div class="nav-badge">3</div>
-                        </a>
-                        <a href="{% url 'police_evidence' %}" class="nav-link">
-                            <i class="fas fa-camera"></i>
-                            <span>Evidence</span>
                         </a>
                     </div>
 
@@ -92,7 +83,7 @@
                         <i class="fas fa-user-alt"></i>
                         <span>My Profile</span>
                     </a>
-                    <a href="#logout" class="nav-link text-danger">
+                    <a href="{% url 'api_logout' %}" class="nav-link text-danger">
                         <i class="fas fa-sign-out-alt"></i>
                         <span>Logout</span>
                     </a>
@@ -132,7 +123,6 @@
                                     <option value="open">Open Cases</option>
                                     <option value="pending">Pending Cases</option>
                                     <option value="closed">Closed Cases</option>
-                                    <option value="highPriority">High Priority</option>
                                 </select>
                             </div>
                         </div>
@@ -192,15 +182,6 @@
                                     <option value="minor">Minor Offense</option>
                                 </select>
                             </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="casePriority" class="form-label">Priority</label>
-                                <select class="form-select" id="casePriority" required>
-                                    <option value="">Select priority...</option>
-                                    <option value="high">High</option>
-                                    <option value="medium">Medium</option>
-                                    <option value="low">Low</option>
-                                </select>
-                            </div>
                         </div>
                         <div class="mb-3">
                             <label for="caseDescription" class="form-label">Case Description</label>
@@ -233,7 +214,6 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Edit Case</button>
                 </div>
             </div>
         </div>

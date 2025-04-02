@@ -3,3 +3,6 @@ venv/
 
 # Ignore python cache files
 __pycache__/
+
+# Police officers added to the list
+citizens/management
