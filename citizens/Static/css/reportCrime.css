@@ -35,6 +35,55 @@ body {
     font-size: 28px;
 }
 
+/* Sidebar Styles */
+.sidebar {
+    width: var(--sidebar-width);
+    background: var(--secondary-color);
+    position: fixed;
+    height: 100vh;
+    color: white;
+    z-index: 1000;
+}
+
+.sidebar-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 1.5rem;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.logo-container .logo {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+}
+
+.logo-container h4 {
+    margin: 0;
+    font-weight: 600;
+    color: white;
+}
+
+.sidebar-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    text-align: center;
+}
+
+.sidebar-header h4 {
+    margin: 0;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
 .nav-items {
     display: flex;
     flex-direction: column;
