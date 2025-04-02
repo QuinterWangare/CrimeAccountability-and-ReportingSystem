@@ -80,6 +80,9 @@ class CrimeReport(models.Model):
         default='none', 
         blank=True
     )
+    assigned_officer = models.ForeignKey(
+        'PoliceUser', on_delete=models.SET_NULL, null=True, blank=True, related_name='assigned_cases'
+    )
 
     def __str__(self):
         return f"{self.crime_type} reported on {self.incident_datetime}"
@@ -110,8 +113,10 @@ class PoliceUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
+    phone_number = models.CharField(max_length=16, null=True, blank=True) 
     password = models.CharField(max_length=128, null=True, blank=True)
     rank = models.CharField(max_length=50, default="Officer")
+    specialization = models.CharField(max_length=100, null=True, blank=True) 
     department = models.CharField(max_length=50, default="Unknown")
     is_ig = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)

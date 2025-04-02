@@ -10,6 +10,7 @@
 	<link rel="stylesheet" href="{% static 'css/inspectorgeneral/dashboard.css' %}">
 </head>
 <body>
+	{% csrf_token %}
 	<div class="app-container">
 		<!-- Mobile Sidebar (Icon-only) -->
 		<nav class="mobile-sidebar d-lg-none">
@@ -45,16 +46,17 @@
 			<div class="sidebar-content">
 				<div class="sidebar-header">
 					<div class="logo-wrapper">
-						<img src="assets/logo.png" alt="CARS Logo" class="sidebar-logo">
-						<h4>CARS Director</h4>
+						<h4>Director Panel</h4>
 					</div>
 					<div class="director-profile">
 						<div class="profile-avatar">
 							<i class="fas fa-user-tie"></i>
 						</div>
 						<div class="profile-info">
-							<h6>Director Panel</h6>
-							<small>NPSC Oversight</small>
+							<h6>{{officer_name}}</h6>
+							<small>{{rank}}</small>
+							<br/>
+							<small>{{badge_number}}</small>
 						</div>
 					</div>
 				</div>
@@ -104,11 +106,6 @@
 					<h1>Director Dashboard</h1>
 					<p>Overview & Insights</p>
 				</div>
-				<div class="header-actions">
-					<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#assignCaseModal">
-						<i class="fas fa-plus me-2"></i>Assign Case
-					</button>
-				</div>
 			</header>
 			
 			<section class="dashboard-overview">
@@ -117,7 +114,7 @@
 						<i class="fas fa-user-shield"></i>
 					</div>
 					<div class="card-content">
-						<h3>2,345</h3>
+						<h3>{{active_officers}}</h3>
 						<p>Active Officers</p>
 					</div>
 				</div>
@@ -126,8 +123,8 @@
 						<i class="fas fa-folder-open"></i>
 					</div>
 					<div class="card-content">
-						<h3>85%</h3>
-						<p>Case Resolution Rate</p>
+						<h3>{{total_cases}}</h3>
+						<p>Total Cases</p>
 					</div>
 				</div>
 				<div class="overview-card warning">
@@ -135,8 +132,8 @@
 						<i class="fas fa-clock"></i>
 					</div>
 					<div class="card-content">
-						<h3>25h</h3>
-						<p>Avg. Response Time</p>
+						<h3>{{active_cases}}</h3>
+						<p>Active Cases</p>
 					</div>
 				</div>
 			</section>
@@ -169,43 +166,63 @@
 		</main>
 	</div>
 
-	<!-- Modal for Case Assignment -->
-	<div class="modal fade" id="assignCaseModal" tabindex="-1">
-		<div class="modal-dialog">
+
+	<!-- Report Detail Modal with Officer Assignment -->
+	<div class="modal fade" id="reportDetailModal" tabindex="-1" aria-labelledby="reportDetailModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title">Assign New Case</h5>
-					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+					<h5 class="modal-title" id="reportDetailModalLabel">Case Details</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-					<form id="assignCaseForm">
-						<div class="mb-3">
-							<label class="form-label">Case ID</label>
-							<input type="text" class="form-control" readonly value="#CR-2025-002">
+					<div class="row mb-3">
+						<div class="col-md-6">
+							<label for="modalReportID" class="form-label">Case ID</label>
+							<input type="text" class="form-control" id="modalReportID" readonly>
 						</div>
-						<div class="mb-3">
-							<label class="form-label">Select Officer</label>
-							<select class="form-select">
-								{% comment %} Options inserted by JS {% endcomment %}
+						<div class="col-md-6">
+							<label for="modalCrimeType" class="form-label">Crime Type</label>
+							<input type="text" class="form-control" id="modalCrimeType" readonly>
+						</div>
+					</div>
+					<div class="row mb-3">
+						<div class="col-md-6">
+							<label for="modalLocation" class="form-label">Location</label>
+							<input type="text" class="form-control" id="modalLocation" readonly>
+						</div>
+						<div class="col-md-6">
+							<label for="modalDate" class="form-label">Date Reported</label>
+							<input type="text" class="form-control" id="modalDate" readonly>
+						</div>
+					</div>
+					<div class="row mb-3">
+						<div class="col-md-6">
+							<label for="modalStatus" class="form-label">Current Status</label>
+							<input type="text" class="form-control" id="modalStatus" readonly>
+						</div>
+					</div>
+					<div class="row mb-3">
+						<div class="col-12">
+							<label for="modalDescription" class="form-label">Description</label>
+							<textarea class="form-control" id="modalDescription" rows="4" readonly></textarea>
+						</div>
+					</div>
+					
+					<div class="row mb-3">
+						<div class="col-md-6">
+							<label for="modalAssignedOfficer" class="form-label">Assigned Officer</label>
+							<select class="form-select" id="modalAssignedOfficer">
+								<option value="">Select officer</option>
+								<!--Options will be inserted here dynamically via JS-->
 							</select>
 						</div>
-						<div class="mb-3">
-							<label class="form-label">Priority Level</label>
-							<select class="form-select">
-								<option>High</option>
-								<option selected>Medium</option>
-								<option>Low</option>
-							</select>
-						</div>
-						<div class="mb-3">
-							<label class="form-label">Notes</label>
-							<textarea class="form-control" rows="3"></textarea>
-						</div>
-					</form>
+					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-					<button type="button" class="btn btn-primary">Assign Case</button>
+					<div id="updateStatusFeedback" class="me-auto"></div>
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary" id="assignOfficerBtn" onclick="handleOfficerAssignment()">Assign Officer</button>
 				</div>
 			</div>
 		</div>

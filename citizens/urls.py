@@ -4,8 +4,9 @@ from .views import index, signup_view, login_view,logout_view, citizen_homepage,
     inspector_general_case_assignment, inspector_general_case_management, inspector_general_analytics, \
     inspector_general_officer_oversight, logout_view_ig, get_report_stats, get_recent_reports, get_notifications, report_detail, \
     all_reports, get_user_report_stats, get_recent_reports_by_user, update_profile, change_password, police_dashboard, police_cases, \
-    police_evidence, police_statistics, police_profile, police_report, police_login, get_police_stats, case_analytics, police_cases_api, police_case_detail_api, crime_stats, county_stats, dashboard_summary_stats, update_report_status, LoginView, LogoutView, UpdateProfileView, ChangePasswordView
-
+    police_evidence, police_statistics, police_profile, police_report, police_login, get_police_stats, case_analytics, police_cases_api, police_case_detail_api, crime_stats, county_stats, dashboard_summary_stats, update_report_status, LoginView, LogoutView, UpdateProfileView, ChangePasswordView, assign_case, available_officers, ig_cases_api, ig_case_detail_api, ig_available_officers, ig_assign_case, ig_officer_stats, ig_officers, ig_officer_detail, ig_remove_officer
+    
+    
 urlpatterns = [
     path('', index, name='index'),
     path('signup/', signup_view, name='signup'),
@@ -30,8 +31,10 @@ urlpatterns = [
     path('api/police-cases/', police_cases_api, name='api_police_cases'),
     path('api/update-report-status/<str:tracking_number>/',update_report_status, name='update_report_status'),
     path('api/police-cases/<str:case_id>/', police_case_detail_api, name='api_police_case_detail'),
-    path('api/login/', LoginView.as_view(), name='login'),
-    path('api/logout/', LogoutView.as_view(), name='logout'),
+    path('api/available-officers/', available_officers, name='available_officers'),
+    path('api/assign-case/', assign_case, name='assign_case'),
+    path('api/login/', LoginView.as_view(), name='api_login'),
+    path('api/logout/', LogoutView.as_view(), name='api_logout'),
     path('api/update-profile/', UpdateProfileView.as_view(), name='update_profile'),
     path('api/change-password/', ChangePasswordView.as_view(), name='change_password'),
     path('inspectorgeneral/dashboard/', inspector_general_dashboard, name='inspectorgeneral_dashboard'),
@@ -41,6 +44,14 @@ urlpatterns = [
     path('inspectorgeneral/case-management/', inspector_general_case_management, name='inspectorgeneral_case_management'),
     path('inspectorgeneral/analytics/', inspector_general_analytics, name='inspectorgeneral_analytics'),
     path('inspectorgeneral/officer-oversight/', inspector_general_officer_oversight, name='inspectorgeneral_officer_oversight'),
+    path('api/ig-cases/', ig_cases_api, name='ig_cases_api'),
+    path('api/ig-cases/<str:case_id>/', ig_case_detail_api, name='ig_case_detail_api'),
+    path('api/ig-available-officers/', ig_available_officers, name='ig_available_officers'),
+    path('api/ig-officer-stats/', ig_officer_stats, name='ig_officer_stats'),
+    path('api/ig-officers/', ig_officers, name='ig_officers'),
+    path('api/ig-officer-detail/<str:badge_number>/', ig_officer_detail, name='ig_officer_detail'),
+    path('api/ig-remove-officer/', ig_remove_officer, name='ig_remove_officer'),
+    path('api/ig-assign-case/', ig_assign_case, name='ig_assign_case'),
     path('logout-ig/', logout_view_ig, name='logout_ig'),
     path('api/stats/', get_report_stats, name='api_stats'),
     path("api/user-report-stats/", get_user_report_stats, name="user_report_stats"),

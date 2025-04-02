@@ -14,7 +14,8 @@
         <!-- Mobile Sidebar (Icon-only) -->
         <nav class="mobile-sidebar d-lg-none">
             <div class="sidebar-header">
-                <img src="assets/logo.png" alt="CARS Logo" class="sidebar-logo">
+                <!-- Logo image (you may need to adjust the path) -->
+                <img src="{% static 'assets/logo.png' %}" alt="CARS Logo" class="sidebar-logo">
             </div>
             <div class="nav-items">
                 <a href="{% url 'inspectorgeneral_dashboard' %}" class="nav-item" data-bs-toggle="tooltip" title="Dashboard">
@@ -26,7 +27,7 @@
                 <a href="{% url 'inspectorgeneral_officer_oversight' %}" class="nav-item" data-bs-toggle="tooltip" title="Officer Oversight">
                     <i class="fas fa-user-shield"></i>
                 </a>
-                <a href="#inspectorgeneral_analytics" class="nav-item active" data-bs-toggle="tooltip" title="Analytics">
+                <a href="#" class="nav-item active" data-bs-toggle="tooltip" title="Analytics">
                     <i class="fas fa-chart-pie"></i>
                 </a>
             </div>
@@ -44,20 +45,21 @@
         <nav class="desktop-sidebar d-none d-lg-flex">
             <div class="sidebar-content">
                 <div class="sidebar-header">
-                    <div class="logo-wrapper">
-                        <img src="assets/logo.png" alt="CARS Logo" class="sidebar-logo">
-                        <h4>CARS Director</h4>
-                    </div>
-                    <div class="director-profile">
-                        <div class="profile-avatar">
-                            <i class="fas fa-user-tie"></i>
-                        </div>
-                        <div class="profile-info">
-                            <h6>Director Panel</h6>
-                            <small>NPSC Oversight</small>
-                        </div>
-                    </div>
-                </div>
+					<div class="logo-wrapper">
+						<h4>Director Panel</h4>
+					</div>
+					<div class="director-profile">
+						<div class="profile-avatar">
+							<i class="fas fa-user-tie"></i>
+						</div>
+						<div class="profile-info">
+							<h6>{{officer_name}}</h6>
+							<small>{{rank}}</small>
+							<br/>
+							<small>{{badge_number}}</small>
+						</div>
+					</div>
+				</div>
                 <div class="nav-menu">
                     <div class="menu-section">
                         <p class="menu-header">Main Menu</p>
@@ -78,7 +80,7 @@
                             <span>Officer Oversight</span>
                             <span class="menu-badge">12</span>
                         </a>
-                        <a href="#inspectorgeneral_analytics" class="menu-item active">
+                        <a href="#" class="menu-item active">
                             <i class="fas fa-chart-pie"></i>
                             <span>Analytics</span>
                         </a>
@@ -106,113 +108,47 @@
                 </div>
             </header>
 
-            <!-- Filter Bar -->
-            <div class="filter-bar">
-                <div class="row align-items-center">
-                    <div class="col-md-2">
-                        <label class="form-label">Date Range</label>
-                        <select class="form-select" id="dateRangeFilter">
-                            <option value="30">Last 30 Days</option>
-                            <option value="90">Last 90 Days</option>
-                            <option value="180">Last 6 Months</option>
-                            <option value="365">Last Year</option>
-                            <option value="custom">Custom Range</option>
-                        </select>
-                    </div>
-                    <div class="col-md-2">
-                        <label class="form-label">Region</label>
-                        <select class="form-select" id="regionFilter">
-                            <option value="all">All Regions</option>
-                            <option value="nairobi">Nairobi</option>
-                            <option value="mombasa">Mombasa</option>
-                            <option value="kisumu">Kisumu</option>
-                            <option value="nakuru">Nakuru</option>
-                        </select>
-                    </div>
-                    <div class="col-md-2">
-                        <label class="form-label">Case Type</label>
-                        <select class="form-select" id="caseTypeFilter">
-                            <option value="all">All Types</option>
-                            <option value="theft">Theft</option>
-                            <option value="assault">Assault</option>
-                            <option value="fraud">Fraud</option>
-                            <option value="robbery">Robbery</option>
-                        </select>
-                    </div>
-                    <div class="col-md-2">
-                        <label class="form-label">Case Status</label>
-                        <select class="form-select" id="statusFilter">
-                            <option value="all" selected>All Cases</option>
-                                <option value="pending">Pending</option>
-                                <option value="active">Active</option>
-                                <option value="resolved">Resolved</option>
-                                <option value="unassigned">Unassigned</option>
-                                <option value="closed">Closed</option>
-                        </select>
-                    </div>
-                    <div class="col-md-4 d-flex align-items-end mt-md-0 mt-3">
-                        <button class="btn btn-primary w-100" id="applyFilters">
-                            <i class="fas fa-filter me-2"></i>Apply Filters
-                        </button>
-                    </div>
-                </div>
-            </div>
-            
             <!-- Key Metrics -->
             <div class="row">
-                <div class="col-xl-3 col-md-6">
+                <div class="col-xl-4 col-md-6">
                     <div class="metric-card">
                         <div class="metric-icon bg-primary text-white">
                             <i class="fas fa-folder-open"></i>
                         </div>
                         <div class="metric-details">
-                            <h3>245</h3>
+                            <h3>{{ active_cases }}</h3>
                             <p>Total Active Cases</p>
                         </div>
-                        <div class="metric-trend trend-up">
-                            <i class="fas fa-arrow-up me-1"></i>12%
+                        <div class="metric-trend {% if active_trend >= 0 %}trend-up{% else %}trend-down{% endif %}">
+                            <i class="fas fa-arrow-{% if active_trend >= 0 %}up{% else %}down{% endif %} me-1"></i>{{ active_trend_abs }}%
                         </div>
                     </div>
                 </div>
-                <div class="col-xl-3 col-md-6">
+                <div class="col-xl-4 col-md-6">
                     <div class="metric-card">
                         <div class="metric-icon bg-success text-white">
                             <i class="fas fa-check-circle"></i>
                         </div>
                         <div class="metric-details">
-                            <h3>178</h3>
+                            <h3>{{ resolved_cases }}</h3>
                             <p>Cases Resolved</p>
                         </div>
-                        <div class="metric-trend trend-up">
-                            <i class="fas fa-arrow-up me-1"></i>8%
+                        <div class="metric-trend {% if resolved_trend >= 0 %}trend-up{% else %}trend-down{% endif %}">
+                            <i class="fas fa-arrow-{% if resolved_trend >= 0 %}up{% else %}down{% endif %} me-1"></i>{{resolved_trend_abs }}%
                         </div>
                     </div>
                 </div>
-                <div class="col-xl-3 col-md-6">
+                <div class="col-xl-4 col-md-6">
                     <div class="metric-card">
                         <div class="metric-icon bg-warning text-dark">
                             <i class="fas fa-clock"></i>
                         </div>
                         <div class="metric-details">
-                            <h3>87</h3>
+                            <h3>{{ pending_cases }}</h3>
                             <p>Pending Investigation</p>
                         </div>
-                        <div class="metric-trend trend-down">
-                            <i class="fas fa-arrow-down me-1"></i>5%
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-md-6">
-                    <div class="metric-card">
-                        <div class="metric-icon bg-danger text-white">
-                            <i class="fas fa-exclamation-triangle"></i>
-                        </div>
-                        <div class="metric-details">
-                            <h3>32</h3>
-                            <p>Critical Cases</p>
-                        </div>
-                        <div class="metric-trend trend-up">
-                            <i class="fas fa-arrow-up me-1"></i>15%
+                        <div class="metric-trend {% if pending_trend >= 0 %}trend-up{% else %}trend-down{% endif %}">
+                            <i class="fas fa-arrow-{% if pending_trend >= 0 %}up{% else %}down{% endif %} me-1"></i>{{  pending_trend_abs }}%
                         </div>
                     </div>
                 </div>
@@ -223,7 +159,7 @@
                 <div class="col-lg-8">
                     <div class="chart-card">
                         <div class="card-body">
-                            <h5 class="card-title">Case Trends (Last 12 Months)</h5>
+                            <h5 class="card-title">Case Trends</h5>
                             <div class="chart-container" id="caseTrendsChart"></div>
                         </div>
                     </div>
@@ -243,24 +179,12 @@
                 <div class="col-lg-6">
                     <div class="chart-card">
                         <div class="card-body">
-                            <h5 class="card-title">Case Resolution Time (Days)</h5>
-                            <div class="chart-container" id="resolutionTimeChart"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="chart-card">
-                        <div class="card-body">
                             <h5 class="card-title">Officer Performance</h5>
                             <div class="chart-container" id="officerPerformanceChart"></div>
                         </div>
                     </div>
                 </div>
-            </div>
-            
-            <!-- Charts Row 3 -->
-            <div class="row">
-                <div class="col-lg-4">
+                <div class="col-lg-6">
                     <div class="chart-card">
                         <div class="card-body">
                             <h5 class="card-title">Cases by Region</h5>
@@ -268,23 +192,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4">
-                    <div class="chart-card">
-                        <div class="card-body">
-                            <h5 class="card-title">Case Priority Distribution</h5>
-                            <div class="chart-container" id="priorityChart"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="chart-card">
-                        <div class="card-body">
-                            <h5 class="card-title">Case Resolution Rate</h5>
-                            <div class="chart-container" id="resolutionRateChart"></div>
-                        </div>
-                    </div>
-                </div>
             </div>
+            
         </main>
     </div>
 
@@ -293,8 +202,23 @@
     
     <!-- ApexCharts JS -->
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+    <!-- Hidden data elements for charts -->
+    <div style="display:none;">
+        <script id="trend-labels" type="application/json">{{ trend_labels|safe }}</script>
+        <script id="reported-data" type="application/json">{{ reported_data|safe }}</script>
+        <script id="resolved-data" type="application/json">{{ resolved_data|safe }}</script>
+        <script id="type-labels" type="application/json">{{ type_labels|safe }}</script>
+        <script id="type-values" type="application/json">{{ type_values|safe }}</script>
+        <script id="officer-labels" type="application/json">{{ officer_labels|safe }}</script>
+        <script id="officer-assigned" type="application/json">{{ officer_assigned|safe }}</script>
+        <script id="officer-resolved" type="application/json">{{ officer_resolved|safe }}</script>
+        <script id="region-labels" type="application/json">{{ region_labels|safe }}</script>
+        <script id="region-values" type="application/json">{{ region_values|safe }}</script>
+    </div>
     
-    <!-- Charts Initialization -->
+    <!-- Custom JS for Analytics -->
     <script src="{% static 'js/inspectorgeneral/analytics.js' %}"></script>
+
 </body>
 </html>

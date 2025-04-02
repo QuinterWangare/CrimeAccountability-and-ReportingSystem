@@ -60,7 +60,7 @@ class PoliceUserAdmin(UserAdmin):
 
     fieldsets = (
         (None, {"fields": ("badge_number", "password")}),
-        ("Personal Info", {"fields": ("first_name", "last_name", "email", "rank", "department")}),
+        ("Personal Info", {"fields": ("first_name", "last_name", "email", "rank", "department", "phone_number", "specialization")}),
         ("Permissions", {"fields": ("is_staff", "is_superuser", "is_ig", "groups", "user_permissions")}),
         ("Important Dates", {"fields": ("last_login", "date_joined")}),
     )

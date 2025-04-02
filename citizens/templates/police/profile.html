@@ -25,9 +25,6 @@
                     <i class="fas fa-folder"></i>
                     <div class="notification-badge">3</div>
                 </a>
-                <a href="{% url 'police_evidence' %}" class="nav-item" data-bs-toggle="tooltip" title="Evidence">
-                    <i class="fas fa-camera"></i>
-                </a>
                 <a href="{% url 'police_statistics' %}" class="nav-item" data-bs-toggle="tooltip" title="Analytics">
                     <i class="fas fa-chart-bar"></i>
                 </a>
@@ -36,7 +33,7 @@
                 <a href="#police_profile" class="nav-link">
                     <i class="fas fa-user-alt"></i>
                 </a>
-                <a href="{% url 'police_login' %}" class="nav-link text-danger">
+                <a href="{% url 'api_logout' %}" class="nav-link text-danger">
                     <i class="fas fa-sign-out-alt"></i>
                 </a>
             </div>
@@ -73,10 +70,6 @@
                             <span>Cases</span>
                             <div class="nav-badge">3</div>
                         </a>
-                        <a href="{% url 'police_evidence' %}" class="nav-link">
-                            <i class="fas fa-camera"></i>
-                            <span>Evidence</span>
-                        </a>
                     </div>
 
                     <div class="nav-group">
@@ -93,7 +86,7 @@
                         <i class="fas fa-user-alt"></i>
                         <span>My Profile</span>
                     </a>
-                    <a href="{% url 'police_login' %}" class="nav-link text-danger">
+                    <a href="{% url 'api_logout' %}" class="nav-link text-danger">
                         <i class="fas fa-sign-out-alt"></i>
                         <span>Logout</span>
                     </a>
@@ -174,7 +167,7 @@
                             </div>
                             <div class="info-row">
                                 <div class="info-label">Phone</div>
-                                <div class="info-value">+254 712 345 678</div>
+                                <div class="info-value">{{ phone_number }}</div>
                             </div>
                         </div>
                         <div class="col-md-6">

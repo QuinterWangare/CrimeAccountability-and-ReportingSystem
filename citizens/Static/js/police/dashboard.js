@@ -262,8 +262,7 @@ function getStatusColor(status) {
     }[status] || 'secondary';
 }
 
-function viewCase(tracking_number
-    ) {
+function viewCase(tracking_number) {
     fetch(`/report-detail/${tracking_number}/`)
         .then(response => response.json())
         .then(data => {
