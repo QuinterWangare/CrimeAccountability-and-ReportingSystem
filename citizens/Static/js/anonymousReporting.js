@@ -518,14 +518,15 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-        const reportForm = document.getElementById("crimeReportForm"); // Replace with actual form ID
-        const submitButton = document.getElementById("submitReport"); // Replace with actual button ID
+        const reportForm = document.getElementById("anonymousReportForm"); 
+        const submitButton = document.getElementById("submitBtn"); 
     
         if (reportForm && submitButton) {
             reportForm.addEventListener("submit", function () {
                 // Disable button after click
                 submitButton.disabled = true;
                 submitButton.textContent = "Submitting...";
+                window.location.reload();
             });
         }
 

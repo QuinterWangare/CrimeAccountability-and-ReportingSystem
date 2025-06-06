@@ -50,7 +50,20 @@ def get_report_stats(request):
 
 def get_recent_reports(request):
     """API to fetch the most recent reports."""
-    reports = CrimeReport.objects.order_by('-incident_datetime')[:5]
+    
+    if not request.user.is_authenticated:
+        return JsonResponse({"error": "User is not authenticated"}, status=401)
+    
+    officer = request.user
+    
+    # Filter reports assigned to the officer
+    if hasattr(officer, 'policeuser'):
+        reports = CrimeReport.objects.filter(
+            assigned_officer=officer.policeuser
+        ).order_by('-incident_datetime')
+    else:
+        reports = CrimeReport.objects.none()
+
     reports_data = [
         {
             "tracking_number": report.tracking_number,
@@ -311,7 +324,7 @@ def anonymous_report(request):
 
         return JsonResponse({
             "message": "Form submission failed!",
-            "errors": json.loads(form.errors.as_json())  # Convert errors to JSON format
+            "errors": json.loads(form.errors.as_json())
         }, status=400)
 
     else:
@@ -1039,7 +1052,6 @@ def case_analytics(request):
         'resolved_cases': resolved_cases_data
     })
 
-# Add this to citizens/views.py
 def police_cases_api(request):
     """API to fetch cases for police dashboard with pagination."""
     # Get filter parameters
@@ -1300,7 +1312,7 @@ def update_report_status(request, tracking_number):
         new_status = data.get('status')
         
         # Validate the status
-        valid_statuses = ["Active", "Under Investigation", "Pending Review", "Resolved", "Closed"]
+        valid_statuses = ["Active", "Pending", "Resolved"]
         if not new_status or new_status not in valid_statuses:
             return JsonResponse({"error": "Invalid status provided"}, status=400)
         

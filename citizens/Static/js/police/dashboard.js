@@ -149,7 +149,7 @@ async function loadRecentCases() {
         
         // Handle empty reports
         if (data.reports.length === 0) {
-            casesList.innerHTML = '<div class="text-center p-3"><p class="text-muted">No recent cases found</p></div>';
+            casesList.innerHTML = '<div class="text-center p-3"><p class="text-muted">No cases found</p></div>';
             return;
         }
         
