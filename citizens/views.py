@@ -146,6 +146,89 @@ def get_notifications(request):
 def index(request):
     return render(request, 'index.html')
 
+@csrf_exempt
+# filepath: c:\Users\HP\Desktop\CrimeAccountability-and-ReportingSystem\citizens\views.py
+@csrf_exempt
+def trackReport(request):
+    """
+    View for tracking crime reports by tracking number.
+    Supports both standard form submissions and AJAX/JSON requests.
+    """
+    # For fresh page loads (GET requests), don't show any report data
+    if request.method == "GET":
+        # Return empty template without report data
+        return render(request, 'trackReport.html')
+        
+    # For POST requests (form submissions or AJAX)
+    if request.method == "POST":
+        # Check if this is an AJAX/JSON request
+        if request.headers.get('Content-Type') == 'application/json':
+            try:
+                # Parse JSON data from request body
+                data = json.loads(request.body)
+                tracking_number = data.get('report_id')
+            except json.JSONDecodeError:
+                return JsonResponse({'error': 'Invalid request format'}, status=400)
+        else:
+            # Standard form submission
+            tracking_number = request.POST.get('report_id')
+        
+        # Validate tracking number
+        if not tracking_number:
+            if request.headers.get('Content-Type') == 'application/json':
+                return JsonResponse({'error': 'Please enter a valid Report ID'}, status=400)
+            else:
+                return render(request, 'trackReport.html', {'error': 'Please enter a valid Report ID'})
+        
+        try:
+            # Look up the report
+            report = CrimeReport.objects.get(tracking_number=tracking_number)
+            
+            # Get case updates if any
+            updates_data = []
+            if hasattr(report, 'updates'):
+                updates = report.updates.all().order_by('-timestamp')
+                
+                for update in updates:
+                    officer_name = None
+                    if hasattr(update, 'officer') and update.officer:
+                        officer_name = f"{update.officer.first_name} {update.officer.last_name}"
+                    
+                    updates_data.append({
+                        'title': update.title,
+                        'description': update.description,
+                        'timestamp': update.timestamp.isoformat(),
+                        'officer': officer_name
+                    })
+            
+            # Prepare report data
+            report_data = {
+                'id': report.tracking_number,
+                'status': report.status,
+                'submission_date': report.incident_datetime.isoformat(),
+                'last_updated': report.updated_at.isoformat() if hasattr(report, 'updated_at') else report.incident_datetime.isoformat(),
+                'details': report.description,
+                'police_station': report.assigned_station.name if hasattr(report, 'assigned_station') and report.assigned_station else None,
+                'assigned_to': report.assigned_officer.get_full_name() if hasattr(report, 'assigned_officer') and report.assigned_officer else None,
+                'location': report.location,
+                'updates': updates_data
+            }
+            
+            # Return response based on request type
+            if request.headers.get('Content-Type') == 'application/json':
+                return JsonResponse({'report': report_data})
+            else:
+                # Add session token to prevent resubmission on refresh
+                request.session['report_viewed'] = True
+                return render(request, 'trackReport.html', {'report': report_data})
+                
+        except CrimeReport.DoesNotExist:
+            # Report not found
+            if request.headers.get('Content-Type') == 'application/json':
+                return JsonResponse({'error': 'No report found with this ID. Please verify and try again.'}, status=404)
+            else:
+                return render(request, 'trackReport.html', {'error': 'No report found with this ID. Please verify and try again.'})
+
 def signup_view(request):
     if request.method == "POST":
         first_name = request.POST["fname"]
