@@ -50,7 +50,20 @@ def get_report_stats(request):
 
 def get_recent_reports(request):
     """API to fetch the most recent reports."""
-    reports = CrimeReport.objects.order_by('-incident_datetime')[:5]
+    
+    if not request.user.is_authenticated:
+        return JsonResponse({"error": "User is not authenticated"}, status=401)
+    
+    officer = request.user
+    
+    # Filter reports assigned to the officer
+    if hasattr(officer, 'policeuser'):
+        reports = CrimeReport.objects.filter(
+            assigned_officer=officer.policeuser
+        ).order_by('-incident_datetime')
+    else:
+        reports = CrimeReport.objects.none()
+
     reports_data = [
         {
             "tracking_number": report.tracking_number,
@@ -311,7 +324,7 @@ def anonymous_report(request):
 
         return JsonResponse({
             "message": "Form submission failed!",
-            "errors": json.loads(form.errors.as_json())  # Convert errors to JSON format
+            "errors": json.loads(form.errors.as_json())
         }, status=400)
 
     else:
@@ -342,13 +355,13 @@ def inspector_general_login(request):
 @login_required(login_url='inspectorgeneral_login')
 def inspector_general_dashboard(request):
     """
-    View function for the Inspector General dashboard.
+    View function for the Director dashboard.
     """
     officer = request.user  # The logged-in IG
     
     # Verify the user is actually an IG
     if not hasattr(officer, 'is_ig') or not officer.is_ig:
-        messages.error(request, "You do not have permission to access the Inspector General dashboard.")
+        messages.error(request, "You do not have permission to access the Director dashboard.")
         return redirect('inspectorgeneral_login')
     
     # Context data for the template
@@ -528,7 +541,7 @@ def inspector_general_officer_oversight(request):
     return render(request, 'inspectorgeneral/officer-oversight.html', combined_context)
 
 def ig_cases_api(request):
-    """API to fetch cases for Inspector General dashboard with pagination."""
+    """API to fetch cases for Director dashboard with pagination."""
     # Get filter parameters
     status_filter = request.GET.get('status', '')
     type_filter = request.GET.get('type', '')
@@ -603,7 +616,7 @@ def ig_cases_api(request):
     })
 
 def ig_case_detail_api(request, case_id):
-    """API to fetch details for a specific case for Inspector General."""
+    """API to fetch details for a specific case for Director."""
     case = get_object_or_404(CrimeReport, tracking_number=case_id)
     
     # Handle evidence file
@@ -647,7 +660,7 @@ def ig_case_detail_api(request, case_id):
     return JsonResponse(case_data)
 
 def ig_available_officers(request):
-    """API to fetch available officers for assignment by the Inspector General."""
+    """API to fetch available officers for assignment by the Director."""
     if request.method == 'GET':
         # Fetch all available officers
         officers = PoliceUser.objects.filter(is_active=True)  # Adjust the filter as needed
@@ -668,7 +681,7 @@ def ig_available_officers(request):
 
 @csrf_exempt
 def ig_assign_case(request):
-    """API for Inspector General to assign a case to an officer."""
+    """API for Director to assign a case to an officer."""
     if request.method == 'POST':
         try:
             # Parse the JSON request body
@@ -1039,7 +1052,6 @@ def case_analytics(request):
         'resolved_cases': resolved_cases_data
     })
 
-# Add this to citizens/views.py
 def police_cases_api(request):
     """API to fetch cases for police dashboard with pagination."""
     # Get filter parameters
@@ -1300,7 +1312,7 @@ def update_report_status(request, tracking_number):
         new_status = data.get('status')
         
         # Validate the status
-        valid_statuses = ["Active", "Under Investigation", "Pending Review", "Resolved", "Closed"]
+        valid_statuses = ["Active", "Pending", "Resolved"]
         if not new_status or new_status not in valid_statuses:
             return JsonResponse({"error": "Invalid status provided"}, status=400)
         

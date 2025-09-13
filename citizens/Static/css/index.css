@@ -79,6 +79,12 @@ body {
     margin-bottom: 2rem;
 }
 
+.cta-buttons{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
 .cta-button {
     padding: 1rem 4rem;
     background-color: var(--primary-color);

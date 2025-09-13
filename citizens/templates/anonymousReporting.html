@@ -13,88 +13,12 @@
 </head>
 <body>
     <div class="app-container">
-        <!-- Icon-only Mobile Sidebar -->
-        <nav class="mobile-sidebar d-md-none">
-            <div class="sidebar-header">
-                <img src="{% static 'images/logo.jpg' %}" alt="CARS Logo" class="logo">
-            </div>
-            <div class="nav-items">
-                <a href="{% url 'citizens' %}" class="nav-item" data-bs-toggle="tooltip" title="Dashboard">
-                    <i class="fas fa-home"></i>
-                </a>
-                <a href="#" class="nav-item" data-bs-toggle="dropdown">
-                    <i class="fas fa-file-alt"></i>
-                    <i class="fas fa-chevron-down ms-2 d-none d-md-inline"></i>
-                </a>
-                <ul class="dropdown-menu">
-                    <li>
-                        <a class="dropdown-item" href="{% url 'reportcrime'%}">
-                            <i class="fas fa-user me-2"></i>Report as Citizen
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" href="{% url 'anonymousreport' %}">
-                            <i class="fas fa-user-secret me-2"></i>Report Anonymously
-                        </a>
-                    </li>
-                </ul>
-                <a href="{% url 'all_reports' %}" class="nav-item" data-bs-toggle="tooltip" title="All Reports">
-                    <i class="fas fa-list"></i>
-                </a>
-                <a href="{% url 'citizen-profile'%}" class="nav-item" data-bs-toggle="tooltip" title="Profile">
-                    <i class="fas fa-user"></i>
-                </a>
-            </div>
-        </nav>
-
-        <!-- Desktop Sidebar -->
-        <nav class="sidebar d-none d-md-flex">
-            <div class="sidebar-content">
-                <div class="sidebar-header">
-                    <div class="logo-container">
-                        <img src="{% static 'images/logo.jpg' %}" alt="CARS Logo" class="logo">
-                        <h3>Citizen</h3>
-                    </div>
-                </div>
-            <div class="nav-items">
-                <a href="{% url 'citizens'%}" class="nav-item">
-                    <i class="fas fa-home"></i>
-                    <span>Dashboard</span>
-                </a>
-                <a href="#" class="nav-item" data-bs-toggle="dropdown">
-                    <i class="fas fa-file-alt"></i>
-                    <span>Report Crime</span>
-                    <i class="fas fa-chevron-down ms-2 d-none d-md-inline"></i>
-                </a>
-                <ul class="dropdown-menu">
-                    <li>
-                        <a class="dropdown-item" href="{% url 'reportcrime'%}">
-                            <i class="fas fa-user me-2"></i>Report as Citizen
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" href="{% url 'anonymousreport' %}">
-                            <i class="fas fa-user-secret me-2"></i>Report Anonymously
-                        </a>
-                    </li>
-                </ul>
-                <a href="{% url 'all_reports' %}" class="nav-item">
-                    <i class="fas fa-list"></i>
-                    <span>All Reports</span>
-                </a>
-                <a href="{% url 'citizen-profile'%}"  class="nav-item">
-                    <i class="fas fa-user"></i>
-                    <span>Profile</span>
-                </a>
-            </div>
-        </nav>
-
         <!-- Main Content -->
-        <main class="main-content">
+        <main class="main-content" style="margin-left: 0px; padding: 2rem 4rem 2rem;">
             <div class="content-wrapper">
                 <!-- Header Section -->
                 <header class="report-header">
-                    <h1><i class="fas fa-shield-alt"></i> Report Anonymously</h1>
+                    <h1><i class="fas fa-user-secret me-2"></i> Report Anonymously</h1>
                     <p>Your safety is our priority. Choose how you want to report.</p>
                     <div class="report-type-selector">
                     </div>
