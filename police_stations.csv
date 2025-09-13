@@ -1,0 +1,201 @@
+Station_Name,County,Sub_County,Ward,Latitude,Longitude,Station_Type,Region
+Central Police Station,Nairobi,Nairobi Central,Central,"-1.2864","36.8172",Main,Nairobi
+Kilimani Police Station,Nairobi,Dagoretti North,Kilimani,"-1.2928","36.7856",Divisional,Nairobi
+Embakasi Police Station,Nairobi,Embakasi South,Embakasi,"-1.3197","36.8947",Divisional,Nairobi
+Buru Buru Police Station,Nairobi,Makadara,Buruburu,"-1.2932","36.8776",Divisional,Nairobi
+Jogoo Road Police Station,Nairobi,Starehe,Eastleigh North,"-1.2845","36.8456",Divisional,Nairobi
+Kasarani Police Station,Nairobi,Kasarani,Kasarani,"-1.2219","36.8989",Divisional,Nairobi
+Langata Police Station,Nairobi,Lang'ata,Lang'ata,"-1.3515","36.7519",Divisional,Nairobi
+Parklands Police Station,Nairobi,Westlands,Parklands/Highridge,"-1.2674","36.8165",Divisional,Nairobi
+Gigiri Police Station,Nairobi,Westlands,Westlands,"-1.2437","36.8048",Outpost,Nairobi
+Muthaiga Police Station,Nairobi,Westlands,Westlands,"-1.2654","36.8356",Outpost,Nairobi
+Karen Police Station,Nairobi,Lang'ata,Karen,"-1.3204","36.7072",Outpost,Nairobi
+Eastleigh Police Station,Nairobi,Kamukunji,Eastleigh North,"-1.2847","36.8411",Divisional,Nairobi
+Kamukunji Police Station,Nairobi,Kamukunji,Kamukunji,"-1.2889","36.8398",Divisional,Nairobi
+Makadara Police Station,Nairobi,Makadara,Makadara,"-1.2998","36.8498",Divisional,Nairobi
+Pumwani Police Station,Nairobi,Kamukunji,Pumwani,"-1.2845","36.8389",Outpost,Nairobi
+Mathare Police Station,Nairobi,Kasarani,Mathare North,"-1.2567","36.8645",Divisional,Nairobi
+Dagoretti Police Station,Nairobi,Dagoretti North,Dagoretti,"-1.2998","36.7456",Divisional,Nairobi
+Kibera Police Station,Nairobi,Kibra,Kibra,"-1.3128","36.7856",Divisional,Nairobi
+Riruta Police Station,Nairobi,Dagoretti South,Riruta,"-1.2945","36.7623",Outpost,Nairobi
+Kawangware Police Station,Nairobi,Dagoretti North,Kabiro,"-1.2834","36.7534",Outpost,Nairobi
+Ruaraka Police Station,Nairobi,Kasarani,Ruaraka,"-1.2245","36.8934",Outpost,Nairobi
+South C Police Station,Nairobi,Lang'ata,South C,"-1.3245","36.8234",Outpost,Nairobi
+Industrial Area Police Station,Nairobi,Embakasi South,Industrial Area,"-1.3234","36.8456",Outpost,Nairobi
+Airport Police Station,Nairobi,Embakasi South,Airport,"-1.3198","36.9276",Special,Nairobi
+Railway Police Station,Nairobi,Starehe,Nairobi Central,"-1.2876","36.8298",Special,Nairobi
+Central Police Station,Mombasa,Mombasa Island,Mji Wa Kale/Makadara,"-4.0545","39.6661",Main,Coast
+Makupa Police Station,Mombasa,Nyali,Makupa,"-4.0398","39.6798",Divisional,Coast
+Nyali Police Station,Mombasa,Nyali,Nyali,"-4.0234","39.7234",Divisional,Coast
+Changamwe Police Station,Mombasa,Changamwe,Changamwe,"-4.0656","39.6234",Divisional,Coast
+Port Police Station,Mombasa,Mombasa Island,Tononoka,"-4.0534","39.6689",Special,Coast
+Bamburi Police Station,Mombasa,Nyali,Bamburi,"-4.0076","39.7398",Divisional,Coast
+Likoni Police Station,Mombasa,Likoni,Likoni,"-4.0978","39.6723",Divisional,Coast
+Tudor Police Station,Mombasa,Mvita,Tudor,"-4.0756","39.6834",Outpost,Coast
+Kongowea Police Station,Mombasa,Nyali,Kongowea,"-4.0145","39.7145",Outpost,Coast
+Kisauni Police Station,Mombasa,Kisauni,Kisauni,"-4.0123","39.7234",Divisional,Coast
+Mjambere Police Station,Mombasa,Kisauni,Mjambere,"-4.0089","39.7345",Outpost,Coast
+Shanzu Police Station,Mombasa,Nyali,Shanzu,"-3.9876","39.7456",Outpost,Coast
+Shimanzi Police Station,Mombasa,Mvita,Shimanzi,"-4.0612","39.6712",Outpost,Coast
+Frere Town Police Station,Mombasa,Nyali,Frere Town,"-4.0298","39.7098",Outpost,Coast
+Mtwapa Police Station,Kilifi,Kilifi North,Mtwapa,"-3.9456","39.7623",Divisional,Coast
+Central Police Station,Kisumu,Kisumu Central,Central Kisumu,"-0.0917","34.7680",Main,Nyanza
+Kondele Police Station,Kisumu,Kisumu West,Kondele,"-0.1045","34.7456",Divisional,Nyanza
+Nyamasaria Police Station,Kisumu,Kisumu West,Nyamasaria,"-0.1178","34.7234",Outpost,Nyanza
+Mamboleo Police Station,Kisumu,Kisumu East,Mamboleo,"-0.0789","34.7856",Outpost,Nyanza
+Manyatta Police Station,Kisumu,Kisumu East,Manyatta B,"-0.0856","34.7945",Outpost,Nyanza
+Migosi Police Station,Kisumu,Kisumu Central,Migosi,"-0.0934","34.7634",Outpost,Nyanza
+Airport Police Station,Kisumu,Kisumu East,Airport,"-0.0789","34.7289",Special,Nyanza
+Kakamega Police Station,Kakamega,Kakamega Central,Kakamega Central,"-0.2833","34.7519",Main,Western
+Mumias Police Station,Kakamega,Mumias East,Mumias Central,"0.3344","34.4874",Divisional,Western
+Butere Police Station,Kakamega,Butere,Butere,"0.2089","34.4912",Divisional,Western
+Khwisero Police Station,Kakamega,Khwisero,Khwisero,"0.1234","34.5234",Outpost,Western
+Shinyalu Police Station,Kakamega,Shinyalu,Shinyalu,"-0.1456","34.6789",Outpost,Western
+Ikolomani Police Station,Kakamega,Ikolomani,Ikolomani,"0.2567","34.5678",Outpost,Western
+Lugari Police Station,Kakamega,Lugari,Lugari,"0.4234","34.6234",Divisional,Western
+Malava Police Station,Kakamega,Malava,Malava,"0.4567","34.5456",Outpost,Western
+Matungu Police Station,Kakamega,Matungu,Matungu,"0.3789","34.4789",Outpost,Western
+Navakholo Police Station,Kakamega,Navakholo,Navakholo,"0.2345","34.5123",Outpost,Western
+Bungoma Police Station,Bungoma,Bungoma Central,Bungoma Central,"0.5635","34.5606",Main,Western
+Webuye Police Station,Bungoma,Webuye East,Webuye East,"0.5998","34.7719",Divisional,Western
+Kimilili Police Station,Bungoma,Kimilili,Kimilili,"0.7234","34.6456",Divisional,Western
+Sirisia Police Station,Bungoma,Sirisia,Sirisia,"0.6789","34.5789",Outpost,Western
+Kanduyi Police Station,Bungoma,Kanduyi,Kanduyi,"0.5456","34.5234",Outpost,Western
+Cheptais Police Station,Bungoma,Cheptais,Cheptais,"0.8234","34.7123",Outpost,Western
+Tongaren Police Station,Bungoma,Tongaren,Tongaren,"0.6123","34.4567",Outpost,Western
+Mt. Elgon Police Station,Bungoma,Mt. Elgon,Chepyuk,"0.9456","34.6789",Outpost,Western
+Bumula Police Station,Bungoma,Bumula,Bumula,"0.5789","34.6234",Outpost,Western
+Eldoret Police Station,Uasin Gishu,Eldoret East,Eldoret East,"0.5143","35.2698",Main,Rift Valley
+Turbo Police Station,Uasin Gishu,Turbo,Turbo,"0.5234","35.3456",Divisional,Rift Valley
+Moiben Police Station,Uasin Gishu,Moiben,Moiben,"0.4567","35.4234",Outpost,Rift Valley
+Soy Police Station,Uasin Gishu,Soy,Soy,"0.5789","35.1789",Outpost,Rift Valley
+Ainabkoi Police Station,Uasin Gishu,Ainabkoi,Ainabkoi,"0.6234","35.2234",Outpost,Rift Valley
+Kapseret Police Station,Uasin Gishu,Kapseret,Kapseret,"0.4789","35.3789",Outpost,Rift Valley
+Airport Police Station,Uasin Gishu,Eldoret East,Airport,"0.4234","35.2389",Special,Rift Valley
+Nakuru Police Station,Nakuru,Nakuru Town East,Nakuru Town East,"-0.3031","36.0800",Main,Rift Valley
+Gilgil Police Station,Nakuru,Gilgil,Gilgil,"-0.5019","36.3143",Divisional,Rift Valley
+Naivasha Police Station,Nakuru,Naivasha,Naivasha,"-0.7131","36.4358",Divisional,Rift Valley
+Molo Police Station,Nakuru,Molo,Molo,"-0.2456","35.7456",Divisional,Rift Valley
+Njoro Police Station,Nakuru,Njoro,Njoro,"-0.3345","35.9345",Divisional,Rift Valley
+Rongai Police Station,Nakuru,Rongai,Rongai,"-0.1789","35.8789",Divisional,Rift Valley
+Subukia Police Station,Nakuru,Subukia,Subukia,"-0.0234","36.0234",Outpost,Rift Valley
+Bahati Police Station,Nakuru,Bahati,Bahati,"-0.1456","36.1456",Outpost,Rift Valley
+Ol Kalou Police Station,Nyandarua,Ol Kalou,Ol Kalou,"-0.2617","36.3789",Divisional,Central
+Ol Joro Orok Police Station,Nyandarua,Ol Joro Orok,Ol Joro Orok,"-0.1234","36.4234",Outpost,Central
+Kinangop Police Station,Nyandarua,Kinangop,Kinangop,"-0.3456","36.5456",Outpost,Central
+Ndaragwa Police Station,Nyandarua,Ndaragwa,Ndaragwa,"-0.0789","36.2789",Divisional,Central
+Kipipiri Police Station,Nyandarua,Kipipiri,Kipipiri,"-0.2345","36.1345",Outpost,Central
+Nyeri Police Station,Nyeri,Nyeri Central,Nyeri Town,"-0.4167","36.9500",Main,Central
+Karatina Police Station,Nyeri,Mathira East,Karatina Town,"-0.4834","37.1289",Divisional,Central
+Othaya Police Station,Nyeri,Othaya,Othaya,"-0.5456","36.9456",Divisional,Central
+Mukurweini Police Station,Nyeri,Mukurweini,Mukurweini,"-0.3789","37.0789",Divisional,Central
+Tetu Police Station,Nyeri,Tetu,Tetu,"-0.3234","36.8234",Outpost,Central
+Kieni Police Station,Nyeri,Kieni East,Kieni,"-0.1456","36.7456",Divisional,Central
+Mweiga Police Station,Nyeri,Kieni West,Mweiga,"-0.2789","36.6789",Outpost,Central
+Kirinyaga Police Station,Kirinyaga,Kirinyaga Central,Kerugoya,"-0.4986","37.2806",Main,Central
+Kutus Police Station,Kirinyaga,Kirinyaga South,Kutus,"-0.5234","37.3234",Divisional,Central
+Sagana Police Station,Kirinyaga,Kirinyaga Central,Sagana,"-0.4567","37.2567",Outpost,Central
+Gichugu Police Station,Kirinyaga,Gichugu,Gichugu,"-0.5789","37.3789",Outpost,Central
+Ndia Police Station,Kirinyaga,Ndia,Ndia,"-0.4123","37.1123",Outpost,Central
+Murang'a Police Station,Murang'a,Murang'a South,Murang'a,"-0.7167","37.1500",Main,Central
+Thika Police Station,Murang'a,Thika Town,Thika,"-1.0334","37.0694",Divisional,Central
+Kenol Police Station,Murang'a,Murang'a South,Kenol,"-0.8234","37.0234",Outpost,Central
+Kandara Police Station,Murang'a,Kandara,Kandara,"-0.7789","37.2789",Divisional,Central
+Gatanga Police Station,Murang'a,Gatanga,Gatanga,"-0.6456","37.1456",Outpost,Central
+Kahuro Police Station,Murang'a,Kahuro,Kahuro,"-0.6123","37.0123",Outpost,Central
+Kigumo Police Station,Murang'a,Kigumo,Kigumo,"-0.8345","36.9345",Outpost,Central
+Mathioya Police Station,Murang'a,Mathioya,Mathioya,"-0.5567","36.9567",Outpost,Central
+Kiambu Police Station,Kiambu,Kiambu,Kiambu,"-1.1714","36.8356",Main,Central
+Thika Police Station,Kiambu,Thika Town,Thika,"-1.0334","37.0694",Divisional,Central
+Limuru Police Station,Kiambu,Limuru,Limuru,"-1.1156","36.6456",Divisional,Central
+Githunguri Police Station,Kiambu,Githunguri,Githunguri,"-1.0789","36.7789",Divisional,Central
+Ruiru Police Station,Kiambu,Ruiru,Ruiru,"-1.1345","36.9345",Divisional,Central
+Kikuyu Police Station,Kiambu,Kikuyu,Kikuyu,"-1.2456","36.6789",Divisional,Central
+Kabete Police Station,Kiambu,Kabete,Kabete,"-1.2567","36.7234",Outpost,Central
+Lari Police Station,Kiambu,Lari,Lari,"-1.0234","36.5234",Outpost,Central
+Gatundu Police Station,Kiambu,Gatundu South,Gatundu South,"-0.9123","37.0123",Divisional,Central
+Juja Police Station,Kiambu,Juja,Juja,"-1.1089","37.0089",Divisional,Central
+Machakos Police Station,Machakos,Machakos Town,Machakos Central,"-1.5167","37.2667",Main,Eastern
+Kangundo Police Station,Machakos,Kangundo,Kangundo,"-1.3456","37.3456",Divisional,Eastern
+Matungulu Police Station,Machakos,Matungulu,Matungulu,"-1.4789","37.1789",Outpost,Eastern
+Yatta Police Station,Machakos,Yatta,Yatta,"-1.3234","37.4234",Divisional,Eastern
+Kathiani Police Station,Machakos,Kathiani,Kathiani,"-1.5567","37.3567",Outpost,Eastern
+Mavoko Police Station,Machakos,Mavoko,Mavoko,"-1.3789","36.9789",Divisional,Eastern
+Masinga Police Station,Machakos,Masinga,Masinga,"-1.2123","37.5123",Outpost,Eastern
+Mwala Police Station,Machakos,Mwala,Mwala,"-1.4345","37.4345",Outpost,Eastern
+Kitui Police Station,Kitui,Kitui Central,Kitui Central,"-1.3667","38.0167",Main,Eastern
+Mwingi Police Station,Kitui,Mwingi North,Mwingi North,"-0.9345","38.0567",Divisional,Eastern
+Mutomo Police Station,Kitui,Mutomo,Mutomo,"-1.8234","38.2234",Divisional,Eastern
+Ikutha Police Station,Kitui,Ikutha,Ikutha,"-1.5789","38.3789",Outpost,Eastern
+Kyuso Police Station,Kitui,Kyuso,Kyuso,"-1.2456","38.1456",Outpost,Eastern
+Tseikuru Police Station,Kitui,Tseikuru,Tseikuru,"-1.1123","38.4123",Outpost,Eastern
+Mutha Police Station,Kitui,Mutha,Mutha,"-1.4567","38.2567",Outpost,Eastern
+Migwani Police Station,Kitui,Migwani,Migwani,"-1.6789","38.4789",Outpost,Eastern
+Embu Police Station,Embu,Embu Town,Embu Town,"-0.5317","37.4500",Main,Eastern
+Siakago Police Station,Embu,Mbeere North,Siakago,"-0.4234","37.6234",Divisional,Eastern
+Runyenjes Police Station,Embu,Runyenjes,Runyenjes,"-0.3789","37.5789",Divisional,Eastern
+Manyatta Police Station,Embu,Manyatta,Manyatta,"-0.6456","37.3456",Outpost,Eastern
+Mbeere Police Station,Embu,Mbeere South,Mbeere South,"-0.5123","37.7123",Divisional,Eastern
+Ishiara Police Station,Embu,Mbeere South,Mavuria,"-0.5567","37.8567",Outpost,Eastern
+Meru Police Station,Meru,Imenti South,Meru Town,"-0.0500","37.6500",Main,Eastern
+Maua Police Station,Meru,Igembe South,Maua,"-0.2345","37.9345",Divisional,Eastern
+Mikinduri Police Station,Meru,Tigania East,Mikinduri,"0.1234","37.8234",Divisional,Eastern
+Nkubu Police Station,Meru,Imenti South,Nkubu,"-0.1789","37.5789",Divisional,Eastern
+Timau Police Station,Meru,Buuri,Timau,"0.0456","37.4456",Outpost,Eastern
+Kianjai Police Station,Meru,Igembe Central,Kianjai,"-0.0123","37.8123",Outpost,Eastern
+Ntonyiri Police Station,Meru,Imenti Central,Ntonyiri,"-0.0567","37.6567",Outpost,Eastern
+Igoji Police Station,Meru,Imenti Central,Igoji,"-0.0891","37.7891",Outpost,Eastern
+Tharaka Police Station,Tharaka Nithi,Tharaka South,Tharaka South,"-0.2789","37.9789",Divisional,Eastern
+Chuka Police Station,Tharaka Nithi,Chuka/Igambang'ombe,Chuka,"-0.3334","37.6500",Main,Eastern
+Marimanti Police Station,Tharaka Nithi,Tharaka North,Marimanti,"-0.1456","38.0456",Outpost,Eastern
+Kathwana Police Station,Tharaka Nithi,Chuka/Igambang'ombe,Kathwana,"-0.3789","37.7789",Outpost,Eastern
+Garissa Police Station,Garissa,Garissa Township,Garissa Township,"-0.4536","39.6401",Main,North Eastern
+Dadaab Police Station,Garissa,Dadaab,Dadaab,"0.1589","40.3123",Divisional,North Eastern
+Ijara Police Station,Garissa,Ijara,Ijara,"-1.5234","40.2234",Divisional,North Eastern
+Balambala Police Station,Garissa,Balambala,Balambala,"-0.7789","39.8789",Outpost,North Eastern
+Lagdera Police Station,Garissa,Lagdera,Lagdera,"-0.2456","40.1456",Outpost,North Eastern
+Fafi Police Station,Garissa,Fafi,Fafi,"-0.0123","40.5123",Outpost,North Eastern
+Hulugho Police Station,Garissa,Garissa Township,Hulugho,"-0.5567","39.5567",Outpost,North Eastern
+Wajir Police Station,Wajir,Wajir North,Wajir North,"1.7470","40.0565",Main,North Eastern
+Habaswein Police Station,Wajir,Wajir West,Habaswein,"1.5234","39.8234",Divisional,North Eastern
+Eldas Police Station,Wajir,Eldas,Eldas,"2.2789","40.2789",Divisional,North Eastern
+Tarbaj Police Station,Wajir,Tarbaj,Tarbaj,"1.8456","40.4456",Outpost,North Eastern
+Wajir South Police Station,Wajir,Wajir South,Wajir South,"1.6123","40.1123",Divisional,North Eastern
+Buna Police Station,Wajir,Wajir East,Buna,"1.9345","40.3345",Outpost,North Eastern
+Mandera Police Station,Mandera,Mandera West,Mandera West,"3.9366","41.8550",Main,North Eastern
+Banissa Police Station,Mandera,Banissa,Banissa,"3.1234","41.2234",Divisional,North Eastern
+Lafey Police Station,Mandera,Lafey,Lafey,"3.5789","41.5789",Outpost,North Eastern
+Mandera East Police Station,Mandera,Mandera East,Mandera East,"3.9456","41.9456",Divisional,North Eastern
+Takaba Police Station,Mandera,Mandera South,Takaba,"3.7123","41.3123",Outpost,North Eastern
+Elwak Police Station,Mandera,Mandera South,Elwak,"3.6567","41.6567",Outpost,North Eastern
+Isiolo Police Station,Isiolo,Isiolo North,Isiolo North,"0.3542","37.5819",Main,Eastern
+Garbatulla Police Station,Isiolo,Garbatulla,Garbatulla,"0.5234","38.1234",Divisional,Eastern
+Merti Police Station,Isiolo,Merti,Merti,"0.7789","38.7789",Outpost,Eastern
+Oldonyiro Police Station,Isiolo,Isiolo South,Oldonyiro,"0.1456","37.2456",Outpost,Eastern
+Marsabit Police Station,Marsabit,Marsabit Central,Marsabit Central,"2.3294","37.9902",Main,Eastern
+Moyale Police Station,Marsabit,Moyale,Moyale,"3.5267","39.0558",Divisional,Eastern
+North Horr Police Station,Marsabit,North Horr,North Horr,"3.2234","36.8234",Divisional,Eastern
+Loiyangalani Police Station,Marsabit,Laisamis,Loiyangalani,"2.7789","36.4789",Outpost,Eastern
+Sololo Police Station,Marsabit,Sololo,Sololo,"3.7456","38.9456",Outpost,Eastern
+Laisamis Police Station,Marsabit,Laisamis,Laisamis,"1.8123","37.8123",Outpost,Eastern
+Samburu Police Station,Samburu,Samburu Central,Samburu Central,"0.5667","37.3167",Main,Rift Valley
+Maralal Police Station,Samburu,Samburu Central,Maralal,"1.0967","36.6967",Divisional,Rift Valley
+Baragoi Police Station,Samburu,Samburu North,Baragoi,"1.7834","36.7834",Divisional,Rift Valley
+Wamba Police Station,Samburu,Samburu East,Wamba,"0.5234","37.0234",Divisional,Rift Valley
+Lodokejek Police Station,Samburu,Samburu East,Lodokejek,"0.6789","37.2789",Outpost,Rift Valley
+Suguta Police Station,Samburu,Samburu West,Suguta,"1.3456","36.1456",Outpost,Rift Valley
+Turkana Police Station,Turkana,Turkana Central,Turkana Central,"3.1167","35.6000",Main,Rift Valley
+Lodwar Police Station,Turkana,Turkana Central,Lodwar,"3.1167","35.6000",Divisional,Rift Valley
+Kakuma Police Station,Turkana,Turkana West,Kakuma,"3.7167","34.8500",Divisional,Rift Valley
+Lokichoggio Police Station,Turkana,Turkana West,Lokichoggio,"4.2034","34.3534",Divisional,Rift Valley
+Lokori Police Station,Turkana,Turkana North,Lokori,"3.5789","35.2789",Outpost,Rift Valley
+Kalokol Police Station,Turkana,Turkana Central,Kalokol,"3.4456","35.9456",Outpost,Rift Valley
+Lokichar Police Station,Turkana,Turkana South,Lokichar,"2.4123","35.1123",Outpost,Rift Valley
+Katilu Police Station,Turkana,Turkana South,Katilu,"2.6567","35.3567",Outpost,Rift Valley
+West Pokot Police Station,West Pokot,West Pokot,Kapenguria,"1.2383","35.1117",Main,Rift Valley
+Kapenguria Police Station,West Pokot,West Pokot,Kapenguria,"1.2383","35.1117",Divisional,Rift Valley
+Kacheliba Police Station,West Pokot,Kacheliba,Kacheliba,"1.4234","35.3234",Divisional,Rift Valley
+Pokot South Police Station,West Pokot,Pokot South,Pokot South,"0.9789","35.0789",Divisional,Rift Valley
+Sigor Police Station,West Pokot,Sigor,Sigor,"1.3456","35.2456",Outpost,Rift Valley
+Chepareria Police Station,West Pokot,West Pokot,Chepareria,"1.1123","35.0123",Outpost,Rift Valley
+Alale Police Station,West
