@@ -352,13 +352,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     const lat = position.coords.latitude;
                     const lng = position.coords.longitude;
                     
-                    // IMPORTANT CHANGE: Show map FIRST, then set marker
-                    // This ensures the map is initialized before trying to add a marker
                     showMap();
                     
                     // Add a short delay to ensure map is fully initialized
                     setTimeout(() => {
-                        // Now set the marker after map is initialized
                         setLocationMarker(lat, lng);
                         
                         // Re-enable button
@@ -518,16 +515,171 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-        const reportForm = document.getElementById("crimeReportForm")
-        const submitButton = document.getElementById("submitBtn");
+    function showTrackingNumberModal(trackingNumber) {
+    // Create modal elements
+    const modalBackdrop = document.createElement('div');
+    modalBackdrop.className = 'modal-backdrop show';
+    modalBackdrop.style.backgroundColor = 'var(--secondary-color)'; 
+    document.body.appendChild(modalBackdrop);
     
-        if (reportForm && submitButton) {
-            reportForm.addEventListener("submit", function () {
-                submitButton.disabled = true;
-                submitButton.textContent = "Submitting...";
-                window.location.reload();
-            });
+    const modalHTML = `
+        <div class="modal fade show" style="display: block;" tabindex="-1" aria-modal="true" role="dialog">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content" style="border: none; box-shadow: 0 4px 20px rgba(0,0,0,0.2);">
+                    <div class="modal-header" style="background-color: var(--primary-color); color: var(--background-color);">
+                        <h5 class="modal-title">Report Submitted Successfully!</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close" onclick="closeTrackingModal()"></button>
+                    </div>
+                    <div class="modal-body text-center" style="color: var(--text-color);">
+                        <div class="mb-4">
+                            <i class="fas fa-check-circle" style="font-size: 64px; color: var(--primary-color);"></i>
+                        </div>
+                        <h4 style="color: var(--primary-color);">Your Report Has Been Received</h4>
+                        <p class="mb-4">We've registered your report and it will be reviewed by our team.</p>
+                        
+                        <div class="alert py-3" style="background-color: var(--accent-color); color: var(--background-color); border: none;">
+                            <strong>Your Tracking Number:</strong>
+                            <div class="tracking-number">${trackingNumber}</div>
+                            <div class="mt-2">
+                                <button type="button" class="btn btn-sm" style="background-color: var(--primary-color); color: var(--background-color);" onclick="copyTrackingNumber('${trackingNumber}')">
+                                    <i class="fas fa-copy me-1"></i> Copy to Clipboard
+                                </button>
+                            </div>
+                            <small>Please save this number to check the status of your report later.</small>
+                        </div>
+                    </div>
+                    <div class="modal-footer justify-content-between" style="border-top-color: rgba(52, 73, 94, 0.1);">
+                        <button type="button" class="btn" style="background-color: var(--secondary-color); color: var(--background-color);" onclick="closeTrackingModal()">Close</button>
+                        <a href="/track-report/?tracking=${trackingNumber}" class="btn" style="background-color: var(--primary-color); color: var(--background-color);">Track Your Report</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    // Add modal to document
+    const modalContainer = document.createElement('div');
+    modalContainer.id = 'trackingNumberModal';
+    modalContainer.innerHTML = modalHTML;
+    document.body.appendChild(modalContainer);
+    
+    // Add style for tracking number with CSS variables
+    const style = document.createElement('style');
+    style.innerHTML = `
+        .tracking-number {
+            font-size: 24px;
+            font-weight: bold;
+            padding: 10px;
+            margin: 10px 0;
+            background-color: var(--background-color);
+            border: 1px dashed var(--primary-color);
+            border-radius: 5px;
+            color: var(--primary-color);
         }
+        
+        .fade-out {
+            opacity: 0;
+            transition: opacity 0.8s ease-out;
+        }
+        
+        .showNotification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: 5px;
+            color: var(--background-color);
+            z-index: 9999;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            animation: slideIn 0.3s ease-out, fadeOut 0.5s ease-out 4.5s forwards;
+        }
+        
+        .showNotification-success {
+            background-color: var(--success-color);
+        }
+        
+        .showNotification-info {
+            background-color: var(--accent-color);
+            color: var(--background-color);
+        }
+        
+        .showNotification-warning {
+            background-color: var(--warning-color);
+            color: var(--text-color);
+        }
+        
+        .showNotification-danger {
+            background-color: var(--danger-color);
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; visibility: hidden; }
+        }
+    `;
+    document.head.appendChild(style);
+
+    // Copy tracking number function
+    window.copyTrackingNumber = function(number) {
+        navigator.clipboard.writeText(number)
+            .then(() => {
+                // Show inline confirmation instead of alert
+                const copyBtn = document.querySelector('.btn-sm');
+                const originalText = copyBtn.innerHTML;
+                copyBtn.innerHTML = '<i class="fas fa-check me-1"></i> Copied!';
+                copyBtn.style.backgroundColor = '#28a745';
+                
+                setTimeout(() => {
+                    copyBtn.innerHTML = originalText;
+                    copyBtn.style.backgroundColor = 'var(--primary-color)';
+                }, 2000);
+            })
+            .catch(err => {
+                console.error('Failed to copy: ', err);
+                alert("Please manually copy your tracking number: " + number);
+            });
+    };
+
+    window.closeTrackingModal = function() {
+        try {
+            const hasConfirmed = confirm("Have you saved your tracking number? You won't be able to recover it later.");
+            
+            if (hasConfirmed) {
+                // Get modal elements
+                const modal = document.getElementById('trackingNumberModal');
+                const backdrop = document.querySelector('.modal-backdrop');
+                
+                // Fade-out animation
+                if (modal) {
+                    modal.classList.add('fade-out');
+                    if (backdrop) backdrop.classList.add('fade-out');
+                    
+                    // Remove elements after animation completes
+                    setTimeout(() => {
+                        if (modal) modal.remove();
+                        if (backdrop) backdrop.remove();
+                        
+                        // Redirect to homepage
+                        window.location.href = '/';
+                    }, 800);
+                } else {
+                    // If modal element isn't found, redirect
+                    window.location.href = '/';
+                }
+            }
+            // If user hasn't saved the tracking number, do nothing and keep modal open
+        } catch (error) {
+            console.error('Error closing modal:', error);
+            // Fallback - redirect anyway if there's an error
+            window.location.href = '/';
+        }
+    }
+    }
 
     // Show Notification
     function showNotification(message, type='info') {

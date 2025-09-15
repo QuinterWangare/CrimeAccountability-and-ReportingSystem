@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import index, signup_view, login_view,logout_view, citizen_homepage, citizen_profile, report_crime, \
+from .views import index, trackReport, signup_view, login_view,logout_view, citizen_homepage, citizen_profile, report_crime, \
     anonymous_report, inspector_general_dashboard, inspector_general_login, inspector_general_profile, \
     inspector_general_case_assignment, inspector_general_case_management, inspector_general_analytics, \
     inspector_general_officer_oversight, logout_view_ig, get_report_stats, get_recent_reports, get_notifications, report_detail, \
@@ -9,6 +9,7 @@ from .views import index, signup_view, login_view,logout_view, citizen_homepage,
     
 urlpatterns = [
     path('', index, name='index'),
+    path('track-report/', trackReport, name='track-report'),
     path('signup/', signup_view, name='signup'),
     path('login/', login_view, name='login'),
     path('logout/', logout_view, name='logout'),
