@@ -101,7 +101,7 @@ def report_detail(request, tracking_number):
         "location": report.location,
         "date": report.incident_datetime.strftime("%Y-%m-%d %H:%M:%S"),
         "description": report.description,
-        "status": report.status  # Change if there's an actual status field
+        "status": report.status 
     }
     return JsonResponse(report_data)
 
@@ -146,8 +146,6 @@ def get_notifications(request):
 def index(request):
     return render(request, 'index.html')
 
-@csrf_exempt
-# filepath: c:\Users\HP\Desktop\CrimeAccountability-and-ReportingSystem\citizens\views.py
 @csrf_exempt
 def trackReport(request):
     """
@@ -300,12 +298,12 @@ def report_crime(request):
         if form.is_valid():
             crime_report = form.save(commit=False)
             crime_report.user = request.user
-            crime_report.tracking_number = uuid.uuid4().hex[:10]  # Generate unique tracking number
+            crime_report.tracking_number = uuid.uuid4().hex[:10]
             crime_report.save()
 
             # Use the email provided in the report form
             recipient_email = request.POST.get("contact_email",
-                                            request.user.email)  # Use form email or fallback to user's email
+                                            request.user.email) 
 
             # Ensure recipient email is valid before sending
             if recipient_email:
